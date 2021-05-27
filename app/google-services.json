@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1024267290280",
+    "project_id": "learnat-in",
+    "storage_bucket": "learnat-in.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1024267290280:android:7d9a8113ab3d1e8e3b249d",
+        "android_client_info": {
+          "package_name": "com.coremacasia.learnat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1024267290280-qcqjfmbs4usiq5a4mah7en3pkcve8908.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.coremacasia.learnat",
+            "certificate_hash": "78734f6543b34fa1ef050381d121097856bddd50"
+          }
+        },
+        {
+          "client_id": "1024267290280-8de7ke5nvmgvd87c91pun79hbdeta9q6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFcJVeFPqF_-zJqeNS9dza1FhR_OAuqDs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1024267290280-8de7ke5nvmgvd87c91pun79hbdeta9q6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">LearnAt</string>
+    <string name="title_activity_splash">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="learn_from_to_mentors">Learn from top mentors around the world.</string>
+    <string name="get_started_with_learnat">Get started with LearnAt</string>
+    <string name="welcome_to">Welcome to</string>
+    <string name="indias_learning_platform">India\'s online learning platform.</string>
+    <string name="get_started_to_explore_pandoras_box_of_knowledge">Get started to explore pandora\'s box of knowledge.</string>
+    <string name="signin_signup">Sign In or Sign Up</string>
+    <string name="enter_your_mobile">Enter your mobile number to continue.</string>
+    <string name="Continue">Continue</string>
+</resources>
