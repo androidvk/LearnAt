@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -19,7 +18,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LearnAt">
-        <activity android:name=".startItems.Splash"
+        <activity android:name=".startItems.PhoneAuth"
+            android:theme="@style/Theme.LearnAt.Fullscreen"/>
+        <activity
+            android:name=".startItems.Splash"
             android:theme="@style/Theme.LearnAt.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,6 +32,7 @@
         <activity android:name=".xtras.Calculator" />
         <activity android:name=".xtras.RulesTest" />
         <activity android:name=".MainActivity">
+
         </activity>
     </application>
 

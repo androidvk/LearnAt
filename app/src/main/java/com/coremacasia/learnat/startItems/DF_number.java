@@ -1,6 +1,8 @@
 package com.coremacasia.learnat.startItems;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.coremacasia.learnat.MainActivity;
 import com.coremacasia.learnat.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.hbb20.CountryCodePicker;
@@ -67,7 +70,21 @@ public class DF_number extends BottomSheetDialogFragment {
         bContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                bContinue.setVisibility(View.GONE);
+                view.findViewById(R.id.progressBar1).setVisibility(View.VISIBLE);
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Do something after 5s = 5000ms
+                        startActivity(new Intent(getActivity(),PhoneAuth.class).putExtra(
+                                "number",ccp.getFullNumberWithPlus()
+                        ));
+                        dismiss();
 
+
+                    }
+                }, 1000);
             }
         });
     }

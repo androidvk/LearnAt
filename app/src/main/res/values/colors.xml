@@ -15,4 +15,8 @@
     <color name="text_desc">#353535</color>
     <color name="off_white">#FAFAFA</color>
     <color name="button_color_1">#5423C5</color>
+    <color name="grey">#4E4E4E</color>
+    <color name="splash_bkg_color">#EAEAEA</color>
+    <color name="light_grey">#CFCFCF</color>
+    <color name="good_green">#24990B</color>
 </resources>

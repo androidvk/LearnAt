@@ -11,4 +11,18 @@
     <string name="signin_signup">Sign In or Sign Up</string>
     <string name="enter_your_mobile">Enter your mobile number to continue.</string>
     <string name="Continue">Continue</string>
+    <string name="OtpSentTo">Enter the OTP Sent to:-</string>
+    <string name="OTPVerification">OTP Verification</string>
+    <string name="didntreceiveotp">Didn\'t receive OTP?</string>
+
+    <string name="VerifyNContiue"><![CDATA[Verify & Continue]]></string>
+    <string name="InvalidOTP">Invalid OTP. Retry</string>
+    <string name="invalidPhoneNumber">Invalid phone number.</string>
+    <string name="sending">Sending...</string>
+    <string name="resendIn">Resend in:</string>
+    <string name="unableToSendOTP">Unable to send OTP.</string>
+    <string name="YouHaveReachedMaxLimit">You have maximum limit. Try again after 24 hrs.</string>
+    <string name="MobileNumber">Mobile number</string>
+    <string name="enterOtp">Enter full OTP!</string>
+    <string name="resend"><u>Resend OTP</u></string>
 </resources>

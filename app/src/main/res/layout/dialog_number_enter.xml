@@ -56,6 +56,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="phone"
+            android:text="111111111"
+            android:hint="@string/MobileNumber"
             android:maxLength="13"
             android:textAlignment="center"
             android:textColor="@color/text_desc" />
@@ -88,6 +90,7 @@
         app:layout_constraintTop_toBottomOf="@+id/progressBar1" />
 
     <ProgressBar
+        android:visibility="gone"
         android:animateLayoutChanges="true"
         android:id="@+id/progressBar1"
         style="?android:attr/progressBarStyle"

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="smallest_text">12sp</dimen>
+    <dimen name="small_text">14sp</dimen>
+    <dimen name="medim_text">18sp</dimen>
+    <dimen name="medium2">20sp</dimen>
 </resources>

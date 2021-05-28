@@ -48,6 +48,8 @@ dependencies {
 
     //https://github.com/hbb20/CountryCodePickerProject
     implementation 'com.hbb20:ccp:2.5.0'
+    //https://github.com/aabhasr1/OtpView
+    implementation 'com.github.aabhasr1:OtpView:v1.1.2'
 
 }
 apply plugin: 'com.android.application'

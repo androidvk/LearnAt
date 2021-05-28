@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EAEAEA"
+    android:background="@color/splash_bkg_color"
     tools:context=".startItems.Splash">
 
 
@@ -21,6 +21,7 @@
         app:srcCompat="@drawable/img_splash_asset_1" />
 
     <ImageView
+        android:adjustViewBounds="true"
         android:id="@+id/imageView"
         android:layout_width="251dp"
         android:layout_height="wrap_content"
