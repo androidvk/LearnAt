@@ -18,22 +18,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LearnAt">
-        <activity android:name=".startItems.PhoneAuth"
-            android:theme="@style/Theme.LearnAt.Fullscreen"/>
         <activity
-            android:name=".startItems.Splash"
-            android:theme="@style/Theme.LearnAt.Fullscreen">
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".startItems.PhoneAuth"
+            android:theme="@style/Theme.LearnAt.Fullscreen" />
+        <activity
+            android:name=".startItems.Splash"
+            android:theme="@style/Theme.LearnAt.Fullscreen"></activity>
         <activity android:name=".xtras.Calculator" />
         <activity android:name=".xtras.RulesTest" />
-        <activity android:name=".MainActivity">
-
-        </activity>
     </application>
 
 </manifest>

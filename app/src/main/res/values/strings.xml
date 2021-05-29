@@ -25,4 +25,8 @@
     <string name="MobileNumber">Mobile number</string>
     <string name="enterOtp">Enter full OTP!</string>
     <string name="resend"><u>Resend OTP</u></string>
+    <string name="title_activity_main2">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

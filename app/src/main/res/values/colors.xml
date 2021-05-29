@@ -19,4 +19,7 @@
     <color name="splash_bkg_color">#EAEAEA</color>
     <color name="light_grey">#CFCFCF</color>
     <color name="good_green">#24990B</color>
+
+    <color name="m_primary">#266B92</color>
+    <color name="m_primary_dark">#0F4B6E</color>
 </resources>
