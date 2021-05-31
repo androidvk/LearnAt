@@ -308,8 +308,6 @@ public class PhoneAuth extends AppCompatActivity {
                                         startActivity(new Intent(PhoneAuth.this,
                                                 MainActivity.class)
                                                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-
-
                                     }
                                 }, 1000);
                             }

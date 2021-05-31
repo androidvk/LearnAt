@@ -18,9 +18,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LearnAt">
+        <activity android:name=".startItems.AccountSetup"
+            android:theme="@style/Theme.Learnt.NoActionBar"/>
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main2">
+            android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,7 +33,7 @@
             android:theme="@style/Theme.LearnAt.Fullscreen" />
         <activity
             android:name=".startItems.Splash"
-            android:theme="@style/Theme.LearnAt.Fullscreen"></activity>
+            android:theme="@style/Theme.LearnAt.Fullscreen" />
         <activity android:name=".xtras.Calculator" />
         <activity android:name=".xtras.RulesTest" />
     </application>

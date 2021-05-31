@@ -29,4 +29,20 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="heyLearner">Hey!! Learner.</string>
+    <string name="youAreJust3StepsAwayFromLearning">You are just 3 steps away from learning.</string>
+    <string name="LetsSetupYourAccount">Let\'s setup your account.</string>
+    <string name="LetsStart">Let\'s Start</string>
+    <string name="ChooseYourSubject">Choose your course / subject</string>
+    <string name="EnterICodeToGetCredit"><![CDATA[Enter I-Code & get 500 Credit.]]></string>
+    <string name="InstallationCode">I-Code</string>
+    <string name="WhatDoWantToLearn">What do you want to learn?</string>
+    <string name="selectCourseCategoryWhichSuitesYorNeed">Select a course category, you can also change it later.</string>
+    <string name="enterICode">Enter I - Code &amp; Get</string>
+    <string name="iCodeInfo">I-Code is one time app installation code. By entering I-Code you get credit in your wallet which can be used for purchasing courses.</string>
+    <string name="CreditAwaitingForYou">Credit awaiting for you.</string>
+    <string name="iCode">I - Code</string>
+    <string name="Apply">Apply</string>
+    <string name="enteriCode">Enter I - Code</string>
+    <string name="iDontHaveIcode">I don\'t have I - Code</string>
 </resources>
