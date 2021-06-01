@@ -4,7 +4,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class References {
+public class Reference {
     public static FirebaseFirestore reference = FirebaseFirestore.getInstance();
     public static CollectionReference userRef() {
         return reference.collection(RMAP.users);

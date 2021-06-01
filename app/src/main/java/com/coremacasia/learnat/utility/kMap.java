@@ -210,4 +210,5 @@ public class kMap {
     public static String user="user";
     public static String sub_type="sub_type";
     public static String joined="joined";
+    public static String preferred_type1="preferred_type1";
 }

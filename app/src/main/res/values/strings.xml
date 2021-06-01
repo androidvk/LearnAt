@@ -8,7 +8,7 @@
     <string name="welcome_to">Welcome to</string>
     <string name="indias_learning_platform">India\'s online learning platform.</string>
     <string name="get_started_to_explore_pandoras_box_of_knowledge">Get started to explore pandora\'s box of knowledge.</string>
-    <string name="signin_signup">Sign In or Sign Up</string>
+    <string name="signin_signup">Sign Up</string>
     <string name="enter_your_mobile">Enter your mobile number to continue.</string>
     <string name="Continue">Continue</string>
     <string name="OtpSentTo">Enter the OTP Sent to:-</string>
@@ -32,7 +32,7 @@
     <string name="heyLearner">Hey!! Learner.</string>
     <string name="youAreJust3StepsAwayFromLearning">You are just 3 steps away from learning.</string>
     <string name="LetsSetupYourAccount">Let\'s setup your account.</string>
-    <string name="LetsStart">Let\'s Start</string>
+    <string name="LetsStart">Let\'s Begin</string>
     <string name="ChooseYourSubject">Choose your course / subject</string>
     <string name="EnterICodeToGetCredit"><![CDATA[Enter I-Code & get 500 Credit.]]></string>
     <string name="InstallationCode">I-Code</string>
@@ -45,4 +45,7 @@
     <string name="Apply">Apply</string>
     <string name="enteriCode">Enter I - Code</string>
     <string name="iDontHaveIcode">I don\'t have I - Code</string>
+    <string name="Congratulations">Congratulations!!</string>
+    <string name="CreditedToYourWallet">Credited to your wallet!!</string>
+    <string name="HaveAAccountSignIn">Have an account? <u>Sign In</u></string>
 </resources>
