@@ -55,4 +55,6 @@ public class RMAP {
     public static String super_="super";
     public static String menu_list="menu_list";
     public static String course_menu="course_menu";
+    public static String list="list";
+    public static String comp_exam="comp_exam";
 }

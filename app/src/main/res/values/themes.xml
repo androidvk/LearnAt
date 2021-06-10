@@ -25,7 +25,10 @@
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsFloating">false</item>
     </style>
+    <style name="Theme.LearnAt.NoActionBar" parent="Theme.LearnAt">
+        <item name="windowActionBar">false</item>
 
+    </style>
     <style name="ThemeOverlay.LearnAt.FullscreenContainer" parent="Theme.LearnAt">
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
         <item name="fullscreenTextColor">@color/light_blue_A200</item>

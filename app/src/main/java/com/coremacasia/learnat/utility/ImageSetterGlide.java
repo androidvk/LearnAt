@@ -19,9 +19,7 @@ public class ImageSetterGlide {
                 .with(context.getApplicationContext())
                 .load(link)
                 .fitCenter()
-                .override(200, 200)
-                .skipMemoryCache(true)
-                .dontAnimate()
+                .override(500, 500)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
 

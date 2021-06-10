@@ -14,6 +14,8 @@ import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.coremacasia.learnat.R;
+import com.coremacasia.learnat.commons.CommonData;
+import com.coremacasia.learnat.commons.CommonDataModel;
 import com.coremacasia.learnat.utility.ImageSetterGlide;
 import com.coremacasia.learnat.utility.Reference;
 import com.coremacasia.learnat.utility.kMap;
@@ -30,19 +32,25 @@ import java.util.Map;
 
 public class CourseMenuAdapter extends RecyclerView.Adapter<CourseMenuAdapter.Holder> {
     private Context activity;
-    private ArrayList<menu_list> listHelper;
+    private ArrayList<CategoryHelper> listHelper = new ArrayList<>();
     private static final String TAG = "CourseMenuAdapter";
     private Group gSubjects;
     private Group gIcode;
-    private FirebaseUser phoneUser= FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseUser phoneUser = FirebaseAuth.getInstance().getCurrentUser();
 
-    public CourseMenuAdapter(Context activity, ArrayList<menu_list> listHelper,
+    private CommonDataModel commonDataModel;
+    public void setCommonDataModel(CommonDataModel commonDataModel) {
+        this.commonDataModel = commonDataModel;
+        listHelper=commonDataModel.getCategory();
+    }
+
+
+    public CourseMenuAdapter(Context activity,
                              Group gSubjects, Group gIcode) {
         this.gSubjects = gSubjects;
         this.gIcode = gIcode;
         Log.e(TAG, "CourseMenuAdapter: ");
         this.activity = activity;
-        this.listHelper = listHelper;
     }
 
     @NonNull
@@ -83,18 +91,18 @@ public class CourseMenuAdapter extends RecyclerView.Adapter<CourseMenuAdapter.Ho
             cardView = holder.cardView;
             tDesc = holder.tDesc;
             tName = holder.tName;
-            menu_list list = listHelper.get(position);
+            CategoryHelper list = listHelper.get(position);
 
-            tName.setText(list.getName_en());
-            tDesc.setText(list.getDesc_en());
+            tName.setText(list.getName());
+            tDesc.setText(list.getDescription());
             new ImageSetterGlide().defaultImg(itemView.getContext(),
-                    list.getImage(), iThumbnail);
+                    list.getThumbnail(), iThumbnail);
 
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Map map=new HashMap<>();
-                    map.put(kMap.preferred_type1,list.getId());
+                    Map map = new HashMap<>();
+                    map.put(kMap.preferred_type1, list.getId());
                     Reference.userRef().document(phoneUser.getUid()).set(map, SetOptions.merge())
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

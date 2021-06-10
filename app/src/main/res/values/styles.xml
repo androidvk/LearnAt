@@ -10,4 +10,19 @@
         <item name="android:background">@color/black_overlay</item>
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
+    <style name="dashboardCardTitleItem">
+        <item name="android:textSize">@dimen/dashboardCard_title</item>
+        <item name="android:textColor">@color/text_desc</item>
+        <item name="android:paddingTop">8dp</item>
+    </style>
+    <style name="DashBoardGroupTitle">
+        <item name="android:textColor">@color/dashbaordTitle</item>
+        <item name="android:textSize">@dimen/dashbordTitle_size</item>
+        <item name="android:layout_marginTop">@dimen/dashboard_title_top_padding</item>
+    </style>
+
+    <style name="dashBoardCardPadding">
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+    </style>
 </resources>

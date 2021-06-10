@@ -21,7 +21,7 @@
         <activity android:name=".startItems.AccountSetup"
             android:theme="@style/Theme.Learnt.NoActionBar"/>
         <activity
-            android:name=".MainActivity">
+            android:name=".MainActivity" android:theme="@style/Theme.Learnt.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

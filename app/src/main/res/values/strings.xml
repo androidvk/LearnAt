@@ -48,4 +48,12 @@
     <string name="Congratulations">Congratulations!!</string>
     <string name="CreditedToYourWallet">Credited to your wallet!!</string>
     <string name="HaveAAccountSignIn">Have an account? <u>Sign In</u></string>
+    <string name="GeneralCompetition">General Competition</string>
+    <string name="Upcoming">Upcoming</string>
+    <string name="ContinueLearning">Continue learning...</string>
+    <string name="seeall">See all</string>
+    <string name="Popular">Popular</string>
+    <string name="Subjects">Subjects</string>
+    <string name="Mentors">Mentors</string>
+    <string name="ExploreOtherCategories">Explore other categories</string>
 </resources>

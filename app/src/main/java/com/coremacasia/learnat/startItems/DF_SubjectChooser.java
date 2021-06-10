@@ -2,6 +2,7 @@ package com.coremacasia.learnat.startItems;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +13,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.coremacasia.learnat.R;
+import com.coremacasia.learnat.commons.CommonData;
+import com.coremacasia.learnat.commons.CommonDataModel;
+import com.coremacasia.learnat.commons.CommonDataViewModel;
 import com.coremacasia.learnat.utility.RMAP;
 import com.coremacasia.learnat.utility.Reference;
 import com.coremacasia.learnat.utility.kMap;
@@ -34,7 +40,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.SetOptions;
 
@@ -95,20 +100,20 @@ public class DF_SubjectChooser extends DialogFragment {
         } else if (from == 2) {
             gSubjects.setVisibility(View.VISIBLE);
         }
-        DocumentReference reference = Reference.superRef(RMAP.course_menu);
+      /*  DocumentReference reference = Reference.superRef(RMAP.list);
         reference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
                     helper = documentSnapshot.toObject(CourseHelper.class);
-                    ArrayList<menu_list> listHelper = helper.getMenu_list();
-                    Log.e(TAG, "onSuccess: " + listHelper.get(0).getDesc_en());
+                    ArrayList<CategoryHelper> listHelper = helper.getCategory();
+                    Log.e(TAG, "onSuccess: " + listHelper.get(0).getDescription());
 
-                    setRecyclerView(listHelper);
+
                 }
             }
-        });
-
+        });*/
+        setRecyclerView();
         onClicks();
     }
 
@@ -215,13 +220,25 @@ public class DF_SubjectChooser extends DialogFragment {
 
     }
 
+    private CommonDataViewModel viewModel;
+    DocumentReference commonListRef = Reference.superRef(RMAP.list);
+    private void setRecyclerView() {
 
-    private void setRecyclerView(ArrayList<menu_list> listHelper) {
+
         GridLayoutManager linearLayoutManager = new GridLayoutManager(getActivity(), 2);
         //linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        CourseMenuAdapter adapter = new CourseMenuAdapter(getActivity(),
-                listHelper, gSubjects, gIcode);
+        CourseMenuAdapter adapter = new CourseMenuAdapter(getActivity(),gSubjects, gIcode);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
+        viewModel=new ViewModelProvider(getActivity()).get(CommonDataViewModel.class);
+        viewModel.getCommonMutableLiveData(commonListRef).observe(getViewLifecycleOwner(), new Observer<CommonDataModel>() {
+            @Override
+            public void onChanged(CommonDataModel commonDataModel) {
+                adapter.setCommonDataModel(commonDataModel);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+
     }
 }
