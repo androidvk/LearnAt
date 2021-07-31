@@ -32,7 +32,7 @@ public class FirebaseRepo {
             documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(DocumentSnapshot value, FirebaseFirestoreException error) {
-                    if (value.exists()) {
+                    if (value!=null && value.exists()) {
                         onFirestoreTaskComplete.commonData(value
                                 .toObject(CommonDataModel.class));
                         CommonData.setCommonDataModel(value.toObject(CommonDataModel.class));

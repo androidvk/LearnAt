@@ -18,10 +18,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LearnAt">
-        <activity android:name=".startItems.AccountSetup"
-            android:theme="@style/Theme.Learnt.NoActionBar"/>
+        <activity android:name=".admin_panel.Admin">
+
+        </activity>
         <activity
-            android:name=".MainActivity" android:theme="@style/Theme.Learnt.NoActionBar">
+            android:name=".MainActivity"
+            android:theme="@style/Theme.Learnt.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,10 +31,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".startItems.PhoneAuth"
+            android:name=".activities.PhoneAuth"
             android:theme="@style/Theme.LearnAt.Fullscreen" />
         <activity
-            android:name=".startItems.Splash"
+            android:name=".activities.Splash"
             android:theme="@style/Theme.LearnAt.Fullscreen" />
         <activity android:name=".xtras.Calculator" />
         <activity android:name=".xtras.RulesTest" />

@@ -14,11 +14,16 @@
         <item name="android:textSize">@dimen/dashboardCard_title</item>
         <item name="android:textColor">@color/text_desc</item>
         <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
     </style>
     <style name="DashBoardGroupTitle">
         <item name="android:textColor">@color/dashbaordTitle</item>
         <item name="android:textSize">@dimen/dashbordTitle_size</item>
         <item name="android:layout_marginTop">@dimen/dashboard_title_top_padding</item>
+    </style>
+
+    <style name="AdminButtons">
+
     </style>
 
     <style name="dashBoardCardPadding">

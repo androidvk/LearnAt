@@ -49,8 +49,8 @@ public class ImageSetterGlide {
         Glide.with(context).load(link)
                 .thumbnail(0.1f)
                 .override(500, 500)
-                .skipMemoryCache(true)
-                .transition(DrawableTransitionOptions.withCrossFade())
+                //.skipMemoryCache(true)
+                //.transition(DrawableTransitionOptions.withCrossFade())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
 

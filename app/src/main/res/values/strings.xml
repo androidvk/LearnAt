@@ -56,4 +56,8 @@
     <string name="Subjects">Subjects</string>
     <string name="Mentors">Mentors</string>
     <string name="ExploreOtherCategories">Explore other categories</string>
+    <string name="LiveClasses">⦿ Live Classes</string>
+    <string name="Logout">Logout</string>
+    <string name="Category">Category</string>
+    <string name="Courses">Courses</string>
 </resources>

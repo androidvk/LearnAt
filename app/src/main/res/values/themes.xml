@@ -37,6 +37,7 @@
     <style name="Theme.Learnt.NoActionBar" parent="Theme.LearnAt">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
     </style>
 
 </resources>

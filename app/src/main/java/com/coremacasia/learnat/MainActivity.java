@@ -2,17 +2,15 @@ package com.coremacasia.learnat;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
-import com.coremacasia.learnat.commons.CommonDataModel;
 import com.coremacasia.learnat.commons.CommonDataViewModel;
 import com.coremacasia.learnat.databinding.ActivityMainBinding;
-import com.coremacasia.learnat.startItems.DF_SubjectChooser;
-import com.coremacasia.learnat.startItems.Splash;
-import com.coremacasia.learnat.utility.RMAP;
+import com.coremacasia.learnat.dialogs.DF_SubjectChooser;
+import com.coremacasia.learnat.activities.Splash;
 import com.coremacasia.learnat.utility.Reference;
 import com.coremacasia.learnat.utility.kMap;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -20,11 +18,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -58,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main2);
+        NavController navController = Navigation.findNavController(this,
+                R.id.nav_host_fragment_activity_main2);
         //NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
@@ -68,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
-        lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.FILL_PARENT,
-                ActionBar.LayoutParams.FILL_PARENT);
+        lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT,
+                ActionBar.LayoutParams.MATCH_PARENT);
         itemView = LayoutInflater.from(this).inflate(R.layout.actionbar_main, null);
         actionBar.setCustomView(itemView, lp);
 
@@ -107,6 +105,21 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id=item.getItemId();
+        if(id==R.id.mLogout){
+
+        }
+        return super.onOptionsItemSelected(item);
 
     }
 
