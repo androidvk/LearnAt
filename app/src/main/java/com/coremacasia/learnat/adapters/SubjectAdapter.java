@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.coremacasia.learnat.R;
 import com.coremacasia.learnat.commons.CommonDataModel;
+import com.coremacasia.learnat.helpers.CategoryDashboardHelper;
 import com.coremacasia.learnat.helpers.SubjectHelper;
 import com.coremacasia.learnat.utility.ImageSetterGlide;
+import com.coremacasia.learnat.utility.MyStore;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -23,12 +25,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.Holder> {
     private Context activity;
     private static final String TAG = "SubjectAdapter";
-    private CommonDataModel dataModel;
-    private ArrayList<SubjectHelper> list = new ArrayList<>();
+    private CategoryDashboardHelper dataModel;
+    private ArrayList<String> list = new ArrayList<>();
 
-    public void setDataModel(CommonDataModel dataModel) {
+    public void setDataModel(CategoryDashboardHelper dataModel) {
         this.dataModel = dataModel;
-        list = dataModel.getAll_subjects();
+        list = dataModel.getSubject_id();
     }
 
     public SubjectAdapter(Context activity) {
@@ -46,11 +48,15 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.Holder> 
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull SubjectAdapter.Holder holder, int position) {
-        SubjectHelper helper=list.get(position);
-        holder.tName.setText(helper.getTitle());
-        new ImageSetterGlide().circleImg(
-                holder.itemView.getContext(),helper.getIcon(),
-                holder.imageView);
+        String subjectId=list.get(position);
+        for(SubjectHelper helper: MyStore.getCommonData().getAll_subjects()){
+            if(helper.getSubject_id().equals(subjectId)){
+                holder.tName.setText(helper.getTitle());
+                new ImageSetterGlide().circleImg(
+                        holder.itemView.getContext(),helper.getIcon(),
+                        holder.imageView);
+            }
+        }
 
     }
 

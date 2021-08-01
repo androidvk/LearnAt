@@ -1,41 +1,42 @@
 package com.coremacasia.learnat.commons;
 
+
+
 import com.coremacasia.learnat.helpers.CategoryHelper;
 import com.coremacasia.learnat.helpers.CourseHelper;
 import com.coremacasia.learnat.helpers.MentorHelper;
-import com.coremacasia.learnat.helpers.PopularHelper;
 import com.coremacasia.learnat.helpers.SubjectHelper;
-import com.coremacasia.learnat.helpers.UpcomingHelper;
 
 import java.util.ArrayList;
 
 public class CommonDataModel {
-    public CommonDataModel(){}
+    public CommonDataModel() {
+    }
 
     public ArrayList<CategoryHelper> getCategory() {
         return category;
     }
 
-    private ArrayList<PopularHelper> popular=new ArrayList<>();
+    private ArrayList<CategoryHelper> category=new ArrayList<>();
 
-    public ArrayList<PopularHelper> getPopular() {
+    private ArrayList<String> course_id = new ArrayList<>();
+    private ArrayList<String> trending = new ArrayList<>();
+
+    public ArrayList<String> getTrending() {
+        return trending;
+    }
+
+    public ArrayList<String> getPopular() {
         return popular;
     }
-    public ArrayList<UpcomingHelper> upcoming=new ArrayList<>();
 
-    public ArrayList<UpcomingHelper> getUpcoming() {
-        return upcoming;
-    }
-
-    private ArrayList<CategoryHelper> category;
-
-    private ArrayList<String> course_id;
+    private ArrayList<String> popular = new ArrayList<>();
 
     public ArrayList<String> getSubject_id() {
         return subject_id;
     }
 
-    private ArrayList<String> subject_id;
+    private ArrayList<String> subject_id=new ArrayList<>();
 
     public ArrayList<String> getCourse_id() {
         return course_id;
@@ -45,11 +46,21 @@ public class CommonDataModel {
         return all_courses;
     }
 
-    private ArrayList<CourseHelper> all_courses;
+    private ArrayList<CourseHelper> all_courses = new ArrayList<>();
 
-    private ArrayList<MentorHelper> mentors;
+    private ArrayList<MentorHelper> mentors = new ArrayList<>();
 
-    private ArrayList<SubjectHelper> all_subjects;
+    private ArrayList<String> course_lang = new ArrayList<>();
+
+    public void setCourse_lang(ArrayList<String> course_lang) {
+        this.course_lang = course_lang;
+    }
+
+    public ArrayList<String> getCourse_lang() {
+        return course_lang;
+    }
+
+    private ArrayList<SubjectHelper> all_subjects=new ArrayList<>();
 
     public ArrayList<SubjectHelper> getAll_subjects() {
         return all_subjects;

@@ -6,16 +6,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.coremacasia.learnat.utility.RMAP;
-import com.coremacasia.learnat.utility.Reference;
 import com.google.firebase.firestore.DocumentReference;
 
-public class CommonDataViewModel extends ViewModel implements FirebaseRepo.OnFirestoreTaskComplete {
+public class CommonDataViewModel extends ViewModel implements CommonListRepo.OnFirestoreTaskComplete {
     private static final String TAG = "CommonListViewModel";
-    private FirebaseRepo firebaseRepo = new FirebaseRepo(this);
+    private CommonListRepo commonListRepo = new CommonListRepo(this);
 
     public LiveData<CommonDataModel> getCommonMutableLiveData(DocumentReference documentReference) {
-        firebaseRepo.getCommonData(documentReference);
+        commonListRepo.getCommonData(documentReference);
         return commonMutableLiveData;
     }
 

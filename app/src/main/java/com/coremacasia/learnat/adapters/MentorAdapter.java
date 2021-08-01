@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.coremacasia.learnat.R;
 import com.coremacasia.learnat.commons.CommonDataModel;
+import com.coremacasia.learnat.helpers.CategoryDashboardHelper;
 import com.coremacasia.learnat.helpers.MentorHelper;
 import com.coremacasia.learnat.utility.ImageSetterGlide;
 
@@ -21,11 +22,11 @@ import java.util.ArrayList;
 
 public class MentorAdapter extends RecyclerView.Adapter<MentorAdapter.Holder> {
     private static final String TAG = "MentorAdapter";
-    private ArrayList<MentorHelper> list=new ArrayList<>();
-    private CommonDataModel dataModel;
+    private ArrayList<String > list=new ArrayList<>();
+    private CategoryDashboardHelper dataModel;
     private Context activity;
 
-    public void setDataModel(CommonDataModel dataModel) {
+    public void setDataModel(CategoryDashboardHelper dataModel) {
         this.dataModel = dataModel;
         list=dataModel.getMentors();
     }
@@ -66,10 +67,10 @@ public class MentorAdapter extends RecyclerView.Adapter<MentorAdapter.Holder> {
         }
 
         public void onBind(Holder holder, int position) {
-            MentorHelper helper=list.get(position);
+           /* MentorHelper helper=list.get(position);
             tName.setText(helper.getName());
             new ImageSetterGlide().defaultImg(itemView.getContext(),helper.getImage(),imageView);
-
+*/
         }
     }
 }

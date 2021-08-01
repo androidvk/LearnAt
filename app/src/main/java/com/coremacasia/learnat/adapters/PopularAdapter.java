@@ -12,8 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.coremacasia.learnat.R;
 import com.coremacasia.learnat.commons.CommonDataModel;
+import com.coremacasia.learnat.helpers.CategoryDashboardHelper;
+import com.coremacasia.learnat.helpers.CourseHelper;
+import com.coremacasia.learnat.helpers.MentorHelper;
 import com.coremacasia.learnat.helpers.PopularHelper;
 import com.coremacasia.learnat.utility.ImageSetterGlide;
+import com.coremacasia.learnat.utility.MyStore;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,9 +26,9 @@ import java.util.ArrayList;
 public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.Holder> {
     private Activity activity;
     private static final String TAG = "PopularAdapter";
-    private ArrayList<PopularHelper> list = new ArrayList<>();
-    private CommonDataModel dataModel;
-    public void setDataModel(CommonDataModel dataModel) {
+    private ArrayList<String> list = new ArrayList<>();
+    private CategoryDashboardHelper dataModel;
+    public void setDataModel(CategoryDashboardHelper dataModel) {
         this.dataModel = dataModel;
         list=dataModel.getPopular();
     }
@@ -46,7 +50,27 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.Holder> 
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull PopularAdapter.Holder holder, int position) {
-        holder.onBind(holder,position);
+        String course_id = list.get(position);
+        for (CourseHelper helper : MyStore.getCourseData().getAll_courses()) {
+            if (helper.getCourse_id().equals(course_id)) {
+                holder.tTitle.setText(helper.getTitle());
+               /* ArrayList<MentorHelper> mentorList = MyStore.getCommonData().getMentors();
+                for (MentorHelper helper1 : mentorList) {
+                    if (helper.getMentor_id().equals(helper1.getMentor_id())) {
+                        holder.tMentorName.setText(helper1.getName());
+                    }
+                }*/
+               /* if (helper.isIs_live()) {
+                    holder.tLive.setVisibility(View.VISIBLE);
+                } else {
+                    holder.tLive.setVisibility(View.GONE);
+                }*/
+                new ImageSetterGlide().defaultImg(holder.itemView.getContext(), helper.getThumbnail(),
+                        holder.imageView);
+
+
+            }
+        }
     }
 
     @Override
@@ -66,13 +90,5 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.Holder> 
             imageView=itemView.findViewById(R.id.imageView14);
         }
 
-        public void onBind(Holder holder, int position) {
-            this.holder = holder;
-            this.position = position;
-            PopularHelper helper=list.get(position);
-            tTitle.setText(helper.getName()+" by "+helper.getMentor());
-            new ImageSetterGlide().defaultImg(itemView.getContext(),helper.getImage(),imageView);
-
-        }
     }
 }

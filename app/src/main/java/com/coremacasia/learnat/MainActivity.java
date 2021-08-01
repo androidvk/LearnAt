@@ -2,15 +2,25 @@ package com.coremacasia.learnat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.coremacasia.learnat.commons.CommonDataModel;
 import com.coremacasia.learnat.commons.CommonDataViewModel;
+import com.coremacasia.learnat.commons.all_courses.AllCoursesViewModel;
+import com.coremacasia.learnat.commons.all_courses.CourseModel;
+import com.coremacasia.learnat.commons.category_repo.CategoryViewModel;
+import com.coremacasia.learnat.helpers.CategoryDashboardHelper;
+import com.coremacasia.learnat.helpers.UserHelper;
+import com.coremacasia.learnat.commons.user_repo.UserDataViewModel;
 import com.coremacasia.learnat.databinding.ActivityMainBinding;
 import com.coremacasia.learnat.dialogs.DF_SubjectChooser;
 import com.coremacasia.learnat.activities.Splash;
+import com.coremacasia.learnat.utility.MyStore;
+import com.coremacasia.learnat.utility.RMAP;
 import com.coremacasia.learnat.utility.Reference;
 import com.coremacasia.learnat.utility.kMap;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,6 +32,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -37,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     private View itemView;
     private FirebaseAuth mAuth;
     private FirebaseUser firebaseUser;
-    private CommonDataViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,11 +99,21 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             //startSubjectChooser(2);
-            getUserData();
+            getLoginInfo();
+            getData();
         }
     }
 
-    private void getUserData() {
+    private DocumentReference commonListRef;
+    private CommonDataViewModel viewModel;
+    private AllCoursesViewModel allCoursesViewModel;
+    private CategoryViewModel categoryViewModel;
+
+
+
+    private String CAT;
+
+    private void getLoginInfo() {
         DocumentReference userRef = Reference.userRef().document(firebaseUser.getUid());
         userRef.addSnapshotListener((value, error) -> {
             assert value != null;
@@ -101,12 +122,66 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 if (value.get(kMap.preferred_type1) == null) {
                     startSubjectChooser(2);
+                } else {
+
+                    CAT = value.get(kMap.preferred_type1).toString();
+                    getUserData();
+                    //getCategoryData();
                 }
             }
 
         });
 
     }
+
+    private void getUserData() {
+        DocumentReference userRef = Reference.userRef(firebaseUser.getUid());
+        Log.e(TAG, "getUserData: "+firebaseUser.getUid() );
+        UserDataViewModel viewModel = new ViewModelProvider(this).get(UserDataViewModel.class);
+        viewModel.getMutableLiveData(userRef).observe(this, new Observer<UserHelper>() {
+            @Override
+            public void onChanged(UserHelper userHelper) {
+                Log.e(TAG, "onChanged: "+userHelper.getFirebase_id() );
+                MyStore.setUserData(userHelper);
+                getCategoryData();
+            }
+        });
+    }
+    private void getData() {
+        commonListRef = Reference.superRef(RMAP.list);
+        viewModel = new ViewModelProvider(this).get(CommonDataViewModel.class);
+        viewModel.getCommonMutableLiveData(commonListRef).observe(MainActivity.this,
+                new Observer<CommonDataModel>() {
+                    @Override
+                    public void onChanged(CommonDataModel commonDataModel) {
+                        MyStore.setCommonData(commonDataModel);
+                    }
+                });
+
+        allCoursesViewModel = new ViewModelProvider(this).get(AllCoursesViewModel.class);
+        allCoursesViewModel.getCommonMutableLiveData(Reference.superRef(RMAP.all_courses))
+                .observe(MainActivity.this, new Observer<CourseModel>() {
+                    @Override
+                    public void onChanged(CourseModel courseModel) {
+                        MyStore.setCourseData(courseModel);
+                    }
+                });
+
+
+    }
+    private void getCategoryData() {
+        DocumentReference categoryRef = Reference.superRef(CAT);
+        categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+        categoryViewModel.getCategoryMutableData(categoryRef).observe(this,
+                new Observer<CategoryDashboardHelper>() {
+                    @Override
+                    public void onChanged(CategoryDashboardHelper categoryDashboardHelper) {
+                        MyStore.setCategoryDashboardHelper(categoryDashboardHelper);
+                    }
+                });
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -115,8 +190,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id=item.getItemId();
-        if(id==R.id.mLogout){
+        int id = item.getItemId();
+        if (id == R.id.mLogout) {
 
         }
         return super.onOptionsItemSelected(item);

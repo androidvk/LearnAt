@@ -3,6 +3,7 @@ package com.coremacasia.learnat.fragments;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,17 +18,22 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
-import com.coremacasia.learnat.commons.CommonDataModel;
 import com.coremacasia.learnat.commons.CommonDataViewModel;
+import com.coremacasia.learnat.commons.category_repo.CategoryViewModel;
+import com.coremacasia.learnat.commons.user_repo.UserDataViewModel;
 import com.coremacasia.learnat.databinding.FragmentHomeBinding;
 import com.coremacasia.learnat.adapters.CategoriesAdapter;
 import com.coremacasia.learnat.adapters.MentorAdapter;
 import com.coremacasia.learnat.adapters.PopularAdapter;
-import com.coremacasia.learnat.repos.PopularViewModel;
 import com.coremacasia.learnat.adapters.SubjectAdapter;
 import com.coremacasia.learnat.adapters.UpcomingAdapter;
+import com.coremacasia.learnat.helpers.CategoryDashboardHelper;
+import com.coremacasia.learnat.helpers.UserHelper;
+import com.coremacasia.learnat.utility.MyStore;
 import com.coremacasia.learnat.utility.RMAP;
 import com.coremacasia.learnat.utility.Reference;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 
 import org.jetbrains.annotations.NotNull;
@@ -36,9 +42,11 @@ import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator;
 
 public class HomeFragment extends Fragment {
 
-
+    private static final String TAG = "HomeFragment";
     private FragmentHomeBinding binding;
     private RecyclerView rPopular, rSubjects, rMentors, rCourseCategory, rUpcoming;
+    private CategoryViewModel categoryViewModel;
+    private UserHelper helper;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -62,36 +70,85 @@ public class HomeFragment extends Fragment {
                               @Nullable @org.jetbrains.annotations.Nullable
                                       Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //setRecyclerViewPopular();
-        setRecyclerViewSubject();
-        setRecyclerViewMentor();
-        setRecyclerViewCategory();
-        //setRecyclerViewUpcoming();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DocumentReference userRef = Reference.userRef(firebaseUser.getUid());
+        Log.e(TAG, "getUserData: " + firebaseUser.getUid());
+
+        UserDataViewModel viewModel = new ViewModelProvider(this).get(UserDataViewModel.class);
+        viewModel.getMutableLiveData(userRef).observe(getActivity(), new Observer<UserHelper>() {
+            @Override
+            public void onChanged(UserHelper userHelper) {
+                helper = userHelper;
+                MyStore.setUserData(userHelper);
+                categoryRef = Reference.superRef(helper.getPreferred_type1());
+                getCategoryData();
+
+
+            }
+        });
+
+
     }
 
+    private void getCategoryData() {
+        categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+        categoryViewModel.getCategoryMutableData(categoryRef).observe(this,
+                new Observer<CategoryDashboardHelper>() {
+                    @Override
+                    public void onChanged(CategoryDashboardHelper categoryDashboardHelper) {
+                        MyStore.setCategoryDashboardHelper(categoryDashboardHelper);
+                        setRecyclerViewPopular();
+                        setRecyclerViewSubject();
+                        setRecyclerViewMentor();
+                        setRecyclerViewCategory();
+                        setRecyclerViewUpcoming();
+                    }
+                });
+
+    }
 
     private CommonDataViewModel viewModel;
-    private PopularViewModel popularViewModel;
     Handler handler = new Handler();
     DocumentReference commonListRef = Reference.superRef(RMAP.list);
+    private DocumentReference categoryRef;
 
     private void setRecyclerViewPopular() {
-        DocumentReference popularListRef = Reference.superRef(RMAP.comp_exam);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         PopularAdapter adapter = new PopularAdapter(getActivity());
         rPopular.setLayoutManager(linearLayoutManager);
         rPopular.setAdapter(adapter);
+        adapter.setDataModel(MyStore.getCategoryDashboardHelper());
+        adapter.notifyDataSetChanged();
 
-        popularViewModel = new ViewModelProvider(getActivity()).get(PopularViewModel.class);
-        popularViewModel.getMutableLiveData(popularListRef).observe(getViewLifecycleOwner(),
-                new Observer<CommonDataModel>() {
-                    @Override
-                    public void onChanged(CommonDataModel commonDataModel) {
-                        adapter.setDataModel(commonDataModel);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
+
+    }
+
+    private void setRecyclerViewUpcoming() {
+        ScrollingPagerIndicator scrollingPagerIndicator = binding.scrollingIndicator;
+        SnapHelper snapHelper = new PagerSnapHelper();
+        rUpcoming.setOnFlingListener(null);
+        snapHelper.attachToRecyclerView(rUpcoming);
+
+        lManagerUpcoming.setOrientation(LinearLayoutManager.HORIZONTAL);
+        UpcomingAdapter adapter = new UpcomingAdapter(getActivity());
+        rUpcoming.setLayoutManager(lManagerUpcoming);
+        rUpcoming.setAdapter(adapter);
+        scrollingPagerIndicator.attachToRecyclerView(rUpcoming);
+        adapter.setDataModel(MyStore.getCategoryDashboardHelper());
+        adapter.notifyDataSetChanged();
+
+        rUpcoming.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                mHandler.removeCallbacks(SCROLLING_RUNNABLE);
+                currentPosition = lManagerUpcoming.findFirstCompletelyVisibleItemPosition();
+                totalItem = lManagerUpcoming.getItemCount() - 1;
+                mHandler.postDelayed(SCROLLING_RUNNABLE, 4000);
+            }
+        });
+
     }
 
     private void setRecyclerViewSubject() {
@@ -100,16 +157,9 @@ public class HomeFragment extends Fragment {
         SubjectAdapter adapter = new SubjectAdapter(getActivity());
         rSubjects.setLayoutManager(linearLayoutManager);
         rSubjects.setAdapter(adapter);
+        adapter.setDataModel(MyStore.getCategoryDashboardHelper());
+        adapter.notifyDataSetChanged();
 
-        viewModel = new ViewModelProvider(getActivity()).get(CommonDataViewModel.class);
-        viewModel.getCommonMutableLiveData(commonListRef).observe(getViewLifecycleOwner(),
-                new Observer<CommonDataModel>() {
-                    @Override
-                    public void onChanged(CommonDataModel commonDataModel) {
-                        adapter.setDataModel(commonDataModel);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
     }
 
     private void setRecyclerViewMentor() {
@@ -118,16 +168,8 @@ public class HomeFragment extends Fragment {
         MentorAdapter adapter = new MentorAdapter(getActivity());
         rMentors.setLayoutManager(linearLayoutManager);
         rMentors.setAdapter(adapter);
-
-        viewModel = new ViewModelProvider(getActivity()).get(CommonDataViewModel.class);
-        viewModel.getCommonMutableLiveData(commonListRef).observe(getViewLifecycleOwner(),
-                new Observer<CommonDataModel>() {
-                    @Override
-                    public void onChanged(CommonDataModel commonDataModel) {
-                        adapter.setDataModel(commonDataModel);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
+        adapter.setDataModel(MyStore.getCategoryDashboardHelper());
+        adapter.notifyDataSetChanged();
     }
 
     private void setRecyclerViewCategory() {
@@ -136,16 +178,8 @@ public class HomeFragment extends Fragment {
         CategoriesAdapter adapter = new CategoriesAdapter(getActivity());
         rCourseCategory.setLayoutManager(linearLayoutManager);
         rCourseCategory.setAdapter(adapter);
-
-        viewModel = new ViewModelProvider(getActivity()).get(CommonDataViewModel.class);
-        viewModel.getCommonMutableLiveData(commonListRef).observe(getViewLifecycleOwner(),
-                new Observer<CommonDataModel>() {
-                    @Override
-                    public void onChanged(CommonDataModel commonDataModel) {
-                        adapter.setDataModel(commonDataModel);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
+        adapter.setDataModel(MyStore.getCommonData());
+        adapter.notifyDataSetChanged();
     }
 
     private int currentPosition, totalItem;
@@ -163,40 +197,6 @@ public class HomeFragment extends Fragment {
         }
     };
 
-    private void setRecyclerViewUpcoming() {
-        ScrollingPagerIndicator scrollingPagerIndicator = binding.scrollingIndicator;
-
-        SnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(rUpcoming);
-        DocumentReference popularListRef = Reference.superRef(RMAP.comp_exam);
-
-        lManagerUpcoming.setOrientation(LinearLayoutManager.HORIZONTAL);
-        UpcomingAdapter adapter = new UpcomingAdapter(getActivity());
-        rUpcoming.setLayoutManager(lManagerUpcoming);
-        rUpcoming.setAdapter(adapter);
-        scrollingPagerIndicator.attachToRecyclerView(rUpcoming);
-        popularViewModel = new ViewModelProvider(getActivity()).get(PopularViewModel.class);
-        popularViewModel.getMutableLiveData(popularListRef).observe(getViewLifecycleOwner(),
-                new Observer<CommonDataModel>() {
-                    @Override
-                    public void onChanged(CommonDataModel commonDataModel) {
-                        adapter.setDataModel(commonDataModel);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-
-        rUpcoming.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                mHandler.removeCallbacks(SCROLLING_RUNNABLE);
-                currentPosition = lManagerUpcoming.findFirstCompletelyVisibleItemPosition();
-                totalItem = lManagerUpcoming.getItemCount() - 1;
-                mHandler.postDelayed(SCROLLING_RUNNABLE, 4000);
-            }
-        });
-
-    }
 
     @Override
     public void onDestroyView() {
