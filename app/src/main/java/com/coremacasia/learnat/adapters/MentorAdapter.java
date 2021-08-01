@@ -15,6 +15,7 @@ import com.coremacasia.learnat.commons.CommonDataModel;
 import com.coremacasia.learnat.helpers.CategoryDashboardHelper;
 import com.coremacasia.learnat.helpers.MentorHelper;
 import com.coremacasia.learnat.utility.ImageSetterGlide;
+import com.coremacasia.learnat.utility.MyStore;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,17 +23,16 @@ import java.util.ArrayList;
 
 public class MentorAdapter extends RecyclerView.Adapter<MentorAdapter.Holder> {
     private static final String TAG = "MentorAdapter";
-    private ArrayList<String > list=new ArrayList<>();
+    private ArrayList<String> list = new ArrayList<>();
     private CategoryDashboardHelper dataModel;
     private Context activity;
 
     public void setDataModel(CategoryDashboardHelper dataModel) {
         this.dataModel = dataModel;
-        list=dataModel.getMentors();
+        list = dataModel.getMentor_id();
     }
 
     public MentorAdapter(Context activity) {
-
         this.activity = activity;
     }
 
@@ -41,14 +41,21 @@ public class MentorAdapter extends RecyclerView.Adapter<MentorAdapter.Holder> {
     @Override
     public Holder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
 
-        LayoutInflater inflater=LayoutInflater.from(parent.getContext());
-        View view=inflater.inflate(R.layout.list_mentor,parent,false    );
-       return new Holder(view);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.list_mentor, parent, false);
+        return new Holder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull MentorAdapter.Holder holder, int position) {
-        holder.onBind(holder,position);
+        String mentor_id = list.get(position);
+        for (MentorHelper helper : MyStore.getCommonData().getMentors()) {
+            if (helper.getMentor_id().equals(mentor_id)) {
+                holder.tName.setText(helper.getName());
+                new ImageSetterGlide().defaultImg(holder.itemView.getContext()
+                        , helper.getImage(), holder.imageView);
+            }
+        }
     }
 
     @Override
@@ -60,17 +67,12 @@ public class MentorAdapter extends RecyclerView.Adapter<MentorAdapter.Holder> {
         private static final String TAG = "MentorHolder";
         private ImageView imageView;
         private TextView tName;
+
         public Holder(@NonNull @NotNull View itemView) {
             super(itemView);
-            tName=itemView.findViewById(R.id.textView40);
-            imageView=itemView.findViewById(R.id.imageView12);
+            tName = itemView.findViewById(R.id.textView40);
+            imageView = itemView.findViewById(R.id.imageView12);
         }
 
-        public void onBind(Holder holder, int position) {
-           /* MentorHelper helper=list.get(position);
-            tName.setText(helper.getName());
-            new ImageSetterGlide().defaultImg(itemView.getContext(),helper.getImage(),imageView);
-*/
-        }
     }
 }

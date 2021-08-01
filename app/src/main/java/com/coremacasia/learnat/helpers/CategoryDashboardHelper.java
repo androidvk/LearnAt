@@ -9,6 +9,11 @@ public class CategoryDashboardHelper {
     private ArrayList<String> trending = new ArrayList<>();
     private ArrayList<String> popular=new ArrayList<>();
     private ArrayList<String> mentors=new ArrayList<>();
+    private ArrayList<String> mentor_id=new ArrayList<>();
+
+    public ArrayList<String> getMentor_id() {
+        return mentor_id;
+    }
 
     public ArrayList<String> getSubject_id() {
         return subject_id;
