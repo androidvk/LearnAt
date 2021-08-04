@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.coremacasia.learnat.commons.CommonDataModel;
 import com.coremacasia.learnat.commons.CommonDataViewModel;
 import com.coremacasia.learnat.databinding.FragmentDashboardBinding;
+import com.coremacasia.learnat.databinding.FragmentProfileBinding;
 import com.coremacasia.learnat.utility.RMAP;
 import com.coremacasia.learnat.utility.Reference;
 import com.google.firebase.firestore.DocumentReference;
@@ -26,6 +27,7 @@ public class DashboardFragment extends Fragment {
     private CommonDataViewModel viewModel;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        binding=FragmentDashboardBinding.inflate(LayoutInflater.from(inflater.getContext()));
         View root = binding.getRoot();
 
         DocumentReference commonListRef = Reference.superRef(RMAP.list);

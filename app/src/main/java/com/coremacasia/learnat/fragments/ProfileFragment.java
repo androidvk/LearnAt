@@ -12,18 +12,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.coremacasia.learnat.databinding.FragmentNotificationsBinding;
+import com.coremacasia.learnat.databinding.FragmentProfileBinding;
 
 
-public class NotificationsFragment extends Fragment {
+public class ProfileFragment extends Fragment {
 
-     FragmentNotificationsBinding binding;
+     FragmentProfileBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
 
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
 

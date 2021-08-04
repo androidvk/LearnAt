@@ -16,5 +16,6 @@
     <dimen name="dashbordTitle_size">18sp</dimen>
     <dimen name="dashboardCard_title">16sp</dimen>
     <dimen name="text_margin">16dp</dimen>
-
+    <dimen name="size_profile_1">14sp</dimen>
+    <dimen name="size_profile_2">18sp</dimen>
 </resources>

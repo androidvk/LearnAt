@@ -70,6 +70,7 @@ public class HomeFragment extends Fragment {
                               @Nullable @org.jetbrains.annotations.Nullable
                                       Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        lManagerUpcoming = new LinearLayoutManager(getActivity());
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DocumentReference userRef = Reference.userRef(firebaseUser.getUid());
         Log.e(TAG, "getUserData: " + firebaseUser.getUid());
@@ -183,7 +184,7 @@ public class HomeFragment extends Fragment {
     }
 
     private int currentPosition, totalItem;
-    private final LinearLayoutManager lManagerUpcoming = new LinearLayoutManager(getActivity());
+    private  LinearLayoutManager lManagerUpcoming ;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final Runnable SCROLLING_RUNNABLE = new Runnable() {
 

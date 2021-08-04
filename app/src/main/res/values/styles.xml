@@ -22,10 +22,28 @@
         <item name="android:layout_marginTop">@dimen/dashboard_title_top_padding</item>
     </style>
 
+    <style name="ProfileSubHeading">
+    <item name="android:textColor">@color/theme_text_color</item>
+        <item name="android:textSize">@dimen/size_profile_1</item>
+    </style>
     <style name="AdminButtons">
 
     </style>
+    <style name="ProfileTitles">
+        <item name="android:textColor">@color/soft_black</item>
+        <item name="android:textSize">@dimen/size_profile_2</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:paddingTop">2dp</item>
+    </style>
+    <style name="ProfileIcon">
 
+        <item name="android:layout_margin">12dp</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="tint">@color/theme_text_color</item>
+    </style>
     <style name="dashBoardCardPadding">
         <item name="android:layout_marginStart">16dp</item>
         <item name="android:layout_marginEnd">16dp</item>

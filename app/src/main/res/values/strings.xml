@@ -28,7 +28,7 @@
     <string name="title_activity_main2">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_me">Me</string>
     <string name="heyLearner">Hey!! Learner.</string>
     <string name="youAreJust3StepsAwayFromLearning">You are just 3 steps away from learning.</string>
     <string name="LetsSetupYourAccount">Let\'s setup your account.</string>
@@ -60,4 +60,11 @@
     <string name="Logout">Logout</string>
     <string name="Category">Category</string>
     <string name="Courses">Courses</string>
+    <string name="PreparingFor">Prepararing for</string>
+    <string name="Change"><u>Change</u></string>
+    <string name="Mobile">Mobile</string>
+    <string name="EducationDetails">Education Detials</string>
+    <string name="Wallet">Wallet</string>
+    <string name="Achievements">Achievements</string>
+    <string name="MyCourses">My Courses</string>
 </resources>
