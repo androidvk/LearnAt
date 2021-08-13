@@ -84,21 +84,21 @@
             android:id="@+id/gUpcoming"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="rUpcoming,textView28" />
+            app:constraint_referenced_ids="r_trending,textView28" />
 
         <TextView
             android:id="@+id/textView28"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dashboard_title_top_padding"
-            android:text="@string/Upcoming"
+            android:text="@string/Trending"
             android:textColor="@color/dashbaordTitle"
             android:textSize="@dimen/dashbordTitle_size"
             app:layout_constraintStart_toStartOf="@+id/guideline8"
             app:layout_constraintTop_toBottomOf="@+id/textView27" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rUpcoming"
+            android:id="@+id/r_trending"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dashboard_recycler_view_padding_top"
@@ -273,6 +273,6 @@
             app:spi_dotSelectedColor="@color/m_primary"
             app:layout_constraintEnd_toStartOf="@+id/guideline9"
             app:layout_constraintStart_toStartOf="@+id/guideline8"
-            app:layout_constraintTop_toBottomOf="@+id/rUpcoming" />
+            app:layout_constraintTop_toBottomOf="@+id/r_trending" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

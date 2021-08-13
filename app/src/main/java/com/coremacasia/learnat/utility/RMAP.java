@@ -61,4 +61,8 @@ public class RMAP {
     public static String all_courses="all_courses";
     public static String xtra="xtra";
     public static String course_id="course_id";
+    public static String ent_exam="ent_exam";
+    public static String itcoding="itcoding";
+    public static String sc_school="sc_school";
+    public static String comm="comm";
 }

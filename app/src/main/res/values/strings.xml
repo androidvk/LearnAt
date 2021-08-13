@@ -60,11 +60,17 @@
     <string name="Logout">Logout</string>
     <string name="Category">Category</string>
     <string name="Courses">Courses</string>
-    <string name="PreparingFor">Prepararing for</string>
+    <string name="selected_category">Selected Category</string>
     <string name="Change"><u>Change</u></string>
     <string name="Mobile">Mobile</string>
     <string name="EducationDetails">Education Detials</string>
     <string name="Wallet">Wallet</string>
     <string name="Achievements">Achievements</string>
     <string name="MyCourses">My Courses</string>
+    <string name="entrance_exam">Entrance Exams</string>
+    <string name="competitive_exams">Competitive Exams</string>
+    <string name="it_coding"><![CDATA[IT & Coding]]></string>
+    <string name="science_school">Science School</string>
+    <string name="commerce">Commerce</string>
+    <string name="Trending">Trending</string>
 </resources>

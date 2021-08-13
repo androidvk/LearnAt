@@ -11,26 +11,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.coremacasia.learnat.R;
-import com.coremacasia.learnat.commons.CommonDataModel;
 import com.coremacasia.learnat.helpers.CategoryDashboardHelper;
 import com.coremacasia.learnat.helpers.CourseHelper;
 import com.coremacasia.learnat.helpers.MentorHelper;
-import com.coremacasia.learnat.helpers.UpcomingHelper;
 import com.coremacasia.learnat.utility.ImageSetterGlide;
 import com.coremacasia.learnat.utility.MyStore;
-import com.coremacasia.learnat.utility.kMap;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingAdapter.Holder> {
+public class TrendingAdapter extends RecyclerView.Adapter<TrendingAdapter.Holder> {
     private static final String TAG = "UpcomingAdapter";
     private CategoryDashboardHelper dataModel;
     private Context activity;
     private ArrayList<String> list = new ArrayList<>();
 
-    public UpcomingAdapter(Context activity) {
+    public TrendingAdapter(Context activity) {
         this.activity = activity;
     }
 
@@ -49,7 +46,7 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingAdapter.Holder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull UpcomingAdapter.Holder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull TrendingAdapter.Holder holder, int position) {
         String course_id = list.get(position);
         for (CourseHelper helper : MyStore.getCourseData().getAll_courses()) {
             if (helper.getCourse_id().equals(course_id)) {
@@ -65,10 +62,15 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingAdapter.Holder
                 } else {
                     holder.tLive.setVisibility(View.GONE);
                 }
-                new ImageSetterGlide().defaultImg(holder.itemView.getContext(), helper.getThumbnail(),
+
+                holder.tDescription.setText(helper.getDesc());
+                String imgLink="https://learnat.in/wp-content/uploads/2021/08/17879-scaled-e1628793009125.jpg";
+                String teachPng="https://learnat.in/wp-content/uploads/2021/08/mentor_png_rameez_raja.png";
+                new ImageSetterGlide().defaultImg(holder.itemView.getContext(), imgLink,
                         holder.imageView);
 
-
+                new ImageSetterGlide().defaultImg(holder.itemView.getContext(), teachPng,
+                        holder.teacherPng);
             }
         }
     }
@@ -82,15 +84,17 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingAdapter.Holder
         private Holder holder;
         private int position;
         private static final String TAG = "UpcomingHolder";
-        private TextView tTitle, tMentorName, tLive;
-        private ImageView imageView;
+        private TextView tTitle, tMentorName, tLive,tDescription;
+        private ImageView imageView,teacherPng;
 
         public Holder(@NonNull @NotNull View itemView) {
             super(itemView);
-            tTitle = itemView.findViewById(R.id.textView43);
-            tMentorName = itemView.findViewById(R.id.textView44);
+            tTitle = itemView.findViewById(R.id.textView24);
+            tMentorName = itemView.findViewById(R.id.textView45);
             tLive = itemView.findViewById(R.id.textView39);
             imageView = itemView.findViewById(R.id.imageView9);
+            teacherPng=itemView.findViewById(R.id.imageView15);
+            tDescription=itemView.findViewById(R.id.textView43);
         }
 
     }

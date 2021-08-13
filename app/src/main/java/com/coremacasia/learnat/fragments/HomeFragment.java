@@ -26,7 +26,7 @@ import com.coremacasia.learnat.adapters.CategoriesAdapter;
 import com.coremacasia.learnat.adapters.MentorAdapter;
 import com.coremacasia.learnat.adapters.PopularAdapter;
 import com.coremacasia.learnat.adapters.SubjectAdapter;
-import com.coremacasia.learnat.adapters.UpcomingAdapter;
+import com.coremacasia.learnat.adapters.TrendingAdapter;
 import com.coremacasia.learnat.helpers.CategoryDashboardHelper;
 import com.coremacasia.learnat.helpers.UserHelper;
 import com.coremacasia.learnat.utility.MyStore;
@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
 
     private static final String TAG = "HomeFragment";
     private FragmentHomeBinding binding;
-    private RecyclerView rPopular, rSubjects, rMentors, rCourseCategory, rUpcoming;
+    private RecyclerView rPopular, rSubjects, rMentors, rCourseCategory, rTrending;
     private CategoryViewModel categoryViewModel;
     private UserHelper helper;
 
@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment {
         rMentors = binding.rMentor;
         rSubjects = binding.recyclerView3;
         rCourseCategory = binding.recyclerViewOt;
-        rUpcoming = binding.rUpcoming;
+        rTrending = binding.rTrending;
     }
 
     @Override
@@ -70,23 +70,26 @@ public class HomeFragment extends Fragment {
                               @Nullable @org.jetbrains.annotations.Nullable
                                       Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        lManagerUpcoming = new LinearLayoutManager(getActivity());
+        lManagerTrending = new LinearLayoutManager(getActivity());
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DocumentReference userRef = Reference.userRef(firebaseUser.getUid());
-        Log.e(TAG, "getUserData: " + firebaseUser.getUid());
+        if(firebaseUser!=null){
+            DocumentReference userRef = Reference.userRef(firebaseUser.getUid());
+            Log.e(TAG, "getUserData: " + firebaseUser.getUid());
 
-        UserDataViewModel viewModel = new ViewModelProvider(this).get(UserDataViewModel.class);
-        viewModel.getMutableLiveData(userRef).observe(getActivity(), new Observer<UserHelper>() {
-            @Override
-            public void onChanged(UserHelper userHelper) {
-                helper = userHelper;
-                MyStore.setUserData(userHelper);
-                categoryRef = Reference.superRef(helper.getPreferred_type1());
-                getCategoryData();
+            UserDataViewModel viewModel = new ViewModelProvider(this).get(UserDataViewModel.class);
+            viewModel.getMutableLiveData(userRef).observe(getActivity(), new Observer<UserHelper>() {
+                @Override
+                public void onChanged(UserHelper userHelper) {
+                    helper = userHelper;
+                    MyStore.setUserData(userHelper);
+                    categoryRef = Reference.superRef(helper.getPreferred_type1());
+                    getCategoryData();
 
 
-            }
-        });
+                }
+            });
+        }
+
 
 
     }
@@ -102,7 +105,7 @@ public class HomeFragment extends Fragment {
                         setRecyclerViewSubject();
                         setRecyclerViewMentor();
                         setRecyclerViewCategory();
-                        setRecyclerViewUpcoming();
+                        setRecyclerViewTrending();
                     }
                 });
 
@@ -125,27 +128,27 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void setRecyclerViewUpcoming() {
+    private void setRecyclerViewTrending() {
         ScrollingPagerIndicator scrollingPagerIndicator = binding.scrollingIndicator;
         SnapHelper snapHelper = new PagerSnapHelper();
-        rUpcoming.setOnFlingListener(null);
-        snapHelper.attachToRecyclerView(rUpcoming);
+        rTrending.setOnFlingListener(null);
+        snapHelper.attachToRecyclerView(rTrending);
 
-        lManagerUpcoming.setOrientation(LinearLayoutManager.HORIZONTAL);
-        UpcomingAdapter adapter = new UpcomingAdapter(getActivity());
-        rUpcoming.setLayoutManager(lManagerUpcoming);
-        rUpcoming.setAdapter(adapter);
-        scrollingPagerIndicator.attachToRecyclerView(rUpcoming);
+        lManagerTrending.setOrientation(LinearLayoutManager.HORIZONTAL);
+        TrendingAdapter adapter = new TrendingAdapter(getActivity());
+        rTrending.setLayoutManager(lManagerTrending);
+        rTrending.setAdapter(adapter);
+        scrollingPagerIndicator.attachToRecyclerView(rTrending);
         adapter.setDataModel(MyStore.getCategoryDashboardHelper());
         adapter.notifyDataSetChanged();
 
-        rUpcoming.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        rTrending.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 mHandler.removeCallbacks(SCROLLING_RUNNABLE);
-                currentPosition = lManagerUpcoming.findFirstCompletelyVisibleItemPosition();
-                totalItem = lManagerUpcoming.getItemCount() - 1;
+                currentPosition = lManagerTrending.findFirstCompletelyVisibleItemPosition();
+                totalItem = lManagerTrending.getItemCount() - 1;
                 mHandler.postDelayed(SCROLLING_RUNNABLE, 4000);
             }
         });
@@ -184,16 +187,16 @@ public class HomeFragment extends Fragment {
     }
 
     private int currentPosition, totalItem;
-    private  LinearLayoutManager lManagerUpcoming ;
+    private  LinearLayoutManager lManagerTrending;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final Runnable SCROLLING_RUNNABLE = new Runnable() {
 
         @Override
         public void run() {
             if (currentPosition != totalItem) {
-                lManagerUpcoming.smoothScrollToPosition(rUpcoming, null, currentPosition + 1);
+                lManagerTrending.smoothScrollToPosition(rTrending, null, currentPosition + 1);
             } else {
-                lManagerUpcoming.scrollToPosition(0);
+                lManagerTrending.scrollToPosition(0);
             }
         }
     };
