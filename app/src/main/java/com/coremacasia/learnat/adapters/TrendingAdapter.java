@@ -44,10 +44,11 @@ public class TrendingAdapter extends RecyclerView.Adapter<TrendingAdapter.Holder
         View view = layoutInflater.inflate(R.layout.list_upcoming_courses, parent, false);
         return new Holder(view);
     }
-
+    String imageLink;
     @Override
     public void onBindViewHolder(@NonNull @NotNull TrendingAdapter.Holder holder, int position) {
         String course_id = list.get(position);
+
         for (CourseHelper helper : MyStore.getCourseData().getAll_courses()) {
             if (helper.getCourse_id().equals(course_id)) {
                 holder.tTitle.setText(helper.getTitle());
@@ -55,6 +56,7 @@ public class TrendingAdapter extends RecyclerView.Adapter<TrendingAdapter.Holder
                 for (MentorHelper helper1 : mentorList) {
                     if (helper.getMentor_id().equals(helper1.getMentor_id())) {
                         holder.tMentorName.setText(helper1.getName());
+                        imageLink= helper1.getImage();
                     }
                 }
                 if (helper.isIs_live()) {
@@ -64,12 +66,11 @@ public class TrendingAdapter extends RecyclerView.Adapter<TrendingAdapter.Holder
                 }
 
                 holder.tDescription.setText(helper.getDesc());
-                String imgLink="https://learnat.in/wp-content/uploads/2021/08/17879-scaled-e1628793009125.jpg";
-                String teachPng="https://learnat.in/wp-content/uploads/2021/08/mentor_png_rameez_raja.png";
-                new ImageSetterGlide().defaultImg(holder.itemView.getContext(), imgLink,
+                String wallpaper="https://learnat.in/wp-content/uploads/2021/08/17879-scaled-e1628793009125.jpg";
+                new ImageSetterGlide().defaultImg(holder.itemView.getContext(), wallpaper,
                         holder.imageView);
 
-                new ImageSetterGlide().defaultImg(holder.itemView.getContext(), teachPng,
+                new ImageSetterGlide().defaultImg(holder.itemView.getContext(), imageLink,
                         holder.teacherPng);
             }
         }
