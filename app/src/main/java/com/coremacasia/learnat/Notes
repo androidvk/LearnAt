@@ -1,0 +1,5 @@
+
+  FragmentManager manager = ((AppCompatActivity) holder.context)
+                                .getSupportFragmentManager();
+
+  /////

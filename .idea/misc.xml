@@ -5,16 +5,23 @@
       <map>
         <entry key="..\:/Android/LearnAt/app/src/main/res/drawable/bkg_card_title.xml" value="0.16041666666666668" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/drawable/bkg_circle_white.xml" value="0.16041666666666668" />
+        <entry key="..\:/Android/LearnAt/app/src/main/res/drawable/bkg_course_tab.xml" value="0.1723127035830619" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/drawable/bkg_live.xml" value="0.16041666666666668" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/drawable/bkg_mentor_title.xml" value="0.16041666666666668" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/drawable/bkg_profile_1.xml" value="0.15555555555555556" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/drawable/bkg_profile_2.xml" value="0.15555555555555556" />
+        <entry key="..\:/Android/LearnAt/app/src/main/res/drawable/bkg_tab_1.xml" value="0.1723127035830619" />
+        <entry key="..\:/Android/LearnAt/app/src/main/res/layout/activity_main.xml" value="0.16381578947368422" />
+        <entry key="..\:/Android/LearnAt/app/src/main/res/layout/fragment_about_course.xml" value="0.16381578947368422" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/layout/fragment_home.xml" value="0.16381578947368422" />
+        <entry key="..\:/Android/LearnAt/app/src/main/res/layout/fragment_lecture.xml" value="0.13908794788273615" />
+        <entry key="..\:/Android/LearnAt/app/src/main/res/layout/fragment_lecture_list.xml" value="0.16381578947368422" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/layout/fragment_notifications.xml" value="0.16381578947368422" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/layout/list_popular.xml" value="0.12986111111111112" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/layout/list_upcoming_courses.xml" value="0.264" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/menu/bottom_nav_menu.xml" value="0.16381578947368422" />
+        <entry key="..\:/Android/LearnAt/app/src/main/res/menu/menu_main.xml" value="0.14097222222222222" />
       </map>
     </option>
   </component>
