@@ -93,6 +93,7 @@ public class TrendingAdapter extends RecyclerView.Adapter<TrendingAdapter.Holder
                         Bundle bundle = new Bundle();
                         bundle.putString("cat",helper.getCategory_id());
                         bundle.putString("from", "trending");
+                        bundle.putString("courseId", helper.getCourse_id());
                         FragmentManager manager = ((AppCompatActivity) holder.context)
                                 .getSupportFragmentManager();
 

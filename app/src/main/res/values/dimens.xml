@@ -20,4 +20,6 @@
     <dimen name="size_profile_2">18sp</dimen>
     <dimen name="course_card_radius">8dp</dimen>
     <dimen name="tab_padding">8dp</dimen>
+    <dimen name="fac_point">18sp</dimen>
+    <dimen name="fac_title">14sp</dimen>
 </resources>

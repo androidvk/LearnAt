@@ -10,17 +10,19 @@
     android:focusable="true">
 
     <androidx.appcompat.widget.Toolbar
-        android:paddingHorizontal="16dp"
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
+        android:layout_height="?attr/actionBarSize"
+        android:paddingHorizontal="16dp">
 
         <ImageView
+            android:id="@+id/iBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/outline_arrow_back_black_24" />
 
         <TextView
+            android:id="@+id/toolbar_title"
             style="@style/Theme.AppCompat.DayNight.DarkActionBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,26 +51,16 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:titleEnabled="true">
-                <!--  <androidx.appcompat.widget.Toolbar
-                      app:titleTextColor="@color/good_green"
-                      app:title="@string/app_name"
-                      android:id="@+id/toolbar"
-                      android:layout_width="match_parent"
-                      android:layout_height="?attr/actionBarSize"
-                      android:layout_above="@+id/button"
-                      android:layout_alignParentStart="true"
-                      android:gravity="top"
-                      app:layout_collapseMode="parallax" />-->
-                <ImageView
-                    android:id="@+id/mainView"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp" />
+
+                <include layout="@layout/include_inside_course"
+                   android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
 
             <com.google.android.material.tabs.TabLayout
-                android:paddingBottom="4dp"
                 android:id="@+id/tablayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -94,4 +86,9 @@
         </androidx.core.widget.NestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <Button
+        android:text="@string/Subscribe"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

@@ -19,11 +19,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.coremacasia.learnat.R;
 import com.coremacasia.learnat.databinding.FragmentInsideCourseBinding;
+import com.coremacasia.learnat.helpers.CourseHelper;
+import com.coremacasia.learnat.helpers.MentorHelper;
+import com.coremacasia.learnat.utility.ImageSetterGlide;
+import com.coremacasia.learnat.utility.MyStore;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,12 +77,18 @@ public class InsideCourse extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            CAT=getArguments().getString("cat");
+            FROM=getArguments().getString("from");
+            course_id=getArguments().getString("courseId");
+
         }
     }
 
     private FragmentInsideCourseBinding binding;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private ImageView backGround,teacherPng;
+    private String course_id,CAT,FROM;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,18 +99,50 @@ public class InsideCourse extends Fragment {
         viewPager = binding.viewPager;
         return binding.getRoot();
     }
+
     private ViewPagerAdapter adapter;
     private Toolbar toolbar;
+    private TextView toolbarTitle;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         tabLayoutConfig();
-        toolbar=view.findViewById(R.id.toolbar2);
-       /* AppCompatActivity activity = (AppCompatActivity) getActivity();
+        onClicks(view);
+        toolbar = view.findViewById(R.id.toolbar2);
+        toolbarTitle=view.findViewById(R.id.toolbar_title);
+        backGround=view.findViewById(R.id.imageView17);
+        teacherPng=view.findViewById(R.id.imageView15);
+        /* AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitle("Quick Maths By Alok Sir");*/
+        String wallpaper = "https://learnat.in/wp-content/uploads/2021/08/17879-scaled-e1628793009125.jpg";
+        new ImageSetterGlide().defaultImg(getActivity(), wallpaper,
+                backGround);
+        for (CourseHelper helper : MyStore.getCourseData().getAll_courses()) {
+            if (helper.getCourse_id().equals(course_id)) {
+                toolbarTitle.setText(helper.getTitle());
 
+                ArrayList<MentorHelper> mentorList = MyStore.getCommonData().getMentors();
+                for (MentorHelper helper1 : mentorList) {
+                    if (helper.getMentor_id().equals(helper1.getMentor_id())) {
+                        new ImageSetterGlide().defaultImg(getActivity(), helper1.getImage(),
+                                teacherPng);
+                    }
+                }
+
+            }
+        }
+
+    }
+
+    private void onClicks(View view) {
+        view.findViewById(R.id.iBack).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
     }
 
     private void tabLayoutConfig() {
@@ -104,8 +150,8 @@ public class InsideCourse extends Fragment {
                 .getSupportFragmentManager();
         adapter = new ViewPagerAdapter(manager,
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        adapter.addFragment(new AboutCourseFragment());
-        adapter.addFragment(new LectureList());
+        adapter.addFragment(new AboutCourseFragment().newInstance(course_id,null));
+        adapter.addFragment(new LectureList().newInstance(course_id,null));
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(0, true);
@@ -116,13 +162,7 @@ public class InsideCourse extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.bottom_nav_menu,menu);
+        inflater.inflate(R.menu.bottom_nav_menu, menu);
     }
-
-   /* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }*/
 
 }
