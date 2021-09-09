@@ -25,8 +25,11 @@
     <color name="dashbaordTitle">#046DBF</color>
     <color name="bluemid">#2B9BFF</color>
     <color name="soft_black">#252525</color>
-    <color name="theme_text_color">#4527EE</color>
+    <color name="theme_text_color">#275FEE</color>
     <color name="light_black">#474747</color>
     <color name="fac_title">#646464</color>
     <color name="fac_point">#125B94</color>
+    <color name="bluehigh">#162385</color>
+    <color name="checkout_heading">#575757</color>
+    <color name="view_titles">#2196F3</color>
 </resources>

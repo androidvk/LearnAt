@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ public class AboutCourseFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String course_id;
     private String mParam2;
-
+    private static final String TAG = "AboutCourseFrag";
     public AboutCourseFragment() {
         // Required empty public constructor
 
@@ -71,5 +72,6 @@ public class AboutCourseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.e(TAG, "onViewCreated: " );
     }
 }

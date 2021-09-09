@@ -1,8 +1,7 @@
 package com.coremacasia.learnat.adapters;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.coremacasia.learnat.R;
-import com.coremacasia.learnat.fragments.InsideCourse;
+import com.coremacasia.learnat.activities.InsideCourse;
 import com.coremacasia.learnat.helpers.CategoryDashboardHelper;
 import com.coremacasia.learnat.helpers.CourseHelper;
 import com.coremacasia.learnat.helpers.MentorHelper;
@@ -89,21 +85,10 @@ public class TrendingAdapter extends RecyclerView.Adapter<TrendingAdapter.Holder
                 holder.mainView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.e(TAG, "onClick: " );
-                        Bundle bundle = new Bundle();
-                        bundle.putString("cat",helper.getCategory_id());
-                        bundle.putString("from", "trending");
-                        bundle.putString("courseId", helper.getCourse_id());
-                        FragmentManager manager = ((AppCompatActivity) holder.context)
-                                .getSupportFragmentManager();
-
-                        FragmentTransaction fragmenttransaction =
-                                manager.beginTransaction();
-                        InsideCourse frag = new InsideCourse();
-                        frag.setArguments(bundle);
-                        fragmenttransaction.replace(android.R.id.content, frag)
-                                .addToBackStack(frag.TAG);
-                        fragmenttransaction.commit();
+                        holder.context.startActivity(new Intent(holder.context,
+                                InsideCourse.class)
+                                .putExtra("courseId",helper.getCourse_id())
+                        .putExtra("category",helper.getCategory_id()));
                     }
                 });
 

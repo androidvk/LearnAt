@@ -1,16 +1,21 @@
 package com.coremacasia.learnat.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.coremacasia.learnat.R;
 import com.coremacasia.learnat.commons.CommonDataModel;
+import com.coremacasia.learnat.fragments.SubjectViewFragment;
 import com.coremacasia.learnat.helpers.CategoryDashboardHelper;
 import com.coremacasia.learnat.helpers.SubjectHelper;
 import com.coremacasia.learnat.utility.ImageSetterGlide;
@@ -55,6 +60,26 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.Holder> 
                 new ImageSetterGlide().circleImg(
                         holder.itemView.getContext(),helper.getIcon(),
                         holder.imageView);
+                holder.mainView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle bundle = new Bundle();
+                        //bundle.putString("cat",helper.getCategory_id());
+                        bundle.putString("from", "subjectAdapter");
+                        bundle.putString("subjectId", helper.getSubject_id());
+                        FragmentManager manager = ((AppCompatActivity) holder.context)
+                                .getSupportFragmentManager();
+
+                        FragmentTransaction fragmenttransaction =
+                                manager.beginTransaction();
+                        SubjectViewFragment frag = new SubjectViewFragment();
+                        frag.setArguments(bundle);
+                        fragmenttransaction.replace(android.R.id.content, frag)
+                                .addToBackStack(frag.TAG);
+                        fragmenttransaction.commit();
+                    }
+                });
+
             }
         }
 
@@ -69,10 +94,14 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.Holder> 
         private static final String TAG = "Subject Holder";
         private TextView tName;
         private CircleImageView imageView;
+        private Context context;
+        private View mainView;
         public Holder(@NonNull @NotNull View itemView) {
             super(itemView);
             tName=itemView.findViewById(R.id.textView38);
             imageView=itemView.findViewById(R.id.imageView11);
+            context=itemView.getContext();
+            mainView=itemView.findViewById(R.id.mainView);
         }
     }
 }

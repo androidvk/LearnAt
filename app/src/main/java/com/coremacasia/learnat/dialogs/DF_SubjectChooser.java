@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.coremacasia.learnat.MainActivity;
 import com.coremacasia.learnat.R;
 import com.coremacasia.learnat.adapters.CourseMenuAdapter;
 import com.coremacasia.learnat.commons.CommonDataModel;
@@ -128,17 +129,22 @@ public class DF_SubjectChooser extends DialogFragment {
         bDontHaveCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                Intent in = new Intent(getContext(), MainActivity.class);
+                in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+                startActivity(in);
             }
         });
         bLetsBegin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                //dismiss();
+                Intent in = new Intent(getContext(), MainActivity.class);
+                in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+                startActivity(in);
+
             }
         });
     }
-
     private GoogleSignInClient mGoogleSignInClient;
     public static final int RC_SIGN_IN = 9001;
 
@@ -182,13 +188,9 @@ public class DF_SubjectChooser extends DialogFragment {
                         if (task.isSuccessful()) {
                             Log.e(TAG, "linkWithCredential:success");
                             FirebaseUser user = task.getResult().getUser();
-                            //Log.e(TAG, "onComplete:1 "+phoneUser.getProviderId()+ " "+phoneUser.getPhoneNumber() );
-                            //Log.e(TAG, "onComplete:2 "+user.getProviderId()+" "+user.getProviderData().get(1).getProviderId());
                             writeUserData(user);
-                            //updateUI(user);
                         } else {
                             Log.e(TAG, "linkWithCredential:failure", task.getException());
-                            //gSubjects.setVisibility(View.VISIBLE);
                         }
                     }
                 });
@@ -221,15 +223,16 @@ public class DF_SubjectChooser extends DialogFragment {
 
     private CommonDataViewModel viewModel;
     DocumentReference commonListRef = Reference.superRef(RMAP.list);
+
     private void setRecyclerView() {
 
 
         GridLayoutManager linearLayoutManager = new GridLayoutManager(getActivity(), 2);
         //linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        CourseMenuAdapter adapter = new CourseMenuAdapter(getActivity(),gSubjects, gIcode);
+        CourseMenuAdapter adapter = new CourseMenuAdapter(getActivity(), gSubjects, gIcode);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
-        viewModel=new ViewModelProvider(getActivity()).get(CommonDataViewModel.class);
+        viewModel = new ViewModelProvider(getActivity()).get(CommonDataViewModel.class);
         viewModel.getCommonMutableLiveData(commonListRef).observe(getViewLifecycleOwner(), new Observer<CommonDataModel>() {
             @Override
             public void onChanged(CommonDataModel commonDataModel) {

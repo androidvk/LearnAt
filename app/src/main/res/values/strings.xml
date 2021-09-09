@@ -80,4 +80,12 @@
     <string name="Subscribe">Subscribe</string>
     <string name="demo_contect">We provide a best and Outstanding Live chat Support and Service to our Customers even with our lowest price. As our aim is to provide 100% Satisfaction. Unlike other websites, we do have a great support team available for our customers.</string>
     <string name="Language">Language</string>
+    <string name="Syllabus">Syllabus</string>
+    <string name="SubscriptionFee">Subscription fee</string>
+    <string name="CreditUsed">Credit used</string>
+    <string name="GrandTotal">Grand Total</string>
+    <string name="Referral">Refferal Code</string>
+    <string name="CheckOut">Checkout</string>
+    <string name="GetSubscription">Get Subscription</string>
+    <string name="Follow">➤ Follow</string>
 </resources>

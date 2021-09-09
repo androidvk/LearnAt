@@ -5,13 +5,22 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.coremacasia.learnat.R;
+import com.coremacasia.learnat.adapters.LectureAdapter;
+import com.coremacasia.learnat.helpers.CourseHelper;
+import com.coremacasia.learnat.utility.Reference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,9 +33,9 @@ public class LectureList extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private static final String TAG = "LectureList";
     // TODO: Rename and change types of parameters
-    private String mParam2;
+    private String catagoreyId;
     private String course_id;
 
     public LectureList() {
@@ -56,7 +65,7 @@ public class LectureList extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             course_id = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            catagoreyId = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -67,10 +76,45 @@ public class LectureList extends Fragment {
         return inflater.inflate(R.layout.fragment_lecture_list, container, false);
     }
 
+    private RecyclerView recyclerView;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TextView textView=view.findViewById(R.id.textView);
-        textView.setText(course_id);
+        recyclerView=view.findViewById(R.id.recyclerView);
+        getCourseData();
     }
+
+    private CourseHelper courseHelper;
+
+    private void getCourseData() {
+        DocumentReference reference = Reference.superCourseRef(catagoreyId
+                , course_id);
+        reference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value,
+                                @Nullable @org.jetbrains.annotations.Nullable
+                                        FirebaseFirestoreException error) {
+                if (value.exists()) {
+                    courseHelper = value.toObject(CourseHelper.class);
+                    Log.e(TAG, "onEvent: " );
+                    setRecyclerView();
+                }
+
+            }
+        });
+    }
+
+    private void setRecyclerView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+        LectureAdapter adapter = new LectureAdapter(getActivity());
+        if (courseHelper.getLectures().size() != 0) {
+            adapter.setLectureList(courseHelper.getLectures());
+            recyclerView.setAdapter(adapter);
+        } else Log.e(TAG, "setRecyclerView: No Data for Lectures");
+    }
+
+
 }

@@ -15,6 +15,7 @@
         <item name="android:textColor">@color/text_desc</item>
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">8dp</item>
+        <item name="fontFamily">@font/encode_sans_bold500</item>
     </style>
     <style name="DashBoardGroupTitle">
         <item name="android:textColor">@color/dashbaordTitle</item>
@@ -47,5 +48,20 @@
     <style name="dashBoardCardPadding">
         <item name="android:layout_marginStart">16dp</item>
         <item name="android:layout_marginEnd">16dp</item>
+    </style>
+    <style name="ViewTitles" >
+        <item name="android:textColor">@color/view_titles</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/encode_sans_bold500</item>
+    </style>
+    <style name="ViewDescriptions" >
+        <item name="android:textColor">@color/text_desc</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/encode_sans_bold500</item>
+    </style>
+    <style name="ViewToolbar" parent="@style/Widget.AppCompat.ActionBar" >
+        <item name="android:textColor">@color/text_desc</item>
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/encode_sans_bold500</item>
     </style>
 </resources>

@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,6 +29,7 @@ import com.coremacasia.learnat.adapters.MentorAdapter;
 import com.coremacasia.learnat.adapters.PopularAdapter;
 import com.coremacasia.learnat.adapters.SubjectAdapter;
 import com.coremacasia.learnat.adapters.TrendingAdapter;
+import com.coremacasia.learnat.dialogs.DF_SubjectChooser;
 import com.coremacasia.learnat.helpers.CategoryDashboardHelper;
 import com.coremacasia.learnat.helpers.UserHelper;
 import com.coremacasia.learnat.utility.MyStore;
@@ -66,15 +69,12 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull @NotNull View view,
-                              @Nullable @org.jetbrains.annotations.Nullable
-                                      Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull @NotNull View view,@Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         lManagerTrending = new LinearLayoutManager(getActivity());
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if(firebaseUser!=null){
             DocumentReference userRef = Reference.userRef(firebaseUser.getUid());
-            Log.e(TAG, "getUserData: " + firebaseUser.getUid());
 
             UserDataViewModel viewModel = new ViewModelProvider(this).get(UserDataViewModel.class);
             viewModel.getMutableLiveData(userRef).observe(getActivity(), new Observer<UserHelper>() {
@@ -82,9 +82,12 @@ public class HomeFragment extends Fragment {
                 public void onChanged(UserHelper userHelper) {
                     helper = userHelper;
                     MyStore.setUserData(userHelper);
-                    categoryRef = Reference.superRef(helper.getPreferred_type1());
-                    getCategoryData();
-
+                    if(helper.getPreferred_type1()!=null){
+                        categoryRef = Reference.superRef(helper.getPreferred_type1());
+                        getCategoryData();
+                    }else {
+                        startSubjectChooser(2);
+                    }
 
                 }
             });
@@ -93,7 +96,14 @@ public class HomeFragment extends Fragment {
 
 
     }
-
+    private void startSubjectChooser(int From) {
+        FragmentManager manager = ((AppCompatActivity) getActivity())
+                .getSupportFragmentManager();
+        DF_SubjectChooser df_number =
+                DF_SubjectChooser.newInstance(From);
+        df_number.show(manager,
+                DF_SubjectChooser.TAG);
+    }
     private void getCategoryData() {
         categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         categoryViewModel.getCategoryMutableData(categoryRef).observe(this,
@@ -163,7 +173,6 @@ public class HomeFragment extends Fragment {
         rSubjects.setAdapter(adapter);
         adapter.setDataModel(MyStore.getCategoryDashboardHelper());
         adapter.notifyDataSetChanged();
-
     }
 
     private void setRecyclerViewMentor() {
