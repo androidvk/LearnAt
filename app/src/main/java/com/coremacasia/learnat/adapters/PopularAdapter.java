@@ -1,6 +1,8 @@
 package com.coremacasia.learnat.adapters;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.coremacasia.learnat.R;
-import com.coremacasia.learnat.commons.CommonDataModel;
+import com.coremacasia.learnat.activities.CourseViewer;
 import com.coremacasia.learnat.helpers.CategoryDashboardHelper;
 import com.coremacasia.learnat.helpers.CourseHelper;
-import com.coremacasia.learnat.helpers.MentorHelper;
-import com.coremacasia.learnat.helpers.PopularHelper;
 import com.coremacasia.learnat.utility.ImageSetterGlide;
 import com.coremacasia.learnat.utility.MyStore;
 
@@ -67,7 +67,15 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.Holder> 
                 }*/
                 new ImageSetterGlide().defaultImg(holder.itemView.getContext(), helper.getThumbnail(),
                         holder.imageView);
-
+                holder.mainView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        holder.context.startActivity(new Intent(holder.context,
+                                CourseViewer.class)
+                                .putExtra("courseId",helper.getCourse_id())
+                                .putExtra("category",helper.getCategory_id()));
+                    }
+                });
 
             }
         }
@@ -84,10 +92,14 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.Holder> 
         private int position;
         private ImageView imageView;
         private TextView tTitle;
+        private View mainView;
+        private Context context;
         public Holder(@NonNull @NotNull View itemView) {
             super(itemView);
             tTitle=itemView.findViewById(R.id.textView42);
             imageView=itemView.findViewById(R.id.imageView14);
+            mainView=itemView.findViewById(R.id.mainView);
+            context= itemView.getContext();
         }
 
     }

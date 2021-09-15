@@ -46,19 +46,19 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.Holder> 
     @NotNull
     @Override
     public Holder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater=LayoutInflater.from(parent.getContext());
-        View view=inflater.inflate(R.layout.list_subjects,parent,false);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.list_subjects, parent, false);
         return new Holder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull SubjectAdapter.Holder holder, int position) {
-        String subjectId=list.get(position);
-        for(SubjectHelper helper: MyStore.getCommonData().getAll_subjects()){
-            if(helper.getSubject_id().equals(subjectId)){
+        String subjectId = list.get(position);
+        for (SubjectHelper helper : MyStore.getCommonData().getAll_subjects()) {
+            if (helper.getSubject_id().equals(subjectId)) {
                 holder.tName.setText(helper.getTitle());
                 new ImageSetterGlide().circleImg(
-                        holder.itemView.getContext(),helper.getIcon(),
+                        holder.itemView.getContext(), helper.getIcon(),
                         holder.imageView);
                 holder.mainView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -72,6 +72,12 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.Holder> 
 
                         FragmentTransaction fragmenttransaction =
                                 manager.beginTransaction();
+
+                        fragmenttransaction.setCustomAnimations(R.anim.enter_from_right,
+                                R.anim.exit_to_left,
+                                R.anim.enter_from_left,
+                                R.anim.exit_to_right);
+
                         SubjectViewFragment frag = new SubjectViewFragment();
                         frag.setArguments(bundle);
                         fragmenttransaction.replace(android.R.id.content, frag)
@@ -96,12 +102,13 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.Holder> 
         private CircleImageView imageView;
         private Context context;
         private View mainView;
+
         public Holder(@NonNull @NotNull View itemView) {
             super(itemView);
-            tName=itemView.findViewById(R.id.textView38);
-            imageView=itemView.findViewById(R.id.imageView11);
-            context=itemView.getContext();
-            mainView=itemView.findViewById(R.id.mainView);
+            tName = itemView.findViewById(R.id.textView38);
+            imageView = itemView.findViewById(R.id.imageView11);
+            context = itemView.getContext();
+            mainView = itemView.findViewById(R.id.mainView);
         }
     }
 }

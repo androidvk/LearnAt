@@ -13,6 +13,12 @@
 
                          FragmentTransaction fragmenttransaction =
                                  manager.beginTransaction();
+
+                                  fragmenttransaction.setCustomAnimations(R.anim.enter_from_right,
+                                   R.anim.exit_to_left,
+                                   R.anim.enter_from_left,
+                                   R.anim.exit_to_right);
+
                          InsideCourse frag = new InsideCourse();
                          frag.setArguments(bundle);
                          fragmenttransaction.replace(android.R.id.content, frag)

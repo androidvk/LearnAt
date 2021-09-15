@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.coremacasia.learnat.R;
-import com.coremacasia.learnat.activities.InsideCourse;
+import com.coremacasia.learnat.activities.CourseViewer;
 import com.coremacasia.learnat.helpers.CategoryDashboardHelper;
 import com.coremacasia.learnat.helpers.CourseHelper;
 import com.coremacasia.learnat.helpers.MentorHelper;
@@ -86,7 +86,7 @@ public class TrendingAdapter extends RecyclerView.Adapter<TrendingAdapter.Holder
                     @Override
                     public void onClick(View v) {
                         holder.context.startActivity(new Intent(holder.context,
-                                InsideCourse.class)
+                                CourseViewer.class)
                                 .putExtra("courseId",helper.getCourse_id())
                         .putExtra("category",helper.getCategory_id()));
                     }

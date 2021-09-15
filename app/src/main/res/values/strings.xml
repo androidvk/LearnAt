@@ -88,4 +88,5 @@
     <string name="CheckOut">Checkout</string>
     <string name="GetSubscription">Get Subscription</string>
     <string name="Follow">➤ Follow</string>
+    <string name="RecordedClass">Recorded Class</string>
 </resources>

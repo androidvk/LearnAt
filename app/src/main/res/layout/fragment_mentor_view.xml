@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,6 +9,10 @@
     android:clickable="true"
     tools:context=".fragments.SubjectViewFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_height="match_parent">
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -32,17 +36,16 @@
         android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
         android:src="@drawable/test_mentor"
-        app:layout_constraintEnd_toStartOf="@+id/guideline20"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline19"
-        app:layout_constraintTop_toBottomOf="@+id/textView75" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView25" />
 
     <ImageView
         android:id="@+id/imageView25"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:foreground="?attr/selectableItemBackground"
         android:padding="8dp"
         android:src="@drawable/outline_arrow_back_black_24"
@@ -90,8 +93,8 @@
         app:layout_constraintTop_toBottomOf="@+id/textView73" />
 
     <TextView
-        style="@style/ViewToolbar"
         android:id="@+id/textView75"
+        style="@style/ViewToolbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="NEET - Mentor"
@@ -108,9 +111,23 @@
         android:layout_marginBottom="12dp"
         android:shadowColor="@color/white"
         android:text="@string/Follow"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="4dp"
+        android:background="@drawable/white_tablet_50"
         android:textColor="@color/text_desc"
         android:textSize="@dimen/medium_1"
         app:layout_constraintBottom_toBottomOf="@+id/imageView30"
         app:layout_constraintStart_toStartOf="@+id/textView72" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView74" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -72,6 +72,12 @@ public class MentorAdapter extends RecyclerView.Adapter<MentorAdapter.Holder> {
 
                         FragmentTransaction fragmenttransaction =
                                 manager.beginTransaction();
+                        fragmenttransaction.
+                                setCustomAnimations(R.anim.enter_from_right,
+                                        R.anim.exit_to_left,
+                                        R.anim.enter_from_left,
+                                        R.anim.exit_to_right);
+
                         MentorViewFragment frag = new MentorViewFragment();
                         frag.setArguments(bundle);
                         fragmenttransaction.replace(android.R.id.content, frag)

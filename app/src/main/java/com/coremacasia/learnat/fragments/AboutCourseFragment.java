@@ -5,14 +5,24 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.coremacasia.learnat.R;
+import com.coremacasia.learnat.databinding.FragmentAboutCourseBinding;
+import com.coremacasia.learnat.helpers.CourseHelper;
+import com.coremacasia.learnat.helpers.MentorHelper;
+import com.coremacasia.learnat.utility.MyStore;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,13 +33,14 @@ public class AboutCourseFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static String courseId="1";
+    private static String categoryId="2";
 
     // TODO: Rename and change types of parameters
     private String course_id;
-    private String mParam2;
+    private String category_id;
     private static final String TAG = "AboutCourseFrag";
+
     public AboutCourseFragment() {
         // Required empty public constructor
 
@@ -47,8 +58,8 @@ public class AboutCourseFragment extends Fragment {
     public static AboutCourseFragment newInstance(String param1, String param2) {
         AboutCourseFragment fragment = new AboutCourseFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(courseId, param1);
+        args.putString(categoryId, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,21 +68,71 @@ public class AboutCourseFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            course_id = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            course_id = getArguments().getString(courseId);
+            category_id = getArguments().getString(categoryId);
         }
     }
+
+    private FragmentAboutCourseBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_about_course, container, false);
+        binding = FragmentAboutCourseBinding.inflate(LayoutInflater.from(inflater.getContext()));
+        return binding.getRoot();
     }
+
+    private TextView tSubjectName, tCourseName, tDescription, tLiveClasses, tStartDate,
+            tLanguage, tMentorName;
+    private RecyclerView recyclerViewSyllabus;
+    private ImageView iFav;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.e(TAG, "onViewCreated: " );
+        tCourseName = binding.textView46;
+        tMentorName = binding.textView47;
+        tDescription = binding.textView44;
+        tStartDate = binding.textView51;
+        tLanguage = binding.textView49;
+        tLiveClasses=binding.textView50;
+        iFav = binding.imageView16;
+        recyclerViewSyllabus = binding.recyclerView;
+
+        getCourseDetails();
+
+    }
+
+    private void getCourseDetails() {
+        for (CourseHelper helper : MyStore.getCourseData().getAll_courses()) {
+            if (helper.getCourse_id().equals(course_id)) {
+                setCourseViews(helper);
+                ArrayList<MentorHelper> mentorList = MyStore.getCommonData().getMentors();
+                for (MentorHelper helper1 : mentorList) {
+                    if (helper.getMentor_id().equals(helper1.getMentor_id())) {
+                    tMentorName.setText(helper1.getName());
+                    }
+                }
+
+            }
+        }
+    }
+
+    private void setCourseViews(CourseHelper helper) {
+        Log.e(TAG, "setCourseViews: " );
+        tCourseName.setText(helper.getTitle());
+        tLanguage.setText(helper.getCourse_lang());
+        tDescription.setText(helper.getDesc());
+        if (helper.isIs_live()) {
+            tLiveClasses.setText(getString(R.string.LiveClasses));
+        } else tLiveClasses.setText(getString(R.string.RecordedClass));
+
+        if (helper.getStart_date() != null) {
+            tStartDate.setVisibility(View.VISIBLE);
+            String myFormat = "dd-MMMM"; //In which you need put here
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+            tStartDate.setText("" + sdf.format(helper.getStart_date()));
+        } else tStartDate.setVisibility(View.GONE);
     }
 }
