@@ -83,8 +83,7 @@ public class AboutCourseFragment extends Fragment {
         return binding.getRoot();
     }
 
-    private TextView tSubjectName, tCourseName, tDescription, tLiveClasses, tStartDate,
-            tLanguage, tMentorName;
+    private TextView tSubjectName, tCourseName, tDescription, tLiveClasses, tMentorName;
     private RecyclerView recyclerViewSyllabus;
     private ImageView iFav;
 
@@ -94,9 +93,6 @@ public class AboutCourseFragment extends Fragment {
         tCourseName = binding.textView46;
         tMentorName = binding.textView47;
         tDescription = binding.textView44;
-        tStartDate = binding.textView51;
-        tLanguage = binding.textView49;
-        tLiveClasses=binding.textView50;
         iFav = binding.imageView16;
         recyclerViewSyllabus = binding.recyclerView;
 
@@ -122,17 +118,7 @@ public class AboutCourseFragment extends Fragment {
     private void setCourseViews(CourseHelper helper) {
         Log.e(TAG, "setCourseViews: " );
         tCourseName.setText(helper.getTitle());
-        tLanguage.setText(helper.getCourse_lang());
-        tDescription.setText(helper.getDesc());
-        if (helper.isIs_live()) {
-            tLiveClasses.setText(getString(R.string.LiveClasses));
-        } else tLiveClasses.setText(getString(R.string.RecordedClass));
 
-        if (helper.getStart_date() != null) {
-            tStartDate.setVisibility(View.VISIBLE);
-            String myFormat = "dd-MMMM"; //In which you need put here
-            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-            tStartDate.setText("" + sdf.format(helper.getStart_date()));
-        } else tStartDate.setVisibility(View.GONE);
+        tDescription.setText(helper.getDesc());
     }
 }

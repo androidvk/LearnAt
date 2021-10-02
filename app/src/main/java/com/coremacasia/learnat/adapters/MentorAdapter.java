@@ -32,9 +32,9 @@ public class MentorAdapter extends RecyclerView.Adapter<MentorAdapter.Holder> {
     private CategoryDashboardHelper dataModel;
     private Context activity;
 
-    public void setDataModel(CategoryDashboardHelper dataModel) {
+    public void setDataModel(ArrayList<String> mentorList) {
         this.dataModel = dataModel;
-        list = dataModel.getMentor_id();
+        list = mentorList;
     }
 
     public MentorAdapter(Context activity) {

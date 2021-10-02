@@ -181,7 +181,7 @@ public class HomeFragment extends Fragment {
         MentorAdapter adapter = new MentorAdapter(getActivity());
         rMentors.setLayoutManager(linearLayoutManager);
         rMentors.setAdapter(adapter);
-        adapter.setDataModel(MyStore.getCategoryDashboardHelper());
+        adapter.setDataModel(MyStore.getCategoryDashboardHelper().getMentor_id());
         adapter.notifyDataSetChanged();
     }
 

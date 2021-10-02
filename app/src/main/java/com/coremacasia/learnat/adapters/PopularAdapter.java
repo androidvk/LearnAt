@@ -18,6 +18,7 @@ import com.coremacasia.learnat.helpers.CategoryDashboardHelper;
 import com.coremacasia.learnat.helpers.CourseHelper;
 import com.coremacasia.learnat.utility.ImageSetterGlide;
 import com.coremacasia.learnat.utility.MyStore;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -70,8 +71,11 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.Holder> 
                 holder.mainView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Gson gson = new Gson();
+                        String myJson = gson.toJson(helper);
                         holder.context.startActivity(new Intent(holder.context,
                                 CourseViewer.class)
+                                .putExtra("helper",myJson)
                                 .putExtra("courseId",helper.getCourse_id())
                                 .putExtra("category",helper.getCategory_id()));
                     }

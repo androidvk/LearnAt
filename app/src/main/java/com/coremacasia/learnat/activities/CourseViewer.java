@@ -8,6 +8,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.coremacasia.learnat.R;
 import com.coremacasia.learnat.fragments.AboutCourseFragment;
@@ -20,8 +21,11 @@ import com.coremacasia.learnat.utility.Getter;
 import com.coremacasia.learnat.utility.ImageSetterGlide;
 import com.coremacasia.learnat.utility.MyStore;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class CourseViewer extends AppCompatActivity {
     private static final String TAG = "InsideCourse_activity";
@@ -29,19 +33,53 @@ public class CourseViewer extends AppCompatActivity {
     private String course_id, CAT, FROM;
     private CourseHelper mHelper;
     private String category;
-
+    private TextView tLiveClasses;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_viewer);
+        Gson gson = new Gson();
+        mHelper = gson.fromJson(getIntent().getStringExtra("helper"),CourseHelper.class);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         course_id = getIntent().getStringExtra("courseId");
         CAT = getIntent().getStringExtra("category");
         backGround = findViewById(R.id.imageView17);
         teacherPng = findViewById(R.id.imageView15);
+        tLiveClasses = findViewById(R.id.textView50);
         tabLayoutConfig();
         onClicks();
         category = new Getter().getCategoryName(CourseViewer.this, CAT);
+
+        setViews();
+    }
+
+    private void setViews() {
+        if (mHelper.isIs_live()) {
+            tLiveClasses.setText(getString(R.string.LiveClasses));
+        } else tLiveClasses.setText(getString(R.string.RecordedClass));
+
+        String wallpaper = "https://learnat.in/wp-content/uploads/2" +
+                "021/08/17879-scaled-e1628793009125.jpg";
+        new ImageSetterGlide().defaultImg(CourseViewer.this, wallpaper,
+                backGround);
+        ArrayList<MentorHelper> mentorList = MyStore.getCommonData().getMentors();
+        getSupportActionBar().setTitle(category+" - "+mHelper.getTitle());
+
+        for (MentorHelper helper1 : mentorList) {
+            if (mHelper.getMentor_id().equals(helper1.getMentor_id())) {
+                new ImageSetterGlide().defaultImg
+                        (CourseViewer.this, helper1.getImage(),
+                                teacherPng);
+            }
+        }
+
+        /*if (helper.getStart_date() != null) {
+            tStartDate.setVisibility(View.VISIBLE);
+            String myFormat = "dd-MMMM"; //In which you need put here
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+            tStartDate.setText("" + sdf.format(helper.getStart_date()));
+        } else tStartDate.setVisibility(View.GONE);*/
+
     }
 
 
@@ -49,25 +87,7 @@ public class CourseViewer extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        String wallpaper = "https://learnat.in/wp-content/uploads/2" +
-                "021/08/17879-scaled-e1628793009125.jpg";
-        new ImageSetterGlide().defaultImg(CourseViewer.this, wallpaper,
-                backGround);
-        for (CourseHelper helper : MyStore.getCourseData().getAll_courses()) {
-            if (helper.getCourse_id().equals(course_id)) {
-                mHelper = helper;
-                getSupportActionBar().setTitle(category+" - "+helper.getTitle());
-                ArrayList<MentorHelper> mentorList = MyStore.getCommonData().getMentors();
-                for (MentorHelper helper1 : mentorList) {
-                    if (helper.getMentor_id().equals(helper1.getMentor_id())) {
-                        new ImageSetterGlide().defaultImg
-                                (CourseViewer.this, helper1.getImage(),
-                                        teacherPng);
-                    }
-                }
 
-            }
-        }
 
     }
 

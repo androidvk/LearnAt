@@ -18,6 +18,7 @@ import com.coremacasia.learnat.helpers.CourseHelper;
 import com.coremacasia.learnat.helpers.MentorHelper;
 import com.coremacasia.learnat.utility.ImageSetterGlide;
 import com.coremacasia.learnat.utility.MyStore;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -54,7 +55,6 @@ public class TrendingAdapter extends RecyclerView.Adapter<TrendingAdapter.Holder
         String course_id = list.get(position);
 
 
-
         for (CourseHelper helper : MyStore.getCourseData().getAll_courses()) {
             if (helper.getCourse_id().equals(course_id)) {
                 holder.tTitle.setText(helper.getTitle());
@@ -85,10 +85,13 @@ public class TrendingAdapter extends RecyclerView.Adapter<TrendingAdapter.Holder
                 holder.mainView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Gson gson = new Gson();
+                        String myJson = gson.toJson(helper);
                         holder.context.startActivity(new Intent(holder.context,
                                 CourseViewer.class)
-                                .putExtra("courseId",helper.getCourse_id())
-                        .putExtra("category",helper.getCategory_id()));
+                                .putExtra("helper",myJson)
+                                .putExtra("courseId", helper.getCourse_id())
+                                .putExtra("category", helper.getCategory_id()));
                     }
                 });
 

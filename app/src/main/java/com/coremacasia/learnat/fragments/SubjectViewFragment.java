@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.coremacasia.learnat.adapters.Inside_courseAdapter;
 import com.coremacasia.learnat.adapters.MentorAdapter;
 import com.coremacasia.learnat.databinding.FragmentSubjectViewBinding;
 import com.coremacasia.learnat.helpers.CourseHelper;
+import com.coremacasia.learnat.helpers.MentorHelper;
 import com.coremacasia.learnat.helpers.SubjectHelper;
 import com.coremacasia.learnat.utility.ImageSetterGlide;
 import com.coremacasia.learnat.utility.MyStore;
@@ -118,16 +120,36 @@ public class SubjectViewFragment extends Fragment {
             }
         }
         setRecyclerViewCourses(list);
+        setRecyclerViewMentor();
     }
+
+    private ArrayList<String> subjectMentorList = new ArrayList<>();
+
     private void setRecyclerViewMentor() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        MentorAdapter adapter = new MentorAdapter(getActivity());
-        recyclerViewMentors.setLayoutManager(linearLayoutManager);
-        recyclerViewMentors.setAdapter(adapter);
-        adapter.setDataModel(MyStore.getCategoryDashboardHelper());
-        adapter.notifyDataSetChanged();
+        Log.e(TAG, "setRecyclerViewMentor: 1");
+        int i = 0;
+        for (MentorHelper helper : MyStore.getCommonData().getMentors()) {
+            i++;
+            for (String s : helper.getSubjects()) {
+                if (s.equals(subjectId)) {
+                    subjectMentorList.add(helper.getMentor_id());
+                    break;
+                }
+            }
+
+            if (i == MyStore.getCommonData().getMentors().size() - 1) {
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                MentorAdapter adapter = new MentorAdapter(getActivity());
+                recyclerViewMentors.setLayoutManager(linearLayoutManager);
+                recyclerViewMentors.setAdapter(adapter);
+                adapter.setDataModel(subjectMentorList);
+                adapter.notifyDataSetChanged();
+            }
+        }
+
     }
+
     private void setRecyclerViewCourses(ArrayList<CourseHelper> list) {
         LinearLayoutManager lManagerTrending = new LinearLayoutManager(getActivity());
         lManagerTrending.setOrientation(LinearLayoutManager.HORIZONTAL);

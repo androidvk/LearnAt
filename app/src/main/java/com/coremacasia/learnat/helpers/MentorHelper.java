@@ -1,5 +1,7 @@
 package com.coremacasia.learnat.helpers;
 
+import java.util.ArrayList;
+
 public class MentorHelper {
     private String category,image,mentor_id,name;
 
@@ -17,5 +19,9 @@ public class MentorHelper {
 
     public String getName() {
         return name;
+    }
+    public ArrayList<String> subjects=new ArrayList<>();
+    public ArrayList<String> getSubjects() {
+        return subjects;
     }
 }

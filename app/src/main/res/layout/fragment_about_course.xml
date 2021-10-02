@@ -70,45 +70,6 @@
         app:layout_constraintTop_toTopOf="@+id/textView46" />
 
     <TextView
-        android:id="@+id/textView48"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Language"
-        android:textColor="@color/fac_title"
-        android:textSize="@dimen/fac_title"
-        app:layout_constraintEnd_toStartOf="@+id/guideline12"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="@+id/guideline17"
-        app:layout_constraintTop_toTopOf="@+id/textView50" />
-
-    <TextView
-        android:id="@+id/textView49"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hindi + English"
-        android:textColor="@color/fac_point"
-        android:textSize="@dimen/fac_point"
-        app:layout_constraintBottom_toBottomOf="@+id/textView51"
-        app:layout_constraintEnd_toEndOf="@+id/textView48"
-        app:layout_constraintStart_toStartOf="@+id/textView48"
-        app:layout_constraintTop_toBottomOf="@+id/textView48" />
-
-    <TextView
-        android:id="@+id/textView50"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/bkg_live_2"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="4dp"
-        android:text="@string/LiveClasses"
-        android:textColor="@color/white"
-        android:textSize="@dimen/fac_title"
-        app:layout_constraintEnd_toStartOf="@+id/guideline17"
-        app:layout_constraintStart_toStartOf="@+id/guideline11"
-        app:layout_constraintTop_toBottomOf="@+id/textView44" />
-
-    <TextView
         android:id="@+id/textView47"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -122,17 +83,6 @@
         app:layout_constraintStart_toEndOf="@+id/imageView18"
         app:layout_constraintTop_toTopOf="@+id/imageView18"
         app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/textView51"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Started On 21th August"
-        android:textColor="@color/fac_point"
-        app:layout_constraintEnd_toEndOf="@+id/textView50"
-        app:layout_constraintStart_toStartOf="@+id/textView50"
-        app:layout_constraintTop_toBottomOf="@+id/textView50" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline17"
@@ -154,14 +104,14 @@
         app:tint="@color/red" />
 
     <ImageView
-        app:tint="#9C27B0"
         android:id="@+id/imageView20"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_curriculum"
         app:layout_constraintStart_toStartOf="@+id/guideline11"
-        app:layout_constraintTop_toBottomOf="@+id/textView51"
-        android:src="@drawable/ic_curriculum" />
+        app:layout_constraintTop_toBottomOf="@+id/textView44"
+        app:tint="#9C27B0" />
 
     <TextView
         android:id="@+id/textView52"
