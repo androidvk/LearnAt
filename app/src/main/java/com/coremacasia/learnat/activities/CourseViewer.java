@@ -33,7 +33,7 @@ public class CourseViewer extends AppCompatActivity {
     private String course_id, CAT, FROM;
     private CourseHelper mHelper;
     private String category;
-    private TextView tLiveClasses;
+    private TextView tLiveClasses,tStartDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +46,7 @@ public class CourseViewer extends AppCompatActivity {
         backGround = findViewById(R.id.imageView17);
         teacherPng = findViewById(R.id.imageView15);
         tLiveClasses = findViewById(R.id.textView50);
+        tStartDate =findViewById(R.id.textView48);
         tabLayoutConfig();
         onClicks();
         category = new Getter().getCategoryName(CourseViewer.this, CAT);
@@ -73,12 +74,12 @@ public class CourseViewer extends AppCompatActivity {
             }
         }
 
-        /*if (helper.getStart_date() != null) {
+        if (mHelper.getStart_date() != null) {
             tStartDate.setVisibility(View.VISIBLE);
             String myFormat = "dd-MMMM"; //In which you need put here
             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-            tStartDate.setText("" + sdf.format(helper.getStart_date()));
-        } else tStartDate.setVisibility(View.GONE);*/
+            tStartDate.setText("" + sdf.format(mHelper.getStart_date()));
+        } else tStartDate.setVisibility(View.GONE);
 
     }
 
@@ -86,9 +87,6 @@ public class CourseViewer extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-
-
     }
 
     private void onClicks() {
@@ -96,9 +94,12 @@ public class CourseViewer extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Gson gson = new Gson();
+                        String myJson = gson.toJson(mHelper);
                         getSupportActionBar().setTitle(getString(R.string.GetSubscription));
                         Bundle bundle = new Bundle();
                         bundle.putString("cat", CAT);
+                        bundle.putString("helper",myJson);
                         bundle.putString("from", "InsideCourse");
                         bundle.putString("courseId", course_id);
 

@@ -31,7 +31,8 @@
         <entry key="..\:/Android/LearnAt/app/src/main/res/layout/fragment_notifications.xml" value="0.16381578947368422" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/layout/fragment_subject_view.xml" value="0.264" />
-        <entry key="..\:/Android/LearnAt/app/src/main/res/layout/include_inside_course.xml" value="0.264" />
+        <entry key="..\:/Android/LearnAt/app/src/main/res/layout/include_inside_course.xml" value="0.2" />
+        <entry key="..\:/Android/LearnAt/app/src/main/res/layout/list_course_price.xml" value="0.15960912052117263" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/layout/list_lecture.xml" value="0.16381578947368422" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/layout/list_mentor.xml" value="0.16221498371335505" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/layout/list_popular.xml" value="0.12986111111111112" />

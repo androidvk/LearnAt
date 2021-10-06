@@ -6,7 +6,7 @@
         android:bottomLeftRadius="@dimen/course_card_radius"
         android:topRightRadius="0dp"
         android:topLeftRadius="@dimen/course_card_radius" />-->
-    <corners android:radius="12dp"/>
+    <corners android:radius="4dp"/>
     <gradient
         android:angle="180"
         android:endColor="#CA0202"

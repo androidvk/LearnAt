@@ -13,7 +13,20 @@ public class CourseHelper {
     private String desc;
     private String course_price,course_lang;
     private Date start_date;
+    private int duration;
+    public boolean isWith_mentor() {
+        return with_mentor;
+    }
 
+    private boolean with_mentor;
+    public int getDuration() {
+        return duration;
+    }
+    public ArrayList<PriceDurationHelper> getPrice_duration() {
+        return price_duration;
+    }
+
+    private ArrayList<PriceDurationHelper> price_duration=new ArrayList<>();
     public String getCourse_price() {
         return course_price;
     }
