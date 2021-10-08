@@ -90,4 +90,6 @@
     <string name="Follow">➤ Follow</string>
     <string name="RecordedClass">Recorded Class</string>
     <string name="Months">months</string>
+    <string name="rupee_sign">₹</string>
+    <string name="pay">Pay</string>
 </resources>

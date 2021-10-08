@@ -7,8 +7,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import android.os.TestLooperManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -133,14 +135,41 @@ public class CheckoutFragment extends Fragment {
 
         setPriceRecyclerView();
     }
+
     private ArrayList<PriceDurationHelper> price_durationList = new ArrayList<>();
+    private PriceDurationHelper selectedPriceDuration = null;
 
     private void setPriceRecyclerView() {
         price_durationList = helper.getPrice_duration();
-        LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
-        PriceDurationAdapter adapter=new PriceDurationAdapter(getActivity(),price_durationList);
+        if (price_durationList.size() >=2) {
+            selectedPriceDuration = price_durationList.get(1);
+
+        } else if (price_durationList.size() == 1) {
+            selectedPriceDuration = price_durationList.get(0);
+
+        }
+        setUi();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        PriceDurationAdapter adapter = new PriceDurationAdapter(getActivity(), price_durationList);
         recyclerViewPrice.setLayoutManager(layoutManager);
         recyclerViewPrice.setAdapter(adapter);
+        ((SimpleItemAnimator) recyclerViewPrice.getItemAnimator()).setSupportsChangeAnimations(false);
+        adapter.onPriceClick(new PriceDurationAdapter.OnPriceClickListener() {
+            @Override
+            public void onPriceClick(PriceDurationHelper helper) {
+                selectedPriceDuration = helper;
+                setUi();
+            }
+        });
+    }
+
+    // TODO: 08-10-2021 dynamize credit used amount
+    private void setUi() {
+        tSubscriptionFee.setText(getString(R.string.rupee_sign) + selectedPriceDuration.getPrice());
+        int price = Integer.parseInt(selectedPriceDuration.getPrice());
+        Log.e(TAG, "setUi: " + price);
+        tGrandTotal.setText(getString(R.string.rupee_sign) + (price - 50));
+        bPay.setText(getString(R.string.pay) + " " + getString(R.string.rupee_sign) + (price - 50));
     }
 
 }

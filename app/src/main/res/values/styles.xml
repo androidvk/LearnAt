@@ -67,7 +67,7 @@
 
     <style name="PriceText" parent="@style/Widget.AppCompat.ActionBar">
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="fontFamily">@font/encode_sans_bold500</item>
     </style>
