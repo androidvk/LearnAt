@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +33,8 @@ import com.coremacasia.learnat.adapters.TrendingAdapter;
 import com.coremacasia.learnat.dialogs.DF_SubjectChooser;
 import com.coremacasia.learnat.helpers.CategoryDashboardHelper;
 import com.coremacasia.learnat.helpers.UserHelper;
+import com.coremacasia.learnat.utility.Getter;
+import com.coremacasia.learnat.utility.ImageSetterGlide;
 import com.coremacasia.learnat.utility.MyStore;
 import com.coremacasia.learnat.utility.RMAP;
 import com.coremacasia.learnat.utility.Reference;
@@ -41,6 +44,7 @@ import com.google.firebase.firestore.DocumentReference;
 
 import org.jetbrains.annotations.NotNull;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator;
 
 public class HomeFragment extends Fragment {
@@ -50,6 +54,8 @@ public class HomeFragment extends Fragment {
     private RecyclerView rPopular, rSubjects, rMentors, rCourseCategory, rTrending;
     private CategoryViewModel categoryViewModel;
     private UserHelper helper;
+    private CircleImageView iUserImage;
+    private TextView tUserName,tCategory;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -66,14 +72,17 @@ public class HomeFragment extends Fragment {
         rSubjects = binding.recyclerView3;
         rCourseCategory = binding.recyclerViewOt;
         rTrending = binding.rTrending;
+        tUserName = binding.textHome;
+        iUserImage = binding.imageView8;
+        tCategory=binding.textView27;
     }
 
     @Override
-    public void onViewCreated(@NonNull @NotNull View view,@Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         lManagerTrending = new LinearLayoutManager(getActivity());
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(firebaseUser!=null){
+        if (firebaseUser != null) {
             DocumentReference userRef = Reference.userRef(firebaseUser.getUid());
 
             UserDataViewModel viewModel = new ViewModelProvider(this).get(UserDataViewModel.class);
@@ -82,20 +91,25 @@ public class HomeFragment extends Fragment {
                 public void onChanged(UserHelper userHelper) {
                     helper = userHelper;
                     MyStore.setUserData(userHelper);
-                    if(helper.getPreferred_type1()!=null){
+                    if (helper.getPreferred_type1() != null) {
                         categoryRef = Reference.superRef(helper.getPreferred_type1());
                         getCategoryData();
-                    }else {
+                        tCategory.setText(new Getter().getCategoryName(getActivity(),helper.getPreferred_type1()));
+                        tCategory.setVisibility(View.VISIBLE);
+                    } else {
                         startSubjectChooser(2);
+                        tCategory.setVisibility(View.GONE);
                     }
 
+                    new ImageSetterGlide().circleImg(getActivity(),helper.getImage(),iUserImage);
+                    tUserName.setText("Hii "+helper.getName());
                 }
             });
         }
 
 
-
     }
+
     private void startSubjectChooser(int From) {
         FragmentManager manager = ((AppCompatActivity) getActivity())
                 .getSupportFragmentManager();
@@ -104,6 +118,7 @@ public class HomeFragment extends Fragment {
         df_number.show(manager,
                 DF_SubjectChooser.TAG);
     }
+
     private void getCategoryData() {
         categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         categoryViewModel.getCategoryMutableData(categoryRef).observe(this,
@@ -196,7 +211,7 @@ public class HomeFragment extends Fragment {
     }
 
     private int currentPosition, totalItem;
-    private  LinearLayoutManager lManagerTrending;
+    private LinearLayoutManager lManagerTrending;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final Runnable SCROLLING_RUNNABLE = new Runnable() {
 
