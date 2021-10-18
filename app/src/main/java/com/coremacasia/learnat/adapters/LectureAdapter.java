@@ -1,6 +1,7 @@
 package com.coremacasia.learnat.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.coremacasia.learnat.activities.WatchLecture;
 import com.coremacasia.learnat.databinding.ListLectureBinding;
 import com.coremacasia.learnat.helpers.LectureHelper;
 
@@ -40,7 +42,9 @@ public class LectureAdapter extends RecyclerView.Adapter<LectureAdapter.Holder> 
         holder.mainView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                holder.itemView.getContext().startActivity(new Intent(
+                        holder.itemView.getContext(), WatchLecture.class
+                ));
             }
         });
     }
