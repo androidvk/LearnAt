@@ -11,7 +11,7 @@ import android.view.View;
 import com.coremacasia.learnat.R;
 import com.google.android.material.textfield.TextInputEditText;
 
-import us.zoom.sdk.JoinMeetingOptions;
+/*import us.zoom.sdk.JoinMeetingOptions;
 import us.zoom.sdk.JoinMeetingParams;
 import us.zoom.sdk.MeetingService;
 import us.zoom.sdk.StartMeetingOptions;
@@ -20,14 +20,14 @@ import us.zoom.sdk.ZoomAuthenticationError;
 import us.zoom.sdk.ZoomSDK;
 import us.zoom.sdk.ZoomSDKAuthenticationListener;
 import us.zoom.sdk.ZoomSDKInitParams;
-import us.zoom.sdk.ZoomSDKInitializeListener;
+import us.zoom.sdk.ZoomSDKInitializeListener;*/
 
 public class WatchLecture extends AppCompatActivity {
-    private ZoomSDKAuthenticationListener authListener = new ZoomSDKAuthenticationListener() {
-        /**
+   /* private ZoomSDKAuthenticationListener authListener = new ZoomSDKAuthenticationListener() {
+        *//**
          * This callback is invoked when a result from the SDK's request to the auth server is
          * received.
-         */
+         *//*
         @Override
         public void onZoomSDKLoginResult(long result) {
             if (result == ZoomAuthenticationError.ZOOM_AUTH_ERROR_SUCCESS) {
@@ -40,17 +40,17 @@ public class WatchLecture extends AppCompatActivity {
         public void onZoomSDKLogoutResult(long l) {}@Override
         public void onZoomIdentityExpired() {}@Override
         public void onZoomAuthIdentityExpired() {}
-    };
+    };*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watch_lecture);
-        initializeSdk(this);
-        initViews();
+        //initializeSdk(this);
+        //initViews();
     }
 
-    public void initializeSdk(Context context) {
+  /*  public void initializeSdk(Context context) {
         ZoomSDK sdk = ZoomSDK.getInstance();
         // TODO: Do not use hard-coded values for your key/secret in your app in production!
         ZoomSDKInitParams params = new ZoomSDKInitParams();
@@ -60,9 +60,9 @@ public class WatchLecture extends AppCompatActivity {
         params.enableLog = true;
         // TODO: Add functionality to this listener (e.g. logs for debugging)
         ZoomSDKInitializeListener listener = new ZoomSDKInitializeListener() {
-            /**
+            *//**
              * @param errorCode {@link us.zoom.sdk.ZoomError#ZOOM_ERROR_SUCCESS} if the SDK has been initialized successfully.
-             */
+             *//*
             @Override
             public void onZoomSDKInitializeResult(int errorCode, int internalErrorCode) {}
 
@@ -90,9 +90,9 @@ public class WatchLecture extends AppCompatActivity {
         });
     }
 
-    /**
+    *//**
      * Join a meeting without any login/authentication with the meeting's number & password
-     */
+     *//*
     public void joinMeeting(Context context, String meetingNumber, String password) {
         MeetingService meetingService = ZoomSDK.getInstance().getMeetingService();
         JoinMeetingOptions options = new JoinMeetingOptions();
@@ -103,10 +103,10 @@ public class WatchLecture extends AppCompatActivity {
         meetingService.joinMeetingWithParams(context, params, options);
     }
 
-    /**
+    *//**
      * Log into a Zoom account through the SDK using your email and password. For more information,
      * see {@link ZoomSDKAuthenticationListener#onZoomSDKLoginResult} in the {@link #authListener}.
-     */
+     *//*
     public void login(String username, String password) {
         int result = ZoomSDK.getInstance().loginWithZoom(username, password);
         if (result == ZoomApiError.ZOOM_API_ERROR_SUCCESS) {
@@ -115,10 +115,10 @@ public class WatchLecture extends AppCompatActivity {
         }
     }
 
-    /**
+    *//**
      * Start an instant meeting as a logged-in user. An instant meeting has a meeting number and
      * password generated when it is created.
-     */
+     *//*
     public void startMeeting(Context context) {
         ZoomSDK sdk = ZoomSDK.getInstance();
         if (sdk.isLoggedIn()) {
@@ -128,10 +128,10 @@ public class WatchLecture extends AppCompatActivity {
         }
     }
 
-    /**
+    *//**
      * Prompt the user to input the meeting number and password and uses the Zoom SDK to join the
      * meeting.
-     */
+     *//*
     private void createJoinMeetingDialog() {
         new AlertDialog.Builder(this).setView(R.layout.dialog_join_meeting).setPositiveButton("Join", new DialogInterface.OnClickListener() {@Override
         public void onClick(DialogInterface dialogInterface, int i) {
@@ -150,10 +150,10 @@ public class WatchLecture extends AppCompatActivity {
         }).show();
     }
 
-    /**
+    *//**
      * Prompts the user to input their account email and password and uses the Zoom SDK to login.
      * See {@link ZoomSDKAuthenticationListener#onZoomSDKLoginResult} in the {@link #authListener} for more information.
-     */
+     *//*
     private void createLoginDialog() {
         new AlertDialog.Builder(this).setView(R.layout.dialog_login).setPositiveButton("Log in", new DialogInterface.OnClickListener() {@Override
         public void onClick(DialogInterface dialogInterface, int i) {
@@ -170,5 +170,5 @@ public class WatchLecture extends AppCompatActivity {
             dialog.dismiss();
         }
         }).show();
-    }
+    }*/
 }

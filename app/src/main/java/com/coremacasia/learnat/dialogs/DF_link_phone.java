@@ -11,19 +11,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.coremacasia.learnat.R;
 import com.coremacasia.learnat.activities.PhoneAuth;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.hbb20.CountryCodePicker;
 
-public class DF_number extends BottomSheetDialogFragment {
-    public static final String TAG = "DF_number";
+public class DF_link_phone extends BottomSheetDialogFragment {
+    public static final String TAG = "DF_link_phone";
     private View view;
 
-    public static DF_number newInstance() {
+    public static DF_link_phone newInstance() {
         Bundle args = new Bundle();
-        DF_number fragment = new DF_number();
+        DF_link_phone fragment = new DF_link_phone();
         fragment.setArguments(args);
         return fragment;
     }
@@ -38,7 +40,8 @@ public class DF_number extends BottomSheetDialogFragment {
     private EditText eNumber;
     private CountryCodePicker ccp;
     private Button bContinue;
-
+    private TextView tSignIn;
+    private ProgressBar progressBar;
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -46,6 +49,10 @@ public class DF_number extends BottomSheetDialogFragment {
         ccp = view.findViewById(R.id.ccp);
         ccp.registerCarrierNumberEditText(eNumber);
         bContinue = view.findViewById(R.id.bContinue);
+        tSignIn=view.findViewById(R.id.textView23);
+        progressBar=view.findViewById(R.id.progressBar1);
+        tSignIn.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
         eNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -63,7 +70,7 @@ public class DF_number extends BottomSheetDialogFragment {
 
                 if ( ccp.getFullNumber().length() != 12) {
                     bContinue.setEnabled(false);
-                } else{
+                } else {
                     bContinue.setEnabled(true);
                     bContinue.setTextColor(getResources().getColor(R.color.white));
                 }

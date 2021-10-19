@@ -212,4 +212,6 @@ public class kMap {
     public static String joined="joined";
     public static String preferred_type1="preferred_type1";
     public static String live="live";
+    public static String student="student";
+    public static String phone_registration="phone_registration";
 }

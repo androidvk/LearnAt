@@ -92,4 +92,5 @@
     <string name="Months">months</string>
     <string name="rupee_sign">₹</string>
     <string name="pay">Pay</string>
+    <string name="signInFailed">Sign In Failed</string>
 </resources>

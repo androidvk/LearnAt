@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             //startSubjectChooser(2);
+            //mAuth.signOut();
             getLoginInfo();
             getData();
         }
