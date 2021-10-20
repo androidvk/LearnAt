@@ -31,11 +31,15 @@
 
     </style>
     <style name="ProfileTitles">
+        <item name="fontFamily">@font/encode_sans400</item>
+        <item name="drawableTint">#305571</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="paddingEnd">8dp</item>
         <item name="android:textColor">@color/soft_black</item>
         <item name="android:textSize">@dimen/size_profile_2</item>
-        <item name="android:layout_marginStart">4dp</item>
-        <item name="android:paddingBottom">2dp</item>
-        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:paddingTop">14dp</item>
     </style>
     <style name="ProfileIcon">
 

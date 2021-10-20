@@ -95,10 +95,12 @@ public class DF_SubjectChooser extends DialogFragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (from == 1) {
+            Log.e(TAG, "Google Sign In" );
             startGoogleSignIn();
 
         } else if (from == 2) {
             gSubjects.setVisibility(View.VISIBLE);
+            Log.e(TAG, "Subject Chooser" );
         }
       /*  DocumentReference reference = Reference.superRef(RMAP.list);
         reference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -191,6 +193,7 @@ public class DF_SubjectChooser extends DialogFragment {
                             writeUserData(user);
                         } else {
                             Log.e(TAG, "linkWithCredential:failure", task.getException());
+                            //FirebaseAuth.getInstance().signOut();
                         }
                     }
                 });

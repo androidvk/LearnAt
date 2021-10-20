@@ -63,7 +63,7 @@
     <string name="selected_category">Selected Category</string>
     <string name="Change"><u>Change</u></string>
     <string name="Mobile">Mobile</string>
-    <string name="EducationDetails">Education Detials</string>
+    <string name="EducationDetails">Education Details</string>
     <string name="Wallet">Wallet</string>
     <string name="Achievements">Achievements</string>
     <string name="MyCourses">My Courses</string>
@@ -93,4 +93,7 @@
     <string name="rupee_sign">₹</string>
     <string name="pay">Pay</string>
     <string name="signInFailed">Sign In Failed</string>
+    <string name="Certification">Certifications</string>
+    <string name="Transactions">Transactions</string>
+    <string name="SignOut">Sign Out</string>
 </resources>

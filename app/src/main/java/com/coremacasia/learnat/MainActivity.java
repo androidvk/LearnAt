@@ -13,6 +13,8 @@ import com.coremacasia.learnat.commons.CommonDataViewModel;
 import com.coremacasia.learnat.commons.all_courses.AllCoursesViewModel;
 import com.coremacasia.learnat.commons.all_courses.CourseModel;
 import com.coremacasia.learnat.commons.category_repo.CategoryViewModel;
+import com.coremacasia.learnat.dialogs.DF_link_phone;
+import com.coremacasia.learnat.dialogs.GoogleSignInDialog;
 import com.coremacasia.learnat.helpers.CategoryDashboardHelper;
 import com.coremacasia.learnat.helpers.UserHelper;
 import com.coremacasia.learnat.commons.user_repo.UserDataViewModel;
@@ -23,10 +25,15 @@ import com.coremacasia.learnat.utility.MyStore;
 import com.coremacasia.learnat.utility.RMAP;
 import com.coremacasia.learnat.utility.Reference;
 import com.coremacasia.learnat.utility.kMap;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Source;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -49,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
     private View itemView;
     private FirebaseAuth mAuth;
     private FirebaseUser firebaseUser;
+    private DocumentReference commonListRef;
+    private CommonDataViewModel viewModel;
+    private AllCoursesViewModel allCoursesViewModel;
+    private CategoryViewModel categoryViewModel;
+
+
+    private String CAT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,56 +112,83 @@ public class MainActivity extends AppCompatActivity {
                             | Intent.FLAG_ACTIVITY_CLEAR_TASK));
 
         } else {
-            //startSubjectChooser(2);
             //mAuth.signOut();
             getLoginInfo();
             getData();
         }
     }
 
-    private DocumentReference commonListRef;
-    private CommonDataViewModel viewModel;
-    private AllCoursesViewModel allCoursesViewModel;
-    private CategoryViewModel categoryViewModel;
-
-
-
-    private String CAT;
 
     private void getLoginInfo() {
-        DocumentReference userRef = Reference.userRef().document(firebaseUser.getUid());
-        userRef.addSnapshotListener((value, error) -> {
-            assert value != null;
-            if (!value.exists()) {
-                startSubjectChooser(1);
-            } else {
-                if (value.get(kMap.preferred_type1) == null) {
-                    startSubjectChooser(2);
-                } else {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user.getPhoneNumber() == null || user.getPhoneNumber().equals("")) {
+            showPhoneLinkDialog();
+        } else if (user.getEmail() == null || user.getEmail().equals("")) {
+            googleSignInDialog();
+        }
 
-                    CAT = value.get(kMap.preferred_type1).toString();
-                    getUserData();
-                    //getCategoryData();
+        DocumentReference userRef = Reference.userRef().document(firebaseUser.getUid());
+
+        userRef.get(Source.SERVER).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (!task.getResult().exists() || mAuth.getCurrentUser().getEmail() == null
+                        || mAuth.getCurrentUser().equals("")) {
+                    startSubjectChooser(1);
+                } else {
+                    if (task.getResult().get(kMap.preferred_type1) == null) {
+                        startSubjectChooser(2);
+                    } else {
+                        CAT = task.getResult().get(kMap.preferred_type1).toString();
+                        getUserData();
+                        //getCategoryData();
+                    }
                 }
             }
-
         });
+
 
     }
 
     private void getUserData() {
         DocumentReference userRef = Reference.userRef(firebaseUser.getUid());
-        Log.e(TAG, "getUserData: "+firebaseUser.getUid() );
         UserDataViewModel viewModel = new ViewModelProvider(this).get(UserDataViewModel.class);
         viewModel.getMutableLiveData(userRef).observe(this, new Observer<UserHelper>() {
             @Override
             public void onChanged(UserHelper userHelper) {
-                Log.e(TAG, "onChanged: "+userHelper.getFirebase_id() );
                 MyStore.setUserData(userHelper);
                 getCategoryData();
             }
         });
+
+       // checkPhoneAuth();
     }
+
+  /*  private void checkPhoneAuth() {
+
+        if (info.getPhoneNumber().equals("")) {
+            showPhoneLinkDialog();
+        } else if (info.getEmail().equals("")) {
+            //googleSignInDialog();
+        }
+    }*/
+
+    private void showPhoneLinkDialog() {
+        Log.e(TAG, "showPhoneLinkDialog: ");
+        DF_link_phone dialog = DF_link_phone.newInstance();
+        dialog.setCancelable(false);
+        dialog.show(getSupportFragmentManager(), DF_link_phone.TAG);
+
+    }
+
+    private void googleSignInDialog() {
+        Log.e(TAG, "showPhoneLinkDialog: ");
+        GoogleSignInDialog dialog = GoogleSignInDialog.newInstance();
+        dialog.setCancelable(false);
+        dialog.show(getSupportFragmentManager(), GoogleSignInDialog.TAG);
+
+    }
+
     private void getData() {
         commonListRef = Reference.superRef(RMAP.list);
         viewModel = new ViewModelProvider(this).get(CommonDataViewModel.class);
@@ -170,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
     private void getCategoryData() {
         DocumentReference categoryRef = Reference.superRef(CAT);
         categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);

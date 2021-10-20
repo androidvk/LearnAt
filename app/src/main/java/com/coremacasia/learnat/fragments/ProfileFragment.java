@@ -1,5 +1,6 @@
 package com.coremacasia.learnat.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +14,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.coremacasia.learnat.activities.Splash;
 import com.coremacasia.learnat.databinding.FragmentProfileBinding;
 import com.coremacasia.learnat.helpers.UserHelper;
 import com.coremacasia.learnat.utility.Getter;
 import com.coremacasia.learnat.utility.MyStore;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class ProfileFragment extends Fragment {
@@ -24,7 +27,7 @@ public class ProfileFragment extends Fragment {
     FragmentProfileBinding binding;
 
     private ImageView imageView;
-    private TextView tName, tEmail, tPreparing, tCategory, tChange;
+    private TextView tName, tEmail, tPreparing, tCategory, tChange,tSignOut;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class ProfileFragment extends Fragment {
         tPreparing = binding.textView14;
         tCategory = binding.textView16;
         tChange = binding.textView22;
+        tSignOut = binding.tSignOut;
         return binding.getRoot();
     }
 
@@ -49,7 +53,22 @@ public class ProfileFragment extends Fragment {
             tCategory.setText(category);
         }
 
+        onClicks();
+
     }
+
+    private void onClicks() {
+
+        tSignOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getActivity(), Splash.class)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            }
+        });
+    }
+
 
     @Override
     public void onDestroyView() {

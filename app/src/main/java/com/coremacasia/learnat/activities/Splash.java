@@ -162,7 +162,7 @@ public class Splash extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
+                            Log.e(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             DocumentReference userRef = Reference.userRef(user.getUid());
                             userRef.get(Source.SERVER).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -170,8 +170,8 @@ public class Splash extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                     UserHelper helper = task.getResult().toObject(UserHelper.class);
                                     if (helper != null) {
-                                        //start Main Activity or check phone auth
-                                        checkPhoneAuth(user);
+                                        //start Main Activity
+                                        startMainActivity();
                                     } else {
                                         // TODO: 20-10-2021 Check phone sign in or not
                                         writeUserData(user);
@@ -188,13 +188,12 @@ public class Splash extends AppCompatActivity {
     }
 
     private void checkPhoneAuth(FirebaseUser user) {
-        if (user.getProviderData().size() == 1) {
-            if (user.getPhoneNumber() != null) {
-                startMainActivity();
-            } else {
-                showPhoneLinkDialog();
-            }
-        } else if (user.getProviderData().size() == 2) {
+        FirebaseUser info = mAuth.getCurrentUser();
+        if (info.getPhoneNumber()==null || info.getPhoneNumber() .equals("")) {
+            showPhoneLinkDialog();
+        } else if (info.getEmail()==null||info.getEmail().equals("")) {
+            //googleSignInDialog();
+        }else {
             startMainActivity();
         }
     }
@@ -205,6 +204,7 @@ public class Splash extends AppCompatActivity {
     }
 
     private void writeUserData(FirebaseUser user) {
+        progressBar.setVisibility(View.VISIBLE);
         // TODO: 01-06-2021 Server Side
 
         Map map = new HashMap();
@@ -232,7 +232,8 @@ public class Splash extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        showPhoneLinkDialog();
+                        progressBar.setVisibility(View.INVISIBLE);
+                        checkPhoneAuth(user);
 
                     }
                 });
