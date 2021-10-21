@@ -1,6 +1,7 @@
 package com.coremacasia.learnat.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.coremacasia.learnat.MainActivity;
 import com.coremacasia.learnat.R;
 import com.coremacasia.learnat.commons.CommonDataModel;
 import com.coremacasia.learnat.helpers.CategoryHelper;
@@ -107,12 +109,18 @@ public class CourseMenuAdapter extends RecyclerView.Adapter<CourseMenuAdapter.Ho
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    gSubjects.setVisibility(View.GONE);
-                                    gIcode.setVisibility(View.VISIBLE);
+                                    //gSubjects.setVisibility(View.GONE);
+                                    //gIcode.setVisibility(View.VISIBLE);
+                                    startActivityMainActivity();
                                 }
                             });
                 }
             });
         }
+    }
+    private void startActivityMainActivity() {
+        Intent in = new Intent(activity, MainActivity.class);
+        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+        activity.startActivity(in);
     }
 }

@@ -124,26 +124,21 @@ public class MainActivity extends AppCompatActivity {
         if (user.getPhoneNumber() == null || user.getPhoneNumber().equals("")) {
             showPhoneLinkDialog();
         } else if (user.getEmail() == null || user.getEmail().equals("")) {
-            googleSignInDialog();
+            startSubjectChooser(1);
         }
 
         DocumentReference userRef = Reference.userRef().document(firebaseUser.getUid());
-
         userRef.get(Source.SERVER).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (!task.getResult().exists() || mAuth.getCurrentUser().getEmail() == null
-                        || mAuth.getCurrentUser().equals("")) {
-                    startSubjectChooser(1);
-                } else {
-                    if (task.getResult().get(kMap.preferred_type1) == null) {
+                if (task.getResult().get(kMap.preferred_type1) == null) {
                         startSubjectChooser(2);
                     } else {
                         CAT = task.getResult().get(kMap.preferred_type1).toString();
                         getUserData();
                         //getCategoryData();
                     }
-                }
+
             }
         });
 
@@ -161,17 +156,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-       // checkPhoneAuth();
     }
-
-  /*  private void checkPhoneAuth() {
-
-        if (info.getPhoneNumber().equals("")) {
-            showPhoneLinkDialog();
-        } else if (info.getEmail().equals("")) {
-            //googleSignInDialog();
-        }
-    }*/
 
     private void showPhoneLinkDialog() {
         Log.e(TAG, "showPhoneLinkDialog: ");

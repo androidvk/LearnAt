@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="32dp"
+    android:paddingVertical="16dp"
     android:background="@color/off_white">
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
         android:text="@string/signin_signup"
         android:textColor="@color/text_desc"
         android:textSize="16sp"
@@ -22,7 +22,6 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:text="@string/enter_your_mobile"
         android:textColor="@color/text_desc"
         android:textSize="@dimen/smallest_text"
@@ -33,13 +32,11 @@
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginHorizontal="2dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
         android:background="@drawable/bkg_stroke_round"
         android:orientation="horizontal"
         android:paddingHorizontal="4dp"
-        android:layout_marginHorizontal="2dp"
         android:paddingVertical="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,21 +53,19 @@
             android:id="@+id/eNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone"
             android:hint="@string/MobileNumber"
+            android:inputType="phone"
             android:maxLength="13"
             android:textAlignment="center"
             android:textColor="@color/text_desc" />
     </LinearLayout>
 
     <Button
-        android:animateLayoutChanges="true"
         android:id="@+id/bContinue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
+        android:animateLayoutChanges="true"
         android:backgroundTint="@color/login_button"
         android:enabled="false"
         android:foreground="?attr/selectableItemBackground"
@@ -80,36 +75,27 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <ProgressBar
+        android:visibility="invisible"
         android:id="@+id/progressBar1"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView23"
-        app:layout_constraintVertical_bias="0.208" />
+        app:layout_constraintTop_toBottomOf="@+id/textView23" />
 
     <TextView
-        android:textColor="@color/text_desc"
-        android:textSize="@dimen/medium_1"
         android:id="@+id/textView23"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/HaveAAccountSignIn"
+        android:textColor="@color/text_desc"
+        android:textSize="@dimen/medium_1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bContinue" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="279dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

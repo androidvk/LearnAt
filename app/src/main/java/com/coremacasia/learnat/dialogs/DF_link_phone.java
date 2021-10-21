@@ -42,6 +42,7 @@ public class DF_link_phone extends BottomSheetDialogFragment {
     private Button bContinue;
     private TextView tSignIn;
     private ProgressBar progressBar;
+    private TextView tSignupText;
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -53,6 +54,8 @@ public class DF_link_phone extends BottomSheetDialogFragment {
         progressBar=view.findViewById(R.id.progressBar1);
         tSignIn.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
+        tSignupText=view.findViewById(R.id.textView5);
+        tSignupText.setVisibility(View.GONE);
         eNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -89,7 +92,7 @@ public class DF_link_phone extends BottomSheetDialogFragment {
                         // Do something after 5s = 5000ms
                         startActivity(new Intent(getActivity(), PhoneAuth.class).putExtra(
                                 "number",ccp.getFullNumberWithPlus()
-                        ));
+                        ).putExtra("just_number",eNumber.getText().toString().trim()));
                         dismiss();
 
 

@@ -26,7 +26,8 @@
         <entry key="..\:/Android/LearnAt/app/src/main/res/layout/activity_watch_lecture.xml" value="0.259375" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/layout/dialog_join_meeting.xml" value="0.19814814814814816" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/layout/dialog_login.xml" value="0.19814814814814816" />
-        <entry key="..\:/Android/LearnAt/app/src/main/res/layout/dialog_number_enter.xml" value="0.24166666666666667" />
+        <entry key="..\:/Android/LearnAt/app/src/main/res/layout/dialog_number_enter.xml" value="0.18981481481481483" />
+        <entry key="..\:/Android/LearnAt/app/src/main/res/layout/dialog_phone_reauth.xml" value="0.259375" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/layout/fragment_about_course.xml" value="0.176" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/layout/fragment_checkout.xml" value="0.264" />
         <entry key="..\:/Android/LearnAt/app/src/main/res/layout/fragment_course_view.xml" value="0.16381578947368422" />

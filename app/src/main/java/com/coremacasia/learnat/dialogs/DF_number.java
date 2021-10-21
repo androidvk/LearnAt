@@ -80,9 +80,10 @@ public class DF_number extends BottomSheetDialogFragment {
                     @Override
                     public void run() {
                         // Do something after 5s = 5000ms
+
                         startActivity(new Intent(getActivity(), PhoneAuth.class).putExtra(
                                 "number",ccp.getFullNumberWithPlus()
-                        ));
+                        ).putExtra("just_number",ccp.getFormattedFullNumber()));
                         dismiss();
 
 

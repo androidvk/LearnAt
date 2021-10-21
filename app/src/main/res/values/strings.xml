@@ -47,8 +47,9 @@
     <string name="iDontHaveIcode">I don\'t have I - Code</string>
     <string name="Congratulations">Congratulations!!</string>
     <string name="CreditedToYourWallet">Credited to your wallet!!</string>
-    <string name="HaveAAccountSignIn">Have an account? <u>Sign In</u></string>
+    <string name="HaveAAccountSignIn">Have an account? <u>Easy Sign In</u></string>
     <string name="GeneralCompetition">General Competition</string>
+
     <string name="Upcoming">Upcoming</string>
     <string name="ContinueLearning">Continue learning...</string>
     <string name="seeall">See all</string>
@@ -96,4 +97,7 @@
     <string name="Certification">Certifications</string>
     <string name="Transactions">Transactions</string>
     <string name="SignOut">Sign Out</string>
+    <string name="ThisPhoneNumberIsAlreadyLinkedWithAnotherAccount">This number is already linked with another account.</string>
+    <string name="LoginWith">Login with</string>
+    <string name="EnterNewNumber">Enter new number.</string>
 </resources>

@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import com.coremacasia.learnat.MainActivity;
 import com.coremacasia.learnat.R;
+import com.coremacasia.learnat.dialogs.DF_link_phone;
+import com.coremacasia.learnat.dialogs.Dialog_Phone_Reauth;
 import com.coremacasia.learnat.helpers.UserHelper;
 import com.coremacasia.learnat.utility.Reference;
 import com.coremacasia.learnat.utility.kMap;
@@ -36,6 +38,7 @@ import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
@@ -56,7 +59,7 @@ import in.aabhasjindal.otptextview.OtpTextView;
 
 public class PhoneAuth extends AppCompatActivity {
     private static final String TAG = "PhoneAuth";
-    private String NUMBER;
+    private String NUMBER,ONLY_NUMBER;
     private ImageView i_back;
     private TextView tNumber, tOtpInfo, tTimer, tOtpStatus;
     private ProgressBar progressBar;
@@ -92,7 +95,7 @@ public class PhoneAuth extends AppCompatActivity {
                 finish();
             }
         });
-
+        //showPhoneReAuthDialog();
     }
 
     private void processAuth() {
@@ -299,6 +302,7 @@ public class PhoneAuth extends AppCompatActivity {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         Map map = new HashMap();
         if (auth.getCurrentUser() != null) {
+            //Link with other account
             auth.getCurrentUser().linkWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -329,6 +333,12 @@ public class PhoneAuth extends AppCompatActivity {
                         }, 1000);
 
                     } else {
+                        if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                            Log.e(TAG, "onComplete: " + "FirebaseAuthUserCollisionException1");
+                            progressBar.setVisibility(View.GONE);
+                            showPhoneReAuthDialog();
+
+                        }
                         // Sign in failed, display a message and update the UI
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
                         if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
@@ -341,6 +351,7 @@ public class PhoneAuth extends AppCompatActivity {
                 }
             });
         } else {
+            //New Sign Up
             mAuth.signInWithCredential(credential)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -388,6 +399,7 @@ public class PhoneAuth extends AppCompatActivity {
                     });
         }
     }
+
     private void writeUserData(FirebaseUser userInfo) {
         // TODO: 01-06-2021 Server Side
         Map map = new HashMap();
@@ -395,6 +407,7 @@ public class PhoneAuth extends AppCompatActivity {
         map.put(kMap.m_number, userInfo.getPhoneNumber());
         map.put(kMap.timestamp, FieldValue.serverTimestamp());
         map.put(kMap.registered_date, FieldValue.serverTimestamp());
+
         Reference.userRef().document(userInfo.getUid()).set(map, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -406,6 +419,13 @@ public class PhoneAuth extends AppCompatActivity {
                 });
 
     }
+
+    private void showPhoneReAuthDialog() {
+        Dialog_Phone_Reauth dialog = Dialog_Phone_Reauth.newInstance(ONLY_NUMBER);
+        dialog.setCancelable(false);
+        dialog.show(getSupportFragmentManager(), dialog.getTag());
+    }
+
     private void getIds() {
         i_back = findViewById(R.id.iBack);
         tNumber = findViewById(R.id.tNumber);
@@ -415,10 +435,12 @@ public class PhoneAuth extends AppCompatActivity {
         eOtp = findViewById(R.id.eOtp);
         progressBar = findViewById(R.id.progressBar);
         NUMBER = getIntent().getStringExtra("number");
+        ONLY_NUMBER=getIntent().getStringExtra("just_number");
         tOtpInfo = findViewById(R.id.textView10);
         setFullView();
 
-        tNumber.setText(NUMBER);
+        tNumber.setText(ONLY_NUMBER);
+
     }
 
     private void setFullView() {
@@ -447,4 +469,5 @@ public class PhoneAuth extends AppCompatActivity {
         win.setAttributes(winParams);
 
     }
+
 }

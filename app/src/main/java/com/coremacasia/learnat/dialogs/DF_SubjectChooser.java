@@ -131,22 +131,25 @@ public class DF_SubjectChooser extends DialogFragment {
         bDontHaveCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(getContext(), MainActivity.class);
-                in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
-                startActivity(in);
+               startActivityMainActivity();
             }
         });
         bLetsBegin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //dismiss();
-                Intent in = new Intent(getContext(), MainActivity.class);
-                in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
-                startActivity(in);
+                startActivityMainActivity();
 
             }
         });
     }
+
+    private void startActivityMainActivity() {
+        Intent in = new Intent(getContext(), MainActivity.class);
+        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+        startActivity(in);
+    }
+
     private GoogleSignInClient mGoogleSignInClient;
     public static final int RC_SIGN_IN = 9001;
 
@@ -191,7 +194,9 @@ public class DF_SubjectChooser extends DialogFragment {
                             Log.e(TAG, "linkWithCredential:success");
                             FirebaseUser user = task.getResult().getUser();
                             writeUserData(user);
+                            gSubjects.setVisibility(View.VISIBLE);
                         } else {
+
                             Log.e(TAG, "linkWithCredential:failure", task.getException());
                             //FirebaseAuth.getInstance().signOut();
                         }

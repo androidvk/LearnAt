@@ -21,6 +21,7 @@ import com.coremacasia.learnat.MainActivity;
 import com.coremacasia.learnat.R;
 import com.coremacasia.learnat.dialogs.DF_link_phone;
 import com.coremacasia.learnat.dialogs.DF_number;
+import com.coremacasia.learnat.dialogs.Dialog_Phone_Reauth;
 import com.coremacasia.learnat.helpers.UserHelper;
 import com.coremacasia.learnat.utility.Reference;
 import com.coremacasia.learnat.utility.kMap;
@@ -189,11 +190,11 @@ public class Splash extends AppCompatActivity {
 
     private void checkPhoneAuth(FirebaseUser user) {
         FirebaseUser info = mAuth.getCurrentUser();
-        if (info.getPhoneNumber()==null || info.getPhoneNumber() .equals("")) {
+        if (info.getPhoneNumber() == null || info.getPhoneNumber().equals("")) {
             showPhoneLinkDialog();
-        } else if (info.getEmail()==null||info.getEmail().equals("")) {
+        } else if (info.getEmail() == null || info.getEmail().equals("")) {
             //googleSignInDialog();
-        }else {
+        } else {
             startMainActivity();
         }
     }
@@ -221,7 +222,7 @@ public class Splash extends AppCompatActivity {
         map.put(kMap.email, user.getEmail());
 
         for (UserInfo info : user.getProviderData()) {
-            if (info.getPhoneNumber() != null) {
+            if (info.getPhoneNumber() != null ) {
                 map.put(kMap.phone_registration, true);
                 map.put(kMap.m_number, info.getPhoneNumber());
                 break;
@@ -244,7 +245,11 @@ public class Splash extends AppCompatActivity {
         dialog.setCancelable(false);
         dialog.show(getSupportFragmentManager(), DF_link_phone.TAG);
 
+
+
     }
+
+
 
 
 }
