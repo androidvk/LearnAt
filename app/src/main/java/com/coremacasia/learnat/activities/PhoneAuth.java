@@ -24,7 +24,6 @@ import android.widget.Toast;
 
 import com.coremacasia.learnat.MainActivity;
 import com.coremacasia.learnat.R;
-import com.coremacasia.learnat.dialogs.DF_link_phone;
 import com.coremacasia.learnat.dialogs.Dialog_Phone_Reauth;
 import com.coremacasia.learnat.helpers.UserHelper;
 import com.coremacasia.learnat.utility.Reference;
@@ -59,7 +58,7 @@ import in.aabhasjindal.otptextview.OtpTextView;
 
 public class PhoneAuth extends AppCompatActivity {
     private static final String TAG = "PhoneAuth";
-    private String NUMBER,ONLY_NUMBER;
+    private String NUMBER, ONLY_NUMBER;
     private ImageView i_back;
     private TextView tNumber, tOtpInfo, tTimer, tOtpStatus;
     private ProgressBar progressBar;
@@ -85,6 +84,8 @@ public class PhoneAuth extends AppCompatActivity {
         tTimer.setVisibility(View.GONE);
         tOtpStatus.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.GONE);
+        eOtp.setEnabled(false);
+        bVerify.setEnabled(false);
         processAuth();
 
         startPhoneNumberVerification(NUMBER);
@@ -165,7 +166,14 @@ public class PhoneAuth extends AppCompatActivity {
                 Log.d(TAG, "onCodeSent:" + verificationId);
                 tTimer.setVisibility(View.VISIBLE);
                 tOtpInfo.setText(R.string.resendIn);
+                bVerify.setEnabled(true);
+                eOtp.setEnabled(true);
                 tOtpInfo.setVisibility(View.VISIBLE);
+                if(countDownTimer!=null){
+                    countDownTimer.cancel();
+                    countDownTimer.onFinish();
+                }
+                eOtp.setOTP("");
                 countdownTimer();
 
                 // Save verification ID and resending token so we can use them later
@@ -203,38 +211,27 @@ public class PhoneAuth extends AppCompatActivity {
             @Override
             public void onOTPComplete(String otp) {
                 tOtpStatus.setVisibility(View.INVISIBLE);
-                verifyPhoneNumberWithCode(mVerificationId, eOtp.getOTP());
-                closeKeyboard();
+                if (mVerificationId != null || mVerificationId.equals("")) {
+                    verifyPhoneNumberWithCode(mVerificationId, eOtp.getOTP());
+                    closeKeyboard();
+                }
+
             }
         });
 
     }
 
     private void closeKeyboard() {
-        // this will give us the view
-        // which is currently focus
-        // in this layout
+
         View view = this.getCurrentFocus();
-
-        // if nothing is currently
-        // focus then this will protect
-        // the app from crash
         if (view != null) {
-
-            // now assign the system
-            // service to InputMethodManager
-            InputMethodManager manager
-                    = (InputMethodManager)
-                    getSystemService(
-                            Context.INPUT_METHOD_SERVICE);
-            manager
-                    .hideSoftInputFromWindow(
-                            view.getWindowToken(), 0);
+            InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
-
+   private CountDownTimer countDownTimer;
     private void countdownTimer() {
-        new CountDownTimer(60000, 1000) {
+     countDownTimer =  new CountDownTimer(60000, 1000) {
 
             public void onTick(long duration) {
                 //tTimer.setText("seconds remaining: " + millisUntilFinished / 1000);
@@ -259,7 +256,8 @@ public class PhoneAuth extends AppCompatActivity {
                 });
             }
 
-        }.start();
+        };
+     countDownTimer.start();
     }
 
     private void startPhoneNumberVerification(String phoneNumber) {
@@ -299,106 +297,130 @@ public class PhoneAuth extends AppCompatActivity {
 
     // [END resend_verification]
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        Map map = new HashMap();
-        if (auth.getCurrentUser() != null) {
+        if (continueLogin && auth.getCurrentUser() != null) {
+            auth.signOut();
+            newSignUpIn(credential);
+        } else if (auth.getCurrentUser() != null && !continueLogin) {
             //Link with other account
-            auth.getCurrentUser().linkWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        FirebaseUser phoneUser = task.getResult().getUser();
-                        // TODO: 20-10-2021 Write on Server
-                        map.put(kMap.m_number, phoneUser.getPhoneNumber());
-                        map.put(kMap.phone_registration, true);
-                        final Handler handler = new Handler();
-                        //
-                        Reference.userRef().document(auth.getCurrentUser().getUid())
-                                .set(map, SetOptions.merge())
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-
-                                    }
-                                });
-
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                progressBar.setVisibility(View.GONE);
-                                startActivity(new Intent(PhoneAuth.this,
-                                        MainActivity.class)
-                                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                            }
-                        }, 1000);
-
-                    } else {
-                        if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                            Log.e(TAG, "onComplete: " + "FirebaseAuthUserCollisionException1");
-                            progressBar.setVisibility(View.GONE);
-                            showPhoneReAuthDialog();
-
-                        }
-                        // Sign in failed, display a message and update the UI
-                        Log.w(TAG, "signInWithCredential:failure", task.getException());
-                        if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                            // The verification code entered was invalid
-                            progressBar.setVisibility(View.GONE);
-                            tOtpStatus.setVisibility(View.VISIBLE);
-                            eOtp.showError();
-                        }
-                    }
-                }
-            });
+            linkWithOtherAccount(credential);
         } else {
             //New Sign Up
-            mAuth.signInWithCredential(credential)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                FirebaseUser user = task.getResult().getUser();
-                                DocumentReference userRef = Reference.userRef(user.getUid());
-                                userRef.get(Source.SERVER).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        UserHelper helper = task.getResult().toObject(UserHelper.class);
-                                        if (helper != null) {
-                                            //start Main Activity
-
-                                            final Handler handler = new Handler();
-                                            handler.postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    // Do something after 5s = 5000ms
-                                                    progressBar.setVisibility(View.GONE);
-                                                    startActivity(new Intent(PhoneAuth.this,
-                                                            MainActivity.class)
-                                                            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                                                }
-                                            }, 1000);
-
-                                        } else {
-                                            // TODO: 20-10-2021 Server Side Write
-                                            writeUserData(user);
-                                        }
-
-                                    }
-                                });
-
-                            } else {
-                                // Sign in failed, display a message and update the UI
-                                Log.w(TAG, "signInWithCredential:failure", task.getException());
-                                if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                    progressBar.setVisibility(View.GONE);
-                                    tOtpStatus.setVisibility(View.VISIBLE);
-                                    eOtp.showError();
-                                }
-                            }
-                        }
-                    });
+            newSignUpIn(credential);
         }
     }
+
+    private void linkWithOtherAccount(PhoneAuthCredential credential) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        Map map = new HashMap();
+        auth.getCurrentUser().linkWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    UserInfo phoneUser = task.getResult().getUser().getProviderData().get(1);
+                    // TODO: 20-10-2021 Write on Server
+                    map.put(kMap.m_number, phoneUser.getPhoneNumber());
+                    map.put(kMap.phone_registration, true);
+                    final Handler handler = new Handler();
+                    //
+                    Reference.userRef().document(auth.getCurrentUser().getUid())
+                            .set(map, SetOptions.merge())
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                }
+                            });
+
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            startActivity(new Intent(PhoneAuth.this,
+                                    MainActivity.class)
+                                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                        }
+                    }, 1000);
+
+                } else {
+                    if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                        Log.e(TAG, "onComplete: " + "FirebaseAuthUserCollisionException1");
+                        progressBar.setVisibility(View.GONE);
+                        showPhoneReAuthDialog();
+                        dialog.onContinueClick(new Dialog_Phone_Reauth.OnContinueWithSameNumber() {
+                            @Override
+                            public void onContinueClick(Boolean continueLogin) {
+                                startPhoneNumberVerification(NUMBER);
+                                PhoneAuth.this.continueLogin = continueLogin;
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+                    // Sign in failed, display a message and update the UI
+                    Log.w(TAG, "signInWithCredential:failure", task.getException());
+                    if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                        // The verification code entered was invalid
+                        progressBar.setVisibility(View.GONE);
+                        tOtpStatus.setVisibility(View.VISIBLE);
+                        eOtp.showError();
+                    }
+                }
+            }
+        });
+
+    }
+
+    private boolean continueLogin = false;
+
+    private void newSignUpIn(PhoneAuthCredential credential) {
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = task.getResult().getUser();
+                            DocumentReference userRef = Reference.userRef(user.getUid());
+                            userRef.get(Source.SERVER).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    UserHelper helper = task.getResult().toObject(UserHelper.class);
+                                    if (helper != null) {
+                                        //start Main Activity
+
+                                        final Handler handler = new Handler();
+                                        handler.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                // Do something after 5s = 5000ms
+                                                progressBar.setVisibility(View.GONE);
+                                                startActivity(new Intent(PhoneAuth.this,
+                                                        MainActivity.class)
+                                                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                                            }
+                                        }, 1000);
+
+                                    } else {
+                                        // TODO: 20-10-2021 Server Side Write
+                                        writeUserData(user);
+                                    }
+
+                                }
+                            });
+
+                        } else {
+                            // Sign in failed, display a message and update the UI
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                progressBar.setVisibility(View.GONE);
+                                tOtpStatus.setVisibility(View.VISIBLE);
+                                eOtp.showError();
+                            }
+                        }
+                    }
+                });
+    }
+
 
     private void writeUserData(FirebaseUser userInfo) {
         // TODO: 01-06-2021 Server Side
@@ -420,8 +442,10 @@ public class PhoneAuth extends AppCompatActivity {
 
     }
 
+    Dialog_Phone_Reauth dialog;
+
     private void showPhoneReAuthDialog() {
-        Dialog_Phone_Reauth dialog = Dialog_Phone_Reauth.newInstance(ONLY_NUMBER);
+        dialog = Dialog_Phone_Reauth.newInstance(ONLY_NUMBER);
         dialog.setCancelable(false);
         dialog.show(getSupportFragmentManager(), dialog.getTag());
     }
@@ -435,7 +459,7 @@ public class PhoneAuth extends AppCompatActivity {
         eOtp = findViewById(R.id.eOtp);
         progressBar = findViewById(R.id.progressBar);
         NUMBER = getIntent().getStringExtra("number");
-        ONLY_NUMBER=getIntent().getStringExtra("just_number");
+        ONLY_NUMBER = getIntent().getStringExtra("just_number");
         tOtpInfo = findViewById(R.id.textView10);
         setFullView();
 

@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.coremacasia.learnat.R;
 import com.coremacasia.learnat.activities.PhoneAuth;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -89,6 +91,14 @@ public class DF_number extends BottomSheetDialogFragment {
 
                     }
                 }, 1000);
+            }
+        });
+        view.findViewById(R.id.textView23).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GoogleSignInDialog dialog = GoogleSignInDialog.newInstance("signIn");
+                dialog.setCancelable(false);
+                dialog.show(((AppCompatActivity) getActivity()).getSupportFragmentManager(), GoogleSignInDialog.TAG);
             }
         });
     }

@@ -30,6 +30,14 @@ public class Dialog_Phone_Reauth extends BottomSheetDialogFragment {
 
     }
 
+    private OnContinueWithSameNumber onContinueWithSameNumber;
+    public interface OnContinueWithSameNumber{
+        void onContinueClick(Boolean continueLogin);
+    }
+    public void onContinueClick(OnContinueWithSameNumber onContinueWithSameNumber){
+        this.onContinueWithSameNumber=onContinueWithSameNumber;
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -42,6 +50,14 @@ public class Dialog_Phone_Reauth extends BottomSheetDialogFragment {
                 dismiss();
             }
         });
+
+        bLoginWith.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onContinueWithSameNumber.onContinueClick(true);
+            }
+        });
+
     }
 
     private Button bLoginWith;

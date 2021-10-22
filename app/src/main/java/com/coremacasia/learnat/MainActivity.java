@@ -61,9 +61,6 @@ public class MainActivity extends AppCompatActivity {
     private AllCoursesViewModel allCoursesViewModel;
     private CategoryViewModel categoryViewModel;
 
-
-    private String CAT;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,18 +121,20 @@ public class MainActivity extends AppCompatActivity {
         if (user.getPhoneNumber() == null || user.getPhoneNumber().equals("")) {
             showPhoneLinkDialog();
         } else if (user.getEmail() == null || user.getEmail().equals("")) {
-            startSubjectChooser(1);
+            //startSubjectChooser(1);
+            googleSignInDialog();
         }
 
         DocumentReference userRef = Reference.userRef().document(firebaseUser.getUid());
         userRef.get(Source.SERVER).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.getResult().get(kMap.preferred_type1) == null) {
-                        startSubjectChooser(2);
+                if (task.getResult().get(kMap.preferred_type1) == null
+                ||task.getResult().get(kMap.preferred_type1).equals("")) {
+                       // startSubjectChooser(2);
                     } else {
-                        CAT = task.getResult().get(kMap.preferred_type1).toString();
-                        getUserData();
+                        String CAT = task.getResult().get(kMap.preferred_type1).toString();
+                        getUserData(CAT);
                         //getCategoryData();
                     }
 
@@ -145,14 +144,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void getUserData() {
+    private void getUserData(String CAT) {
         DocumentReference userRef = Reference.userRef(firebaseUser.getUid());
         UserDataViewModel viewModel = new ViewModelProvider(this).get(UserDataViewModel.class);
         viewModel.getMutableLiveData(userRef).observe(this, new Observer<UserHelper>() {
             @Override
             public void onChanged(UserHelper userHelper) {
                 MyStore.setUserData(userHelper);
-                getCategoryData();
+                getCategoryData(CAT);
             }
         });
 
@@ -161,14 +160,13 @@ public class MainActivity extends AppCompatActivity {
     private void showPhoneLinkDialog() {
         Log.e(TAG, "showPhoneLinkDialog: ");
         DF_link_phone dialog = DF_link_phone.newInstance();
-        dialog.setCancelable(false);
+        //dialog.setCancelable(false);
         dialog.show(getSupportFragmentManager(), DF_link_phone.TAG);
 
     }
 
     private void googleSignInDialog() {
-        Log.e(TAG, "showPhoneLinkDialog: ");
-        GoogleSignInDialog dialog = GoogleSignInDialog.newInstance();
+        GoogleSignInDialog dialog = GoogleSignInDialog.newInstance("mainActivity");
         dialog.setCancelable(false);
         dialog.show(getSupportFragmentManager(), GoogleSignInDialog.TAG);
 
@@ -197,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void getCategoryData() {
+    private void getCategoryData(String CAT) {
         DocumentReference categoryRef = Reference.superRef(CAT);
         categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         categoryViewModel.getCategoryMutableData(categoryRef).observe(this,

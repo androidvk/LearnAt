@@ -124,6 +124,7 @@ public class Splash extends AppCompatActivity {
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(Splash.this, gso);
+        mGoogleSignInClient.revokeAccess();
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -221,13 +222,13 @@ public class Splash extends AppCompatActivity {
         map.put(kMap.registered_date, FieldValue.serverTimestamp());
         map.put(kMap.email, user.getEmail());
 
-        for (UserInfo info : user.getProviderData()) {
+       /* for (UserInfo info : user.getProviderData()) {
             if (info.getPhoneNumber() != null ) {
                 map.put(kMap.phone_registration, true);
                 map.put(kMap.m_number, info.getPhoneNumber());
                 break;
             }
-        }
+        }*/
 
         Reference.userRef().document(user.getUid()).set(map, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

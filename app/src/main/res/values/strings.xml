@@ -100,4 +100,7 @@
     <string name="ThisPhoneNumberIsAlreadyLinkedWithAnotherAccount">This number is already linked with another account.</string>
     <string name="LoginWith">Login with</string>
     <string name="EnterNewNumber">Enter new number.</string>
+    <string name="ThisAccountIsAlreadyLinkedWithAnotherAccount">This gmail account is already linked to a another account.</string>
+    <string name="ChangeAccount">Change Account</string>
+    <string name="SignInWith">Sign in with </string>
 </resources>
