@@ -14,6 +14,7 @@ import com.coremacasia.learnat.commons.all_courses.AllCoursesViewModel;
 import com.coremacasia.learnat.commons.all_courses.CourseModel;
 import com.coremacasia.learnat.commons.category_repo.CategoryViewModel;
 import com.coremacasia.learnat.dialogs.DF_link_phone;
+import com.coremacasia.learnat.dialogs.Dialog_Google_Reauth;
 import com.coremacasia.learnat.dialogs.GoogleSignInDialog;
 import com.coremacasia.learnat.helpers.CategoryDashboardHelper;
 import com.coremacasia.learnat.helpers.UserHelper;
@@ -25,17 +26,30 @@ import com.coremacasia.learnat.utility.MyStore;
 import com.coremacasia.learnat.utility.RMAP;
 import com.coremacasia.learnat.utility.Reference;
 import com.coremacasia.learnat.utility.kMap;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.Source;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -45,6 +59,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -60,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     private CommonDataViewModel viewModel;
     private AllCoursesViewModel allCoursesViewModel;
     private CategoryViewModel categoryViewModel;
-
+    private int i=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,13 +182,127 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public static final int RC_SIGN_IN = 9001;
+    private Dialog_Google_Reauth dialog;
     private void googleSignInDialog() {
-        GoogleSignInDialog dialog = GoogleSignInDialog.newInstance("mainActivity");
-        dialog.setCancelable(false);
-        dialog.show(getSupportFragmentManager(), GoogleSignInDialog.TAG);
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mGoogleSignInClient.revokeAccess();
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                linkAccounts(account.getIdToken(), account);
+
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.w(TAG, "Google sign in failed", e);
+            }
+        }
+    }
+    private void linkAccounts(String idToken, GoogleSignInAccount account) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        FirebaseAuth.getInstance().getCurrentUser().linkWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "linkWithCredential:success");
+                            FirebaseUser user = task.getResult().getUser();
+                            Log.e(TAG, "onComplete: " + user.getPhoneNumber() + user.getEmail());
+                            writeUserData(user.getProviderData().get(1));
+                        } else {
+                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                showGoogleAuthDialog(account.getEmail());
+                                dialog.onContinueClick(new Dialog_Google_Reauth.ContinueWithSameAccount() {
+                                    @Override
+                                    public void onSingInWithClick(Boolean continueLogin) {
+                                        signInWithExistingAccount(idToken, account);
+                                        dialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onChangeAccountClick(Boolean changeAccount) {
+                                        //Fresh login
+                                        googleSignInDialog();
+                                        //dismiss();
+
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+
+    }
+
+
+    private void signInWithExistingAccount(String idToken, GoogleSignInAccount account) {
+        FirebaseAuth.getInstance().signOut();
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        FirebaseAuth.getInstance().signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "linkWithCredential:success");
+                            FirebaseUser user = task.getResult().getUser();
+                            Log.d(TAG, "onComplete: " + user.getPhoneNumber() + user.getEmail());
+                            startMainActivity();
+                        }
+                    }
+                });
+
+    }
+
+    private void showGoogleAuthDialog(String email) {
+        dialog = Dialog_Google_Reauth.newInstance(email);
+        dialog.setCancelable(true);
+        dialog.show(getSupportFragmentManager(),
+                dialog.getTag());
+    }
+
+    private void writeUserData(UserInfo user) {
+
+        // TODO: 20-10-2021 ServerWrite
+        Map map = new HashMap();
+        map.put(kMap.email, user.getEmail());
+        map.put(kMap.name, user.getDisplayName());
+        if (user.getPhotoUrl() != null) {
+            map.put(kMap.image, user.getPhotoUrl().toString());
+        } else map.put(kMap.image, "");
+        if (user.getDisplayName() != null) {
+            map.put(kMap.name_small, user.getDisplayName());
+        }
+        map.put(kMap.timestamp, FieldValue.serverTimestamp());
+        map.put(kMap.firebase_id, user.getUid());
+        map.put(kMap.type, kMap.student);
+        map.put(kMap.registered_date, FieldValue.serverTimestamp());
+        Reference.userRef().document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .set(map, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        startMainActivity();
+                    }
+                });
+    }
+
+    private void startMainActivity() {
+        startActivity(new Intent(this, MainActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
     private void getData() {
         commonListRef = Reference.superRef(RMAP.list);
         viewModel = new ViewModelProvider(this).get(CommonDataViewModel.class);

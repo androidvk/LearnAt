@@ -103,4 +103,5 @@
     <string name="ThisAccountIsAlreadyLinkedWithAnotherAccount">This gmail account is already linked to a another account.</string>
     <string name="ChangeAccount">Change Account</string>
     <string name="SignInWith">Sign in with </string>
+    <string name="SignInWithGoogle">Sign In With Google</string>
 </resources>

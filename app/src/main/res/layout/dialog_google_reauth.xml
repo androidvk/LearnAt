@@ -28,7 +28,7 @@
         android:textColor="@color/text_desc"
         android:gravity="center"
         android:textAlignment="center"
-        android:id="@+id/button5"
+        android:id="@+id/tSignInWithGoogle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

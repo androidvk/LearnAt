@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
@@ -55,7 +56,8 @@ public class HomeFragment extends Fragment {
     private CategoryViewModel categoryViewModel;
     private UserHelper helper;
     private CircleImageView iUserImage;
-    private TextView tUserName,tCategory;
+    private TextView tUserName, tCategory;
+    private Group groupUserDetails;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -74,7 +76,8 @@ public class HomeFragment extends Fragment {
         rTrending = binding.rTrending;
         tUserName = binding.textHome;
         iUserImage = binding.imageView8;
-        tCategory=binding.textView27;
+        tCategory = binding.textView27;
+        groupUserDetails = binding.gUserDetails;
     }
 
     @Override
@@ -94,15 +97,18 @@ public class HomeFragment extends Fragment {
                     if (helper.getPreferred_type1() != null) {
                         categoryRef = Reference.superRef(helper.getPreferred_type1());
                         getCategoryData();
-                        tCategory.setText(new Getter().getCategoryName(getActivity(),helper.getPreferred_type1()));
+                        tCategory.setText(new Getter().getCategoryName(getActivity(), helper.getPreferred_type1()));
                         tCategory.setVisibility(View.VISIBLE);
                     } else {
                         startSubjectChooser(2);
                         tCategory.setVisibility(View.GONE);
                     }
-
-                    new ImageSetterGlide().circleImg(getActivity(),helper.getImage(),iUserImage);
-                    tUserName.setText("Hii "+helper.getName());
+                    if(helper.getName()==null || helper.getName().equals("")){
+                        groupUserDetails.setVisibility(View.GONE);
+                    }else {
+                        new ImageSetterGlide().circleImg(getActivity(), helper.getImage(), iUserImage);
+                        tUserName.setText("Hii " + helper.getName());
+                    }
                 }
             });
         }

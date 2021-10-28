@@ -66,7 +66,7 @@ public class Dialog_Phone_Reauth extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.dialog_phone_reauth, container, false);
-        bLoginWith=view.findViewById(R.id.button5);
+        bLoginWith=view.findViewById(R.id.tSignInWithGoogle);
         return view;
     }
 

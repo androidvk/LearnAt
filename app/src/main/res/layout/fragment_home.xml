@@ -11,6 +11,13 @@
         android:layout_height="match_parent">
 
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/gUserDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="text_home,textView27,imageView8"
+            tools:visibility="gone" />
+
         <TextView
             android:id="@+id/textView34"
             android:layout_width="wrap_content"

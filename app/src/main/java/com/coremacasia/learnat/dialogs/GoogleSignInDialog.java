@@ -42,7 +42,7 @@ import java.util.Map;
 public class GoogleSignInDialog extends BottomSheetDialogFragment {
     public static final String TAG = "GoogleSignInDialog";
     private static String from;
-    private GoogleSignInClient mGoogleSignInClient;
+
     public static final int RC_SIGN_IN = 9001;
     private Dialog_Google_Reauth dialog;
 
@@ -62,10 +62,10 @@ public class GoogleSignInDialog extends BottomSheetDialogFragment {
 
     private void startGoogleSignIn() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken(getActivity().getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
         mGoogleSignInClient.revokeAccess();
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -180,6 +180,8 @@ public class GoogleSignInDialog extends BottomSheetDialogFragment {
                                     public void onChangeAccountClick(Boolean changeAccount) {
                                         //Fresh login
                                         startGoogleSignIn();
+                                        //dismiss();
+
                                     }
                                 });
                             }
@@ -188,6 +190,7 @@ public class GoogleSignInDialog extends BottomSheetDialogFragment {
                 });
 
     }
+
     private void writeUserData(FirebaseUser user) {
         // TODO: 01-06-2021 Server Side
 
@@ -204,20 +207,10 @@ public class GoogleSignInDialog extends BottomSheetDialogFragment {
         map.put(kMap.registered_date, FieldValue.serverTimestamp());
         map.put(kMap.email, user.getEmail());
 
-       /* for (UserInfo info : user.getProviderData()) {
-            if (info.getPhoneNumber() != null ) {
-                map.put(kMap.phone_registration, true);
-                map.put(kMap.m_number, info.getPhoneNumber());
-                break;
-            }
-        }*/
-
         Reference.userRef().document(user.getUid()).set(map, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        //progressBar.setVisibility(View.INVISIBLE);
-                       // checkPhoneAuth(user);
                         startMainActivity();
 
                     }
@@ -237,7 +230,9 @@ public class GoogleSignInDialog extends BottomSheetDialogFragment {
             map.put(kMap.name_small, user.getDisplayName());
         }
         map.put(kMap.timestamp, FieldValue.serverTimestamp());
-
+        map.put(kMap.firebase_id, user.getUid());
+        map.put(kMap.type, kMap.student);
+        map.put(kMap.registered_date, FieldValue.serverTimestamp());
         Reference.userRef().document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .set(map, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

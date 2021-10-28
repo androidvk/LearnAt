@@ -54,7 +54,7 @@ public class Dialog_Google_Reauth extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        tSignInWith = view.findViewById(R.id.button5);
+        tSignInWith = view.findViewById(R.id.tSignInWithGoogle);
         bChangeAccount = view.findViewById(R.id.button6);
         tSignInWith.setText(getString(R.string.SignInWith) + "  " + email);
 
