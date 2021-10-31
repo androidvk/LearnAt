@@ -6,20 +6,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.coremacasia.learnat.R;
+import com.coremacasia.learnat.adapters.Inside_courseAdapter;
 import com.coremacasia.learnat.databinding.ActivityMentorMainBinding;
+import com.coremacasia.learnat.helpers.CourseHelper;
 import com.coremacasia.learnat.helpers.MentorHelper;
 import com.coremacasia.learnat.helpers.UserHelper;
 import com.coremacasia.learnat.mentor_main.adapters.MSubjectAdapter;
-import com.coremacasia.learnat.mentor_main.adapters.MTeachingNowAdapter;
 import com.coremacasia.learnat.utility.ImageSetterGlide;
 import com.coremacasia.learnat.utility.MyStore;
 
-import org.w3c.dom.Text;
+import java.util.ArrayList;
 
 public class MentorMain extends AppCompatActivity {
     private static final String TAG = "MentorMain";
@@ -30,6 +30,7 @@ public class MentorMain extends AppCompatActivity {
     private RecyclerView rvSubjects, rvTeachingNow, rvAllCourses;
     private MentorHelper mentorHelper;
     private UserHelper userHelper;
+    private ArrayList<CourseHelper> courseList =new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +44,12 @@ public class MentorMain extends AppCompatActivity {
 
         if (MyStore.getUserData() != null) {
             userHelper = MyStore.getUserData();
-            Log.e(TAG, "onCreate: UserHelper:"+userHelper.getMentor_id() );
+            Log.e(TAG, "onCreate: UserHelper:" + userHelper.getMentor_id());
             for (MentorHelper helper : MyStore.getCommonData().getMentors()) {
-                Log.e(TAG, "onCreate: MentorHelper:"+helper.getMentor_id() );
+                Log.e(TAG, "onCreate: MentorHelper:" + helper.getMentor_id());
                 if (helper.getMentor_id().equals(userHelper.getMentor_id())) {
-                    mentorHelper=helper;
-                    Log.e(TAG, "onCreate: If Mentor:"+userHelper.getMentor_id() );
+                    mentorHelper = helper;
+                    Log.e(TAG, "onCreate: If Mentor:" + userHelper.getMentor_id());
                     setValues();
                     break;
                 }
@@ -60,9 +61,15 @@ public class MentorMain extends AppCompatActivity {
     }
 
     private void setValues() {
-            new ImageSetterGlide().defaultImg(this,mentorHelper.getImage(),iMentorImage);
-            tName.setText(mentorHelper.getName());
-            setRecyclerView();
+        for (CourseHelper helper : MyStore.getCourseData().getAll_courses()) {
+            if (helper.getMentor_id().equals(mentorHelper.getMentor_id())) {
+                courseList.add(helper);
+            }
+        }
+
+        new ImageSetterGlide().defaultImg(this, mentorHelper.getImage(), iMentorImage);
+        tName.setText(mentorHelper.getName());
+        setRecyclerView();
     }
 
     private void setRecyclerView() {
@@ -72,17 +79,21 @@ public class MentorMain extends AppCompatActivity {
     }
 
     private void setTeachingNowRV() {
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        MTeachingNowAdapter adapter=new MTeachingNowAdapter(getApplicationContext() );
+        //MTeachingNowAdapter adapter=new MTeachingNowAdapter(getApplicationContext() );
+        Inside_courseAdapter adapter = new Inside_courseAdapter(getApplicationContext());
         rvTeachingNow.setLayoutManager(linearLayoutManager);
         rvTeachingNow.setAdapter(adapter);
+        adapter.setDataModel(courseList);
+        adapter.notifyDataSetChanged();
     }
 
     private void setSubjectsRV() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        MSubjectAdapter adapter=new MSubjectAdapter(getApplicationContext());
+        MSubjectAdapter adapter = new MSubjectAdapter(getApplicationContext());
         rvSubjects.setLayoutManager(linearLayoutManager);
         rvSubjects.setAdapter(adapter);
         adapter.setDataModel(mentorHelper.getSubjects());

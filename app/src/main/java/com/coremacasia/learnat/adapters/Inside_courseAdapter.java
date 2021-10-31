@@ -28,7 +28,7 @@ public class Inside_courseAdapter extends RecyclerView.Adapter<Inside_courseAdap
 
     private ArrayList<CourseHelper> list;
 
-    public Inside_courseAdapter(Activity activity) {
+    public Inside_courseAdapter(Context activity) {
 
     }
 

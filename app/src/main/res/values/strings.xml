@@ -111,4 +111,6 @@
     <string name="AllCourses_Underline"><u>All Courses</u></string>
     <string name="RequestUpdation">Request Updation</string>
     <string name="MentorPanel">Mentor Panel</string>
+    <string name="AllCourses">All Courses</string>
+    <string name="TeachinNow">Teaching Now</string>
 </resources>

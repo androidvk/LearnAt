@@ -148,9 +148,10 @@
         style="@style/MentorMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="@string/Subjects_Underline"
+        android:layout_marginTop="8dp"
+        android:text="@string/Subjects"
         android:textColor="@color/light_blue_900"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toBottomOf="@+id/textView59" />
 
@@ -159,9 +160,10 @@
         style="@style/MentorMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="@string/Teaching_Underline"
+        android:layout_marginTop="8dp"
+        android:text="@string/TeachinNow"
         android:textColor="@color/light_blue_900"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView5" />
 
@@ -170,9 +172,10 @@
         style="@style/MentorMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="@string/AllCourses_Underline"
+        android:layout_marginTop="8dp"
+        android:text="@string/AllCourses"
         android:textColor="@color/light_blue_900"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView6" />
 
@@ -181,16 +184,17 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline13"
-        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView60" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView6"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline13"
-        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView71" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -198,8 +202,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline13"
-        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView77" />
 
 
