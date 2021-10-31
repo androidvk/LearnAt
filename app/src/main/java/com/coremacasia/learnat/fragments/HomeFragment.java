@@ -1,9 +1,9 @@
 package com.coremacasia.learnat.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
+import com.coremacasia.learnat.mentor_main.MentorMain;
 import com.coremacasia.learnat.commons.CommonDataViewModel;
 import com.coremacasia.learnat.commons.category_repo.CategoryViewModel;
 import com.coremacasia.learnat.commons.user_repo.UserDataViewModel;
@@ -113,7 +114,18 @@ public class HomeFragment extends Fragment {
             });
         }
 
+        onClicks();
 
+
+    }
+
+    private void onClicks() {
+        binding.bContinueMentoring.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), MentorMain.class));
+            }
+        });
     }
 
     private void startSubjectChooser(int From) {

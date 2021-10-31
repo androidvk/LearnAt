@@ -214,4 +214,5 @@ public class kMap {
     public static String live="live";
     public static String student="student";
     public static String phone_registration="phone_registration";
+    public static String mentor="mentor";
 }

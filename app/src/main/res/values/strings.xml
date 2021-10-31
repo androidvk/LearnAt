@@ -104,4 +104,11 @@
     <string name="ChangeAccount">Change Account</string>
     <string name="SignInWith">Sign in with </string>
     <string name="SignInWithGoogle">Sign In With Google</string>
+    <string name="title_activity_mentor_main">MentorMain</string>
+    <string name="ContinueMentoring">Continue Mentoring</string>
+    <string name="Subjects_Underline"><u>Subjects</u></string>
+    <string name="Teaching_Underline"><u>Teaching Now</u></string>
+    <string name="AllCourses_Underline"><u>All Courses</u></string>
+    <string name="RequestUpdation">Request Updation</string>
+    <string name="MentorPanel">Mentor Panel</string>
 </resources>

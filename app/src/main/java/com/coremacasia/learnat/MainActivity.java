@@ -15,13 +15,12 @@ import com.coremacasia.learnat.commons.all_courses.CourseModel;
 import com.coremacasia.learnat.commons.category_repo.CategoryViewModel;
 import com.coremacasia.learnat.dialogs.DF_link_phone;
 import com.coremacasia.learnat.dialogs.Dialog_Google_Reauth;
-import com.coremacasia.learnat.dialogs.GoogleSignInDialog;
 import com.coremacasia.learnat.helpers.CategoryDashboardHelper;
 import com.coremacasia.learnat.helpers.UserHelper;
 import com.coremacasia.learnat.commons.user_repo.UserDataViewModel;
 import com.coremacasia.learnat.databinding.ActivityMainBinding;
-import com.coremacasia.learnat.dialogs.DF_SubjectChooser;
 import com.coremacasia.learnat.activities.Splash;
+import com.coremacasia.learnat.mentor_main.MentorMain;
 import com.coremacasia.learnat.utility.MyStore;
 import com.coremacasia.learnat.utility.RMAP;
 import com.coremacasia.learnat.utility.Reference;
@@ -129,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
             //mAuth.signOut();
             getLoginInfo();
             getData();
+
         }
     }
 
@@ -169,11 +169,48 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(UserHelper userHelper) {
                 MyStore.setUserData(userHelper);
                 getCategoryData(CAT);
+                startActivity(new Intent(getApplicationContext(), MentorMain.class)
+                       .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
 
     }
+    private void getData() {
+        commonListRef = Reference.superRef(RMAP.list);
+        viewModel = new ViewModelProvider(this).get(CommonDataViewModel.class);
+        viewModel.getCommonMutableLiveData(commonListRef).observe(MainActivity.this,
+                new Observer<CommonDataModel>() {
+                    @Override
+                    public void onChanged(CommonDataModel commonDataModel) {
+                        MyStore.setCommonData(commonDataModel);
 
+                    }
+                });
+
+        allCoursesViewModel = new ViewModelProvider(this).get(AllCoursesViewModel.class);
+        allCoursesViewModel.getCommonMutableLiveData(Reference.superRef(RMAP.all_courses))
+                .observe(MainActivity.this, new Observer<CourseModel>() {
+                    @Override
+                    public void onChanged(CourseModel courseModel) {
+                        MyStore.setCourseData(courseModel);
+                    }
+                });
+
+
+    }
+
+    private void getCategoryData(String CAT) {
+        DocumentReference categoryRef = Reference.superRef(CAT);
+        categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+        categoryViewModel.getCategoryMutableData(categoryRef).observe(this,
+                new Observer<CategoryDashboardHelper>() {
+                    @Override
+                    public void onChanged(CategoryDashboardHelper categoryDashboardHelper) {
+                        MyStore.setCategoryDashboardHelper(categoryDashboardHelper);
+                    }
+                });
+
+    }
     private void showPhoneLinkDialog() {
         Log.e(TAG, "showPhoneLinkDialog: ");
         DF_link_phone dialog = DF_link_phone.newInstance();
@@ -303,41 +340,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, MainActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
     }
-    private void getData() {
-        commonListRef = Reference.superRef(RMAP.list);
-        viewModel = new ViewModelProvider(this).get(CommonDataViewModel.class);
-        viewModel.getCommonMutableLiveData(commonListRef).observe(MainActivity.this,
-                new Observer<CommonDataModel>() {
-                    @Override
-                    public void onChanged(CommonDataModel commonDataModel) {
-                        MyStore.setCommonData(commonDataModel);
-                    }
-                });
-
-        allCoursesViewModel = new ViewModelProvider(this).get(AllCoursesViewModel.class);
-        allCoursesViewModel.getCommonMutableLiveData(Reference.superRef(RMAP.all_courses))
-                .observe(MainActivity.this, new Observer<CourseModel>() {
-                    @Override
-                    public void onChanged(CourseModel courseModel) {
-                        MyStore.setCourseData(courseModel);
-                    }
-                });
-
-
-    }
-
-    private void getCategoryData(String CAT) {
-        DocumentReference categoryRef = Reference.superRef(CAT);
-        categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
-        categoryViewModel.getCategoryMutableData(categoryRef).observe(this,
-                new Observer<CategoryDashboardHelper>() {
-                    @Override
-                    public void onChanged(CategoryDashboardHelper categoryDashboardHelper) {
-                        MyStore.setCategoryDashboardHelper(categoryDashboardHelper);
-                    }
-                });
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -355,10 +357,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void startSubjectChooser(int From) {
-        DF_SubjectChooser df_number =
-                DF_SubjectChooser.newInstance(From);
-        df_number.show(getSupportFragmentManager(),
-                DF_SubjectChooser.TAG);
-    }
 }

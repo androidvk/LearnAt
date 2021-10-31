@@ -85,6 +85,7 @@ public class MentorAdapter extends RecyclerView.Adapter<MentorAdapter.Holder> {
                         fragmenttransaction.commit();
                     }
                 });
+                break;
             }
         }
     }

@@ -20,19 +20,19 @@
 
         <TextView
             android:id="@+id/textView34"
+            style="@style/DashBoardGroupTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Mentors"
-            style="@style/DashBoardGroupTitle"
             app:layout_constraintStart_toStartOf="@+id/guideline8"
             app:layout_constraintTop_toBottomOf="@+id/recyclerView3" />
 
         <TextView
             android:id="@+id/textView35"
+            style="@style/DashBoardGroupTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ExploreOtherCategories"
-            style="@style/DashBoardGroupTitle"
             app:layout_constraintStart_toStartOf="@+id/guideline8"
             app:layout_constraintTop_toBottomOf="@+id/rMentor" />
 
@@ -116,6 +116,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
         <androidx.cardview.widget.CardView
+            android:visibility="gone"
             android:id="@+id/cardView"
             android:layout_width="0dp"
             android:layout_height="100dp"
@@ -158,6 +159,52 @@
 
         </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline9"
+            app:layout_constraintStart_toStartOf="@+id/guideline8"
+            app:layout_constraintTop_toBottomOf="@+id/scrollingIndicator">
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/img_back1" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#A6252525">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="Sonali Mathwaniya"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/bContinueMentoring"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:backgroundTint="@color/login_button"
+                    android:paddingHorizontal="30dp"
+                    android:text="@string/ContinueMentoring"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
         <TextView
             android:id="@+id/textView29"
             android:layout_width="wrap_content"
@@ -169,13 +216,13 @@
             app:layout_constraintTop_toTopOf="@+id/textView28" />
 
         <TextView
-            style="@style/DashBoardGroupTitle"
             android:id="@+id/textView30"
+            style="@style/DashBoardGroupTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Popular"
             app:layout_constraintStart_toStartOf="@+id/guideline8"
-            app:layout_constraintTop_toBottomOf="@+id/cardView" />
+            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rev2"
@@ -277,9 +324,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:spi_dotSelectedColor="@color/m_primary"
             app:layout_constraintEnd_toStartOf="@+id/guideline9"
             app:layout_constraintStart_toStartOf="@+id/guideline8"
-            app:layout_constraintTop_toBottomOf="@+id/r_trending" />
+            app:layout_constraintTop_toBottomOf="@+id/r_trending"
+            app:spi_dotSelectedColor="@color/m_primary" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

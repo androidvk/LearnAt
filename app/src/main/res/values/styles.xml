@@ -75,4 +75,9 @@
         <item name="android:textStyle">bold</item>
         <item name="fontFamily">@font/encode_sans_bold500</item>
     </style>
+    <style name="MentorMain">
+        <item name="fontFamily">@font/encode_sans400</item>
+        <item name="android:textColor">@color/text_desc</item>
+        <item name="android:textSize">@dimen/medium_0</item>
+    </style>
 </resources>

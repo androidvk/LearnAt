@@ -6,6 +6,15 @@ public class UserHelper {
     private String firebase_id;
     private String m_number;
     private String email;
+    private String type,mentor_id;
+
+    public String getType() {
+        return type;
+    }
+
+    public String getMentor_id() {
+        return mentor_id;
+    }
 
     public String getPreferred_type1() {
         return preferred_type1;
