@@ -56,7 +56,6 @@ public class MentorMain extends AppCompatActivity {
 
             }
 
-
         }
     }
 
@@ -75,7 +74,6 @@ public class MentorMain extends AppCompatActivity {
     private void setRecyclerView() {
         setSubjectsRV();
         setTeachingNowRV();
-
     }
 
     private void setTeachingNowRV() {
@@ -98,7 +96,6 @@ public class MentorMain extends AppCompatActivity {
         rvSubjects.setAdapter(adapter);
         adapter.setDataModel(mentorHelper.getSubjects());
         adapter.notifyDataSetChanged();
-
     }
 
     private void getIds() {

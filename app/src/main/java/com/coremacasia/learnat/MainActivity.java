@@ -76,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
     private CommonDataViewModel viewModel;
     private AllCoursesViewModel allCoursesViewModel;
     private CategoryViewModel categoryViewModel;
-    private int i=0;
+    private int i = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,22 +144,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         DocumentReference userRef = Reference.userRef().document(firebaseUser.getUid());
-        userRef.get(Source.SERVER).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        userRef.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.getResult().get(kMap.preferred_type1) == null
-                ||task.getResult().get(kMap.preferred_type1).equals("")) {
-                       // startSubjectChooser(2);
-                    } else {
-                        String CAT = task.getResult().get(kMap.preferred_type1).toString();
-                        getUserData(CAT);
-                        //getCategoryData();
-                    }
+                        || task.getResult().get(kMap.preferred_type1).equals("")) {
+                    // startSubjectChooser(2);
+                } else {
+                    String CAT = task.getResult().get(kMap.preferred_type1).toString();
+                    getUserData(CAT);
+                    //getCategoryData();
+                }
 
             }
         });
-
-
     }
 
     private void getUserData(String CAT) {
@@ -169,12 +168,13 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(UserHelper userHelper) {
                 MyStore.setUserData(userHelper);
                 getCategoryData(CAT);
-                startActivity(new Intent(getApplicationContext(), MentorMain.class)
-                       .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                //startActivity(new Intent(getApplicationContext(), MentorMain.class)
+                  //    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
 
     }
+
     private void getData() {
         commonListRef = Reference.superRef(RMAP.list);
         viewModel = new ViewModelProvider(this).get(CommonDataViewModel.class);
@@ -211,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
     }
+
     private void showPhoneLinkDialog() {
         Log.e(TAG, "showPhoneLinkDialog: ");
         DF_link_phone dialog = DF_link_phone.newInstance();
@@ -221,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int RC_SIGN_IN = 9001;
     private Dialog_Google_Reauth dialog;
+
     private void googleSignInDialog() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -248,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     private void linkAccounts(String idToken, GoogleSignInAccount account) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         FirebaseAuth.getInstance().getCurrentUser().linkWithCredential(credential)

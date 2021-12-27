@@ -4,7 +4,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
@@ -116,7 +119,29 @@ public class CheckoutFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setViews();
+        onClicks();
 
+    }
+
+    private void onClicks() {
+        bPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager manager = ((AppCompatActivity) getActivity())
+                        .getSupportFragmentManager();
+
+                FragmentTransaction transaction =
+                        manager.beginTransaction();
+                transaction.setCustomAnimations(R.anim.enter_from_bottom,
+                        R.anim.exit_to_left,
+                        R.anim.enter_from_left,
+                        R.anim.exit_to_bottom);
+                Trans_status fragment = new Trans_status();
+                transaction.replace(android.R.id.content, fragment)
+                .addToBackStack(fragment.TAG);  //here, android.R.id.content is a view on which your fragment's view is replaced
+                transaction.commit();
+            }
+        });
     }
 
     private void setViews() {

@@ -9,7 +9,7 @@
         android:layout_marginHorizontal="16dp"
         android:paddingVertical="4dp"
         android:paddingHorizontal="12dp"
-        android:background="@drawable/bkg_mentor_main_title"
+        android:background="@drawable/bkg_subject_main_title"
         style="@style/MentorMain"
         android:id="@+id/textView78"
         android:layout_width="wrap_content"

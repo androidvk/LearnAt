@@ -23,6 +23,7 @@ import com.coremacasia.learnat.databinding.FragmentProfileBinding;
 import com.coremacasia.learnat.dialogs.Dialog_Google_Reauth;
 import com.coremacasia.learnat.helpers.UserHelper;
 import com.coremacasia.learnat.utility.Getter;
+import com.coremacasia.learnat.utility.ImageSetterGlide;
 import com.coremacasia.learnat.utility.MyStore;
 import com.coremacasia.learnat.utility.Reference;
 import com.coremacasia.learnat.utility.kMap;
@@ -47,13 +48,15 @@ import com.google.firebase.firestore.SetOptions;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class ProfileFragment extends Fragment {
 
     FragmentProfileBinding binding;
 
-    private ImageView imageView;
-    private TextView tName, tEmail, tPreparing, tCategory, tChange, tSignOut, tSignInWithGoogle;
+    private CircleImageView imageView;
+    private TextView tName,tPhoneNumber, tEmail, tPreparing, tCategory, tChange, tSignOut, tSignInWithGoogle;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -62,6 +65,7 @@ public class ProfileFragment extends Fragment {
         tName = binding.textView11;
         tEmail = binding.textView12;
         tPreparing = binding.textView14;
+        tPhoneNumber =binding.tPhoneNumber;
         tCategory = binding.textView16;
         tChange = binding.textView22;
         tSignOut = binding.tSignOut;
@@ -84,6 +88,10 @@ public class ProfileFragment extends Fragment {
             } else {
                 tName.setText(helper.getName());
                 tEmail.setText(helper.getEmail());
+                if(helper.getM_number()!=null && !helper.getM_number().equals("")){
+                    tPhoneNumber.setText(helper.getM_number());
+                }
+                new ImageSetterGlide().circleImg(getActivity(), helper.getImage(), imageView);
                 tSignInWithGoogle.setVisibility(View.GONE);
             }
         }
