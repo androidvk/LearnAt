@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusable="true"
-    android:clickable="true"
     android:background="@color/white"
+    android:clickable="true"
+    android:focusable="true"
     tools:context=".fragments.CheckoutFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -159,15 +159,19 @@
             app:layout_constraintEnd_toStartOf="@+id/guideline15"
             app:layout_constraintTop_toTopOf="@+id/textView61" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
-            android:background="@color/blue_smart"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bkg_profile_1"
             android:paddingHorizontal="16dp"
             android:text="Pay ₹3450"
+            android:textColor="@color/white"
             android:textSize="@dimen/checkout_title"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView68" />
@@ -247,15 +251,15 @@
             app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:paddingVertical="2dp"
             android:id="@+id/recyclerView4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:paddingVertical="2dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline15"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline14"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

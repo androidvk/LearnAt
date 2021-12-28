@@ -136,7 +136,13 @@ public class CheckoutFragment extends Fragment {
                         R.anim.exit_to_left,
                         R.anim.enter_from_left,
                         R.anim.exit_to_bottom);
+                Gson gson = new Gson();
+                String myJson = gson.toJson(helper);
+                Bundle bundle = new Bundle();
+                bundle.putString("helper",myJson);
+                bundle.putString("from", "InsideCourse");
                 Trans_status fragment = new Trans_status();
+                fragment.setArguments(bundle);
                 transaction.replace(android.R.id.content, fragment)
                 .addToBackStack(fragment.TAG);  //here, android.R.id.content is a view on which your fragment's view is replaced
                 transaction.commit();

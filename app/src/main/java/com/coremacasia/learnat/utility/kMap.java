@@ -215,4 +215,13 @@ public class kMap {
     public static String student="student";
     public static String phone_registration="phone_registration";
     public static String mentor="mentor";
+    public static String subs_date="subs_date";
+    public static String start_date="start_date";
+    public static String end_date="end_date";
+    public static String subs_price="subs_price";
+    public static String referral="referral";
+    public static String cashback_received="cashback_received";
+    public static String discount_received="discount_received";
+    public static String referred_by="referred_by";
+
 }

@@ -113,4 +113,10 @@
     <string name="MentorPanel">Mentor Panel</string>
     <string name="AllCourses">All Courses</string>
     <string name="TeachinNow">Teaching Now</string>
+    <string name="youHaveSubscribedTo">You have subscribed to</string>
+    <string name="StartLearning">Start Learning ></string>
+    <string name="TransactionUnsuccessful">Transaction Unsuccessful</string>
+    <string name="oops">OOPS!!</string>
+    <string name="NoWorries">No worries</string>
+    <string name="tryAgain">Try Again</string>
 </resources>
