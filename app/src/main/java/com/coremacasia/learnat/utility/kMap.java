@@ -224,4 +224,6 @@ public class kMap {
     public static String discount_received="discount_received";
     public static String referred_by="referred_by";
 
+    public static String course_id="course_id";
+    public static String gross_price="gross_price";
 }

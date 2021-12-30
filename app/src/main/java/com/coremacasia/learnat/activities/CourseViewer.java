@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import com.coremacasia.learnat.fragments.LectureList;
 import com.coremacasia.learnat.fragments.ViewPagerAdapter;
 import com.coremacasia.learnat.helpers.CourseHelper;
 import com.coremacasia.learnat.helpers.MentorHelper;
+import com.coremacasia.learnat.helpers.SubsHelper;
 import com.coremacasia.learnat.utility.Getter;
 import com.coremacasia.learnat.utility.ImageSetterGlide;
 import com.coremacasia.learnat.utility.MyStore;
@@ -25,6 +27,7 @@ import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class CourseViewer extends AppCompatActivity {
@@ -33,20 +36,21 @@ public class CourseViewer extends AppCompatActivity {
     private String course_id, CAT, FROM;
     private CourseHelper mHelper;
     private String category;
-    private TextView tLiveClasses,tStartDate;
+    private TextView tLiveClasses, tStartDate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_viewer);
         Gson gson = new Gson();
-        mHelper = gson.fromJson(getIntent().getStringExtra("helper"),CourseHelper.class);
+        mHelper = gson.fromJson(getIntent().getStringExtra("helper"), CourseHelper.class);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         course_id = getIntent().getStringExtra("courseId");
         CAT = getIntent().getStringExtra("category");
         backGround = findViewById(R.id.imageView17);
         teacherPng = findViewById(R.id.imageView15);
         tLiveClasses = findViewById(R.id.textView50);
-        tStartDate =findViewById(R.id.textView48);
+        tStartDate = findViewById(R.id.textView48);
         tabLayoutConfig();
         onClicks();
         category = new Getter().getCategoryName(CourseViewer.this, CAT);
@@ -64,7 +68,7 @@ public class CourseViewer extends AppCompatActivity {
         new ImageSetterGlide().defaultImg(CourseViewer.this, wallpaper,
                 backGround);
         ArrayList<MentorHelper> mentorList = MyStore.getCommonData().getMentors();
-        getSupportActionBar().setTitle(category+" - "+mHelper.getTitle());
+        getSupportActionBar().setTitle(category + " - " + mHelper.getTitle());
 
         for (MentorHelper helper1 : mentorList) {
             if (mHelper.getMentor_id().equals(helper1.getMentor_id())) {
@@ -80,6 +84,20 @@ public class CourseViewer extends AppCompatActivity {
             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
             tStartDate.setText("" + sdf.format(mHelper.getStart_date()));
         } else tStartDate.setVisibility(View.GONE);
+
+        //subscription Check
+        // TODO: 29-12-2021 check if( 1.course is ended 2.subscription date is ended)
+        // TODO: 30-12-2021 For Admins Unlock All courses
+
+        List<SubsHelper> list = MyStore.getUserData().getSubscriptions();
+        Log.e(TAG, "setViews: DDD "+course_id );
+        for (SubsHelper helper : list) {
+            if (helper.getCourse_id().equals(course_id)) {
+                findViewById(R.id.buttonSubcribe).setVisibility(View.GONE);
+                return;
+            }
+
+        }
 
     }
 
@@ -99,7 +117,7 @@ public class CourseViewer extends AppCompatActivity {
                         getSupportActionBar().setTitle(getString(R.string.GetSubscription));
                         Bundle bundle = new Bundle();
                         bundle.putString("cat", CAT);
-                        bundle.putString("helper",myJson);
+                        bundle.putString("helper", myJson);
                         bundle.putString("from", "InsideCourse");
                         bundle.putString("courseId", course_id);
 
@@ -147,7 +165,7 @@ public class CourseViewer extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         if (mHelper != null) {
-            getSupportActionBar().setTitle(category+" - "+mHelper.getTitle());
+            getSupportActionBar().setTitle(category + " - " + mHelper.getTitle());
         }
     }
 }

@@ -95,8 +95,6 @@
         android:id="@+id/g1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="411dp"
-        android:visibility="gone"
         app:constraint_referenced_ids="textView82,lottieAnimationView,textStartLearning,textView80,textView79,textView81"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -104,6 +102,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Group
+        android:visibility="gone"
         android:id="@+id/g2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

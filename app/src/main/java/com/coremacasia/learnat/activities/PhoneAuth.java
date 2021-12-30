@@ -318,9 +318,12 @@ public class PhoneAuth extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    UserInfo phoneUser = task.getResult().getUser().getProviderData().get(1);
+                    UserInfo phoneUser1 = task.getResult().getUser().getProviderData().get(0);
+                    //UserInfo phoneUser2 = task.getResult().getUser().getProviderData().get(1);
+                    //Log.e(TAG, "onComplete: linkWithOtherAccount 1P "+phoneUser1.getPhoneNumber()
+                    //+"   2P "+phoneUser2.getPhoneNumber());
                     // TODO: 20-10-2021 Write on Server
-                    map.put(kMap.m_number, phoneUser.getPhoneNumber());
+                    map.put(kMap.m_number, phoneUser1.getPhoneNumber());
                     map.put(kMap.phone_registration, true);
                     final Handler handler = new Handler();
                     //

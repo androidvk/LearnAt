@@ -326,7 +326,6 @@ public class MainActivity extends AppCompatActivity {
             map.put(kMap.name_small, user.getDisplayName());
         }
         map.put(kMap.timestamp, FieldValue.serverTimestamp());
-        map.put(kMap.firebase_id, user.getUid());
         map.put(kMap.type, kMap.student);
         map.put(kMap.registered_date, FieldValue.serverTimestamp());
         Reference.userRef().document(FirebaseAuth.getInstance().getCurrentUser().getUid())

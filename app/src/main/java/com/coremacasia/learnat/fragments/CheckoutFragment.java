@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
-import android.os.TestLooperManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +24,6 @@ import android.widget.TextView;
 
 import com.coremacasia.learnat.R;
 import com.coremacasia.learnat.adapters.PriceDurationAdapter;
-import com.coremacasia.learnat.databinding.FragmentAboutCourseBinding;
 import com.coremacasia.learnat.databinding.FragmentCheckoutBinding;
 import com.coremacasia.learnat.helpers.CourseHelper;
 import com.coremacasia.learnat.helpers.PriceDurationHelper;
@@ -138,9 +136,11 @@ public class CheckoutFragment extends Fragment {
                         R.anim.exit_to_bottom);
                 Gson gson = new Gson();
                 String myJson = gson.toJson(helper);
+                String selectedPackage=gson.toJson(selectedPriceDuration);
                 Bundle bundle = new Bundle();
                 bundle.putString("helper",myJson);
-                bundle.putString("from", "InsideCourse");
+                bundle.putFloat("discount", discount);
+                bundle.putString("selectedPackage",selectedPackage);
                 Trans_status fragment = new Trans_status();
                 fragment.setArguments(bundle);
                 transaction.replace(android.R.id.content, fragment)
@@ -195,12 +195,19 @@ public class CheckoutFragment extends Fragment {
     }
 
     // TODO: 08-10-2021 dynamize credit used amount
+    // TODO: 29-12-2021 Subtract using referral & check max amount to discount
+    // TODO: 29-12-2021
+
+    private float discount;
     private void setUi() {
+        
         tSubscriptionFee.setText(getString(R.string.rupee_sign) + selectedPriceDuration.getPrice());
         int price = Integer.parseInt(selectedPriceDuration.getPrice());
+
+        discount =50f; // discounted amount
         Log.e(TAG, "setUi: " + price);
-        tGrandTotal.setText(getString(R.string.rupee_sign) + (price - 50));
-        bPay.setText(getString(R.string.pay) + " " + getString(R.string.rupee_sign) + (price - 50));
+        tGrandTotal.setText(getString(R.string.rupee_sign) + (price - discount));
+        bPay.setText(getString(R.string.pay) + " " + getString(R.string.rupee_sign) + (price - discount));
     }
 
 }

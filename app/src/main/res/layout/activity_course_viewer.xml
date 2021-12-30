@@ -8,7 +8,7 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
-
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:background="@drawable/btn_bkg_subscripe"
         android:id="@+id/buttonSubcribe"
         android:layout_width="0dp"

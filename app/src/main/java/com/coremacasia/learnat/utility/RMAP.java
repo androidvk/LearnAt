@@ -65,4 +65,7 @@ public class RMAP {
     public static String itcoding="itcoding";
     public static String sc_school="sc_school";
     public static String comm="comm";
+    public static String Days="Days";
+    public static String Month="Month";
+    public static String Year="Year";
 }

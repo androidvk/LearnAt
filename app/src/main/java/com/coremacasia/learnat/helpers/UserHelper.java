@@ -1,4 +1,9 @@
 package com.coremacasia.learnat.helpers;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class UserHelper {
     private String name;
     private String image;
@@ -8,6 +13,11 @@ public class UserHelper {
     private String email;
     private String type,mentor_id;
 
+    public List<SubsHelper> getSubscriptions() {
+        return subscriptions;
+    }
+
+    private List<SubsHelper> subscriptions=new ArrayList<>();
     public String getType() {
         return type;
     }

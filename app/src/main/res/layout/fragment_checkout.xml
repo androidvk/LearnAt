@@ -160,6 +160,7 @@
             app:layout_constraintTop_toTopOf="@+id/textView61" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:foreground="?attr/selectableItemBackground"
             android:id="@+id/button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
